@@ -1,0 +1,16 @@
+.wbg {
+	display: inline-block;
+	min-width: 550px;
+}
+
+#section-box {
+	margin-bottom: 10px;
+}
+
+select#server-login {
+	float:right;
+	margin: 0 0 20px 0;
+	clear:right;
+	min-width: 145px;
+}
+

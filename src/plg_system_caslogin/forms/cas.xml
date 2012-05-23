@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params">
+		<fieldset
+			name="params"
+			label="PLG_SYSTEM_CASLOGIN_FIELDSET_EXTERNAL_URL_LABEL"
+			description="PLG_SYSTEM_CASLOGIN_FIELDSET_EXTERNAL_URL_DESC"
+		>
+			<field
+				name="url"
+				type="text"
+				size="30"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_URL_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_URL_DESC"
+				required="true"
+			/>
+
+			<field
+				name="dir"
+				type="text"
+				size="30"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_DIR_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_DIR_DESC"
+			/>
+
+			<field
+				name="port"
+				type="text"
+				size="10"
+				default="443"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_PORT_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_PORT_DESC"
+			/>
+
+		</fieldset>
+		<fieldset
+			name="attributes"
+			label="PLG_SYSTEM_CASLOGIN_FIELDSET_ATTRIBUTES_LABEL"
+			description="PLG_SYSTEM_CASLOGIN_FIELDSET_ATTRIBUTES_DESC"
+		>
+			<field
+				name="username"
+				type="text"
+				size="50"
+				default="{USERNAME}"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_DESC"
+			/>
+
+			<field
+				name="name"
+				type="text"
+				size="50"
+				default="{USERNAME}"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_NAME_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_NAME_DESC"
+			/>
+
+			<field
+				name="email"
+				type="text"
+				size="50"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_DESC"
+			/>
+
+			<field
+				name="username_xpath"
+				type="text"
+				size="50"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_XPATH_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_XPATH_DESC"
+			/>
+
+			<field
+				name="name_xpath"
+				type="text"
+				size="50"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_NAME_XPATH_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_NAME_XPATH_DESC"
+			/>
+
+			<field
+				name="email_xpath"
+				type="text"
+				size="50"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_XPATH_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_XPATH_DESC"
+			/>
+
+			<field
+				name="group_xpath"
+				type="text"
+				size="50"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_GROUP_XPATH_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_GROUP_XPATH_DESC"
+			/>
+		</fieldset>
+		<fieldset
+			name="connection"
+			label="PLG_SYSTEM_CASLOGIN_FIELDSET_CONNECTION_LABEL"
+			description="PLG_SYSTEM_CASLOGIN_FIELDSET_CONNECTION_DESC"
+		>
+
+			<field
+				name="timeout"
+				type="text"
+				size="10"
+				default="1"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_TIMEOUT_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_TIMEOUT_DESC"
+			/>
+
+			<field
+				name="logouturl"
+				type="text"
+				size="30"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_DESC"
+			/>
+			<field
+				name="autologin"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

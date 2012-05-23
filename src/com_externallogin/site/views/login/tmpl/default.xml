@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_EXTERNALLOGIN_LOGIN_VIEW_DEFAULT_TITLE" option="COM_EXTERNALLOGIN_LOGIN_VIEW_DEFAULT_OPTION">
+		<help key = "COM_EXTERNALLOGIN_LOGIN_HELP"/>
+		<message>COM_EXTERNALLOGIN_LOGIN_VIEW_DEFAULT_DESC</message>
+	</layout>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+
+		<!-- Basic options. -->
+		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
+
+			 <field
+				name="logindescription_show"
+				type="list"
+				label="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_LABEL"
+				description="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_DESC"
+				default="1">
+				<option
+					value="0">JHIDE</option>
+				<option
+					value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="login_description"
+				type="textarea"
+				label="JFIELD_BASIS_LOGIN_DESCRIPTION_LABEL"
+				description="JFIELD_BASIS_LOGIN_DESCRIPTION_DESC"
+				rows="3"
+				cols="40"
+			/>
+
+			<field
+				name="login_image"
+				type="media"
+				label="JFIELD_LOGIN_IMAGE_LABEL"
+				description="JFIELD_LOGIN_IMAGE_DESC"
+			/>
+
+			<field name="spacer1" type="spacer" hr="true" />
+
+		     <field
+				name="logoutdescription_show"
+				type="list"
+				label="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_LABEL"
+				description="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_DESC"
+				default="1"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="logout_description"
+				type="textarea"
+				label="JFIELD_BASIS_LOGOUT_DESCRIPTION_LABEL"
+				description="JFIELD_BASIS_LOGOUT_DESCRIPTION_DESC"
+				rows="3"
+				cols="40"
+			/>
+
+			<field
+				name="logout_image"
+				type="media"
+				label="JFIELD_LOGOUT_IMAGE_LABEL"
+				description="JFIELD_LOGOUT_IMAGE_DESC"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

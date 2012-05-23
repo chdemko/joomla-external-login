@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="external-login-src-com_externallogin" default="build" basedir=".">
+	<import file="../../build.xml"/>
+	<property name="project-name" value="com_externallogin" />
+	<target name="build" depends="clean, zip, update" />
+</project>

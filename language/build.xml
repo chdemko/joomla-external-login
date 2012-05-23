@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="external-login-language" default="build" basedir=".">
+
+	<target name="build"
+		depends="fr-FR"
+	/>
+</project>

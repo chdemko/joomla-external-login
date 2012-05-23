@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details"
+		label="COM_EXTERNALLOGIN_FIELDSET_UPLOAD_DETAILS_LABEL"
+		description="COM_EXTERNALLOGIN_FIELDSET_UPLOAD_DETAILS_DESC"
+	>
+		<field
+			name="file"
+			type="file"
+			label="COM_EXTERNALLOGIN_FIELD_UPLOAD_FILE_LABEL"
+			description="COM_EXTERNALLOGIN_FIELD_UPLOAD_FILE_DESC"
+		/>
+		<field
+			name="id"
+			type="hidden"
+		/>
+	</fieldset>
+</form>

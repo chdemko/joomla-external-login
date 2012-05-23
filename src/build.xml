@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="external-login-src" default="build" basedir=".">
+
+	<target name="build"
+		depends="com_externallogin, mod_externallogin_admin, mod_externallogin_site, plg_authentication_externallogin, plg_system_caslogin, plg_system_externallogin, tpl_externallogin"
+	/>
+
+	<target name="com_externallogin">
+		<ant antfile="com_externallogin/build.xml" />
+	</target>
+	
+	<target name="mod_externallogin_admin">
+		<ant antfile="mod_externallogin_admin/build.xml" />
+	</target>
+	
+	<target name="mod_externallogin_site">
+		<ant antfile="mod_externallogin_site/build.xml" />
+	</target>
+	
+	<target name="plg_authentication_externallogin">
+		<ant antfile="plg_authentication_externallogin/build.xml" />
+	</target>
+	
+	<target name="plg_system_caslogin">
+		<ant antfile="plg_system_caslogin/build.xml" />
+	</target>
+	
+	<target name="plg_system_externallogin">
+		<ant antfile="plg_system_externallogin/build.xml" />
+	</target>
+	
+	<target name="tpl_externallogin">
+		<ant antfile="tpl_externallogin/build.xml" />
+	</target>
+
+</project>

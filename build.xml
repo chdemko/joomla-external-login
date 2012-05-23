@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="external-login" default="build" basedir=".">
+	<property name="version" value="2.0.0" />
+	<property name="dist" value="build" />
+
+	<target name="build"
+		depends="src"
+	/>
+
+	<target name="src">
+		<ant antfile="src/build.xml" useNativeBasedir="true" />
+	</target>
+	
+	<target name="docs">
+		<ant antfile="docs/build.xml" useNativeBasedir="true"  />
+	</target>
+	
+	<target name="language">
+		<ant antfile="language/build.xml" useNativeBasedir="true"  />
+	</target>
+	
+	<target name="zip" description="Generate Zip file">
+		<zip destfile="../${dist}/${project-name}-${version}.zip" basedir="${project-name}" excludes="**/*~,build.xml,update.xml" />
+	</target>
+
+	<target name="update" description="Generate Update file">
+		<copy file="${project-name}/update.xml" tofile="../${dist}/update-${project-name}.xml" />
+	</target>
+
+	<target name="clean" description="Clean up">
+		<delete file="../${dist}/${project-name}-${version}.zip" />
+	</target>
+</project>
