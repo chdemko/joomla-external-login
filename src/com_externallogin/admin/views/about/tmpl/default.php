@@ -13,5 +13,9 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
-echo JHtml::_('image', 'com_externallogin/administrator/logo_um2.png', 'logo_um2');
-echo JText::sprintf('COM_EXTERNALLOGIN_ABOUT', 'http://http://www.univ-montp2.fr', JHtml::_('image', 'com_externallogin/administrator/logo_um2.png', 'logo_um2'));
+
+echo JText::sprintf(
+	'COM_EXTERNALLOGIN_ABOUT',
+	'http://www.univ-montp2.fr',
+	JHtml::_('image', 'com_externallogin/administrator/logo_um2.png', 'logo_um2', null, true)
+);
