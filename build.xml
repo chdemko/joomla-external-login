@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
-	<property name="version" value="2.0.0" />
+	<property name="version" value="2.0.0-rc1" />
 	<property name="dist" value="build" />
 
 	<target name="build"
-		depends="src"
-	/>
+		depends="src">
+		<copy file="server.xml" tofile="${dist}/server.xml" />
+	</target>
 
 	<target name="src">
 		<ant antfile="src/build.xml" useNativeBasedir="true" />
