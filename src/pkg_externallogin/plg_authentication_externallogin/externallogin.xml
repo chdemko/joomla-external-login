@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="system" method="upgrade">
+<extension version="2.5" type="plugin" group="authentication" method="upgrade">
 
-	<name>PLG_SYSTEM_EXTERNALLOGIN</name>
+	<name>PLG_AUTHENTICATION_EXTERNALLOGIN</name>
 
 	<!-- The following elements are optional and free of formatting conttraints -->
 	<creationDate>July 2008</creationDate>
@@ -15,7 +15,7 @@
 	<version>2.0.0-rc1</version>
 
 	<!-- The description is optional and defaults to the name -->
-	<description>PLG_SYSTEM_EXTERNALLOGIN_DESCRIPTION</description>
+	<description>PLG_AUTHENTICATION_EXTERNALLOGIN_DESCRIPTION</description>
 
 	<files>
 		<filename plugin="externallogin">externallogin.php</filename>
@@ -23,16 +23,10 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_externallogin.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_externallogin.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_authentication_externallogin.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_authentication_externallogin.sys.ini</language>
 	</languages>
 
 	<config />
-
-	<!-- UPDATESERVER DEFINITION -->
-	<updateservers>
-		<!-- Note: No spaces or linebreaks allowed between the server tags -->
-		<server type="collection" priority="1" name="External Login Update Site">https://github.com/downloads/chdemko/joomla-external-login/server.xml</server>
-	</updateservers>
 
 </extension>

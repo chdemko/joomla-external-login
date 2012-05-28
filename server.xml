@@ -1,48 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extensionset name="External Login" description="External Login">
-	<extension
-		name="Authentication Manager"
-		element="com_externallogin"
-		type="component"
-		client="administrator"
-		version="2.0.0-rc1"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-com_externallogin.xml"
-	/>
 
 	<extension
-		name="External Login Site Module"
-		element="mod_externallogin_site"
-		type="module"
-		client="site"
+		name="External Login Package"
+		element="pkg_externallogin"
+		type="package"
 		version="2.0.0-rc1"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-mod_externallogin_site.xml"
-	/>
-
-	<extension
-		name="External Login Admin Module"
-		element="mod_externallogin_admin"
-		type="module"
-		client="administrator"
-		version="2.0.0-rc1"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-mod_externallogin_admin.xml"
-	/>
-
-	<extension
-		name="Authentication - External Login"
-		element="externallogin"
-		folder="authentication"
-		type="plugin"
-		version="2.0.0-rc1"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-plg_authentication_externallogin.xml"
-	/>
-
-	<extension
-		name="System - External Login"
-		element="externallogin"
-		folder="system"
-		type="plugin"
-		version="2.0.0-rc1"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-plg_system_externallogin.xml"
+		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-pkg_externallogin.xml"
 	/>
 
 	<extension

@@ -92,7 +92,7 @@ class plgAuthenticationExternallogin extends JPlugin
 				$user->set('username', $response->username);
 				$user->set('email', $response->email);
 				$user->set('usertype', 'deprecated');
-				$user->set('groups', isset($response->groups) ? $response->groups : array($defaultUserGroup));
+				$user->set('groups', empty($response->groups) ? array($defaultUserGroup) : $response->groups);
 
 				// Create new user
 				if ($user->save())

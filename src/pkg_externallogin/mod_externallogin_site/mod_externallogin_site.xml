@@ -44,14 +44,26 @@
 					description="MOD_EXTERNALLOGIN_SITE_FIELD_SERVERS_DESC"
 				/>
 			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="show_title"
+					type="radio"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_TITLE_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_TITLE_DESC"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="logout_url"
+					type="text"
+					size="50"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_LOGOUT_URL_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_LOGOUT_URL_DESC"
+				/>
+			</fieldset>
 		</fields>
 	</config>
-
-	<!-- UPDATESERVER DEFINITION -->
-	<updateservers>
-		<!-- Note: No spaces or linebreaks allowed between the server tags -->
-		<server type="collection" priority="1" name="External Login Update Site">https://github.com/downloads/chdemko/joomla-external-login/server.xml</server>
-	</updateservers>
 
 </extension>
 

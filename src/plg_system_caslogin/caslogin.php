@@ -39,10 +39,16 @@ class plgSystemCaslogin extends JPlugin
 	protected $server;
 
 	/**
+	 * @var    string  Cas login name
+	 * @since  2.0.0
+	 */
+	protected $caslogin;
+
+	/**
 	 * @var    string  User name
 	 * @since  2.0.0
 	 */
-	protected $user;
+	protected $username;
 
 	/**
 	 * @var    string  Display name
@@ -234,7 +240,7 @@ class plgSystemCaslogin extends JPlugin
 							$this->server = $server;
 
 							// Store the user
-							$this->username = (string) $user->item(0)->nodeValue;
+							$this->caslogin = (string) $user->item(0)->nodeValue;
 
 							// Get username from attributes
 							if ($server->params->get('username_xpath'))
@@ -359,7 +365,7 @@ class plgSystemCaslogin extends JPlugin
 	 */
 	public function onExternalLogin(&$response)
 	{
-		if (isset($this->username))
+		if (isset($this->caslogin))
 		{
 			// Prepare response
 			$response->status = JAuthentication::STATUS_SUCCESS;
@@ -370,11 +376,18 @@ class plgSystemCaslogin extends JPlugin
 			$params = $this->server->params;
 
 			// Compute real username
-			$response->username = str_replace(
-				array('{USERNAME}', '{URL}', '{DIR}', '{PORT}'),
-				array($this->username, $params->get('url'), $params->get('dir'), $params->get('port')),
-				$params->get('username')
-			);
+			if (isset($this->username))
+			{
+				$response->username = $this->username;
+			}
+			else
+			{
+				$response->username = str_replace(
+					array('{CASLOGIN}', '{URL}', '{DIR}', '{PORT}'),
+					array($this->caslogin, $params->get('url'), $params->get('dir'), $params->get('port')),
+					$params->get('username')
+				);
+			}
 
 			// Compute real email
 			if (isset($this->email))
@@ -384,8 +397,8 @@ class plgSystemCaslogin extends JPlugin
 			else
 			{
 				$response->email = str_replace(
-					array('{USERNAME}', '{URL}', '{DIR}', '{PORT}'),
-					array($this->username, $params->get('url'), $params->get('dir'), $params->get('port')),
+					array('{CASLOGIN}', '{URL}', '{DIR}', '{PORT}'),
+					array($this->caslogin, $params->get('url'), $params->get('dir'), $params->get('port')),
 					$params->get('email')
 				);
 			}
@@ -398,8 +411,8 @@ class plgSystemCaslogin extends JPlugin
 			else
 			{
 				$response->fullname = str_replace(
-					array('{USERNAME}', '{URL}', '{DIR}', '{PORT}'),
-					array($this->username, $params->get('url'), $params->get('dir'), $params->get('port')),
+					array('{CASLOGIN}', '{URL}', '{DIR}', '{PORT}'),
+					array($this->caslogin, $params->get('url'), $params->get('dir'), $params->get('port')),
 					$params->get('name')
 				);
 			}

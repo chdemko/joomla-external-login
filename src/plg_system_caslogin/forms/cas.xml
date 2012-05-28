@@ -44,7 +44,7 @@
 				name="username"
 				type="text"
 				size="50"
-				default="{USERNAME}"
+				default="{CASLOGIN}"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_DESC"
 			/>
@@ -53,7 +53,7 @@
 				name="name"
 				type="text"
 				size="50"
-				default="{USERNAME}"
+				default="{CASLOGIN}"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_NAME_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_NAME_DESC"
 			/>

@@ -3,13 +3,15 @@
 	<property name="version" value="2.0.0-rc1" />
 	<property name="dist" value="build" />
 
-	<target name="build"
-		depends="src">
+	<target name="build" depends="src">
 		<copy file="server.xml" tofile="${dist}/server.xml" />
 	</target>
 
 	<target name="src">
 		<ant antfile="src/build.xml" useNativeBasedir="true" />
+		<copy todir="${dist}">
+			<fileset dir="src/build" />
+		</copy>
 	</target>
 	
 	<target name="docs">
@@ -21,14 +23,14 @@
 	</target>
 	
 	<target name="zip" description="Generate Zip file">
-		<zip destfile="../${dist}/${project-name}-${version}.zip" basedir="${project-name}" excludes="**/*~,build.xml,update.xml" />
+		<zip destfile="${dist}/${project-name}-${version}.zip" basedir="." excludes="**/*~,build.xml,update.xml" />
 	</target>
 
 	<target name="update" description="Generate Update file">
-		<copy file="${project-name}/update.xml" tofile="../${dist}/update-${project-name}.xml" />
+		<copy tofile="${dist}/update-${project-name}.xml" file="update.xml" />
 	</target>
 
 	<target name="clean" description="Clean up">
-		<delete file="../${dist}/${project-name}-${version}.zip" />
+		<delete dir="${dist}" />
 	</target>
 </project>
