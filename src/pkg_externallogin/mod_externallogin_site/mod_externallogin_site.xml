@@ -50,6 +50,7 @@
 					type="radio"
 					label="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_TITLE_LABEL"
 					description="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_TITLE_DESC"
+					default="0"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
