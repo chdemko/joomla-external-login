@@ -246,7 +246,7 @@ class plgSystemCaslogin extends JPlugin
 							if ($server->params->get('username_xpath'))
 							{
 								$username = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('username_xpath'));
-								if ($username)
+								if ($username && $username->length > 0)
 								{
 									$this->username = (string) $username->item(0)->nodeValue;
 								}
@@ -256,7 +256,7 @@ class plgSystemCaslogin extends JPlugin
 							if ($server->params->get('name_xpath'))
 							{
 								$name = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('name_xpath'));
-								if ($name)
+								if ($name && $name->length > 0)
 								{
 									$this->name = (string) $name->item(0)->nodeValue;
 								}
@@ -266,7 +266,7 @@ class plgSystemCaslogin extends JPlugin
 							if ($server->params->get('email_xpath'))
 							{
 								$email = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('email_xpath'));
-								if ($name)
+								if ($email && $email->length > 0)
 								{
 									$this->email = (string) $email->item(0)->nodeValue;
 								}

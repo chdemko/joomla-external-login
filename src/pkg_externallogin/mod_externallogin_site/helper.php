@@ -37,7 +37,7 @@ abstract class modExternalloginsiteHelper
 		{
 			$item->params = new JRegistry($item->params);
 			$uri->setVar('server', $item->id);
-			$results = $app->triggerEvent('onGetLoginUrl', array($item, $uri));
+			$results = $app->triggerEvent('onGetLoginUrl', array($item, JRoute::_($uri, true)));
 			if (!empty($results))
 			{
 				$item->url = $results[0];

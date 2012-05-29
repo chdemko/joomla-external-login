@@ -88,11 +88,18 @@ class ExternalloginModelLogin extends JModelList
 		return $query;
 	}
 
+	/**
+	 * Method to get a list of servers.
+	 *
+	 * @return  array  A list of servers.
+	 *
+	 * @since  2.0.0 
+	 */
 	public function getItems()
 	{
 		$app = JFactory::getApplication();
 		$url = $app->input->server->getString('HTTP_REFERER');
-		if (JURI::isInternal($url))
+		if (!empty($url) && JURI::isInternal($url))
 		{
 			$uri = JFactory::getURI($url);
 		}
@@ -105,7 +112,7 @@ class ExternalloginModelLogin extends JModelList
 		{
 			$item->params = new JRegistry($item->params);
 			$uri->setVar('server', $item->id);
-			$results = $app->triggerEvent('onGetLoginUrl', array($item, $uri));
+			$results = $app->triggerEvent('onGetLoginUrl', array($item, JRoute::_($uri, true)));
 			if (!empty($results))
 			{
 				$item->url = $results[0];

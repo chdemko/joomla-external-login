@@ -15,7 +15,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<form action="<?php echo JRoute::_($params->get('logout_url', 'index.php?option=com_users&task=user.logout')); ?>" method="post">
+<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 	<div>
 		<input type="submit" class="button" value="<?php echo htmlspecialchars(JText::_('JLOGOUT'), ENT_COMPAT, 'UTF-8'); ?>" />
 		<input type="hidden" name="return" value="<?php echo base64_encode(JFactory::getURI()); ?>" />
