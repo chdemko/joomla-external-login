@@ -3,13 +3,18 @@
 	<property name="version" value="2.0.0-rc2" />
 	<property name="dist" value="build" />
 
-	<target name="build" depends="clean, src, docs, readme">
-		<copy file="server.xml" tofile="${dist}/server.xml" />
-	</target>
+	<target name="build" depends="clean, src, docs, readme, server "/>
 
 	<target name="readme">
 		<copy file="README.markdown.tpl" tofile="README.markdown" overwrite="true" />
 		<replace file="README.markdown" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="server">
+		<copy file="server.xml.tpl" tofile="server.xml" overwrite="true" />
+		<replace file="server.xml" token="@VERSION@" value="${version}"/>
+		<copy file="server.xml" tofile="${dist}/server.xml" />
+		<delete file="server.xml" />
 	</target>
 
 	<target name="src">

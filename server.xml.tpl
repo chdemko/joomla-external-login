@@ -5,7 +5,7 @@
 		name="External Login Package"
 		element="pkg_externallogin"
 		type="package"
-		version="2.0.0-rc1"
+		version="@VERSION@"
 		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-pkg_externallogin.xml"
 	/>
 
@@ -14,7 +14,7 @@
 		element="caslogin"
 		folder="system"
 		type="plugin"
-		version="2.0.0-rc1"
+		version="@VERSION@"
 		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-plg_system_caslogin.xml"
 	/>
 
@@ -23,7 +23,7 @@
 		element="externallogin"
 		type="template"
 		client="administrator"
-		version="2.0.0-rc1"
+		version="@VERSION@"
 		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-tpl_externallogin.xml"
 	/>
 
