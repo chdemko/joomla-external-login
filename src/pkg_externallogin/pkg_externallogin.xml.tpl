@@ -12,7 +12,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->
-	<version>2.0.0-rc1</version>
+	<version>@VERSION@</version>
 
 	<!-- The description is optional and defaults to the name -->
 	<description>PKG_EXTERNALLOGIN_DESCRIPTION</description>
@@ -28,11 +28,11 @@
 	</languages>
 
 	<files>
-		<file type="component" id="com_externallogin">com_externallogin-2.0.0-rc1.zip</file>
-		<file type="module" id="mod_externallogin_site" client="site">mod_externallogin_site-2.0.0-rc1.zip</file>
-		<file type="module" id="mod_externallogin_admin" client="administrator">mod_externallogin_admin-2.0.0-rc1.zip</file>
-		<file type="plugin" id="externallogin" group="authentication">plg_authentication_externallogin-2.0.0-rc1.zip</file>
-		<file type="plugin" id="externallogin" group="system">plg_system_externallogin-2.0.0-rc1.zip</file>
+		<file type="component" id="com_externallogin">com_externallogin-@VERSION@.zip</file>
+		<file type="module" id="mod_externallogin_site" client="site">mod_externallogin_site-@VERSION@.zip</file>
+		<file type="module" id="mod_externallogin_admin" client="administrator">mod_externallogin_admin-@VERSION@.zip</file>
+		<file type="plugin" id="externallogin" group="authentication">plg_authentication_externallogin-@VERSION@.zip</file>
+		<file type="plugin" id="externallogin" group="system">plg_system_externallogin-@VERSION@.zip</file>
 	</files>
 
 	<!-- UPDATESERVER DEFINITION -->
