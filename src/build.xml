@@ -4,27 +4,27 @@
 	<import file="../build.xml"/>
 
 	<target name="build"
-		depends="pkg_externallogin, plg_system_caslogin, tpl_externallogin"
+		depends="clean, pkg_externallogin, plg_system_caslogin, tpl_externallogin"
 	/>
 
 	<target name="pkg_externallogin">
 		<ant antfile="pkg_externallogin/build.xml" useNativeBasedir="true" />
 		<copy todir="${dist}">
-			<fileset dir="pkg_externallogin/build" />
+			<fileset dir="pkg_externallogin/${dist}" />
 		</copy>
 	</target>
 
 	<target name="plg_system_caslogin">
 		<ant antfile="plg_system_caslogin/build.xml" useNativeBasedir="true" />
 		<copy todir="${dist}">
-			<fileset dir="plg_system_caslogin/build" />
+			<fileset dir="plg_system_caslogin/${dist}" />
 		</copy>
 	</target>
 	
 	<target name="tpl_externallogin">
 		<ant antfile="tpl_externallogin/build.xml" useNativeBasedir="true" />
 		<copy todir="${dist}">
-			<fileset dir="tpl_externallogin/build" />
+			<fileset dir="tpl_externallogin/${dist}" />
 		</copy>
 	</target>
 

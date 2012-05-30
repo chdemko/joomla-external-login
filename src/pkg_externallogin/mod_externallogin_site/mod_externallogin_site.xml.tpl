@@ -12,7 +12,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->
-	<version>2.0.0-rc1</version>
+	<version>@VERSION@</version>
 
 	<!-- The description is optional and defaults to the name -->
 	<description>MOD_EXTERNALLOGIN_SITE_DESCRIPTION</description>
@@ -45,6 +45,16 @@
 				/>
 			</fieldset>
 			<fieldset name="advanced">
+				<field
+					name="show_logout"
+					type="radio"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_LOGOUT_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_LOGOUT_DESC"
+					default="0"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 				<field
 					name="show_title"
 					type="radio"

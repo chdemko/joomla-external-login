@@ -14,8 +14,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 ?>
-<div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 <?php if (JFactory::getUser()->guest):?>
+<div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 	<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="external-login">
 		<fieldset class="loginform">
 	<?php
@@ -38,7 +38,10 @@ defined('_JEXEC') or die;
 		</fieldset>
 	</form>
 	<div class="clr"></div>
-<?php else:?>
-	<?php require JModuleHelper::getLayoutPath('mod_externallogin_site', 'logout');?>
-<?php endif;?>
 </div>
+<?php elseif ($params->get('show_logout', 0)):?>
+<div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+	<?php require JModuleHelper::getLayoutPath('mod_externallogin_site', 'logout');?>
+</div>
+<?php endif;?>
+

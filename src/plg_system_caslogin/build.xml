@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login-src-plg_system_caslogin" default="build" basedir=".">
+
 	<import file="../build.xml"/>
+
 	<property name="project-name" value="plg_system_caslogin" />
-	<target name="build" depends="clean, zip, update" />
+
+	<target name="build" depends="prepare, clean, zip, update" />
+
+	<target name="prepare">
+		<copy file="caslogin.xml.tpl" tofile="caslogin.xml" overwrite="true" />
+		<replace file="caslogin.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
 </project>

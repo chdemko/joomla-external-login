@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="external-login-docs-User_Guide" default="build" basedir=".">
+
+	<import file="../build.xml"/>
+
+	<target name="build" depends="clean, en-GB" />
+
+	<target name="en-GB">
+		<delete dir="tmp/en-GB/pdf" />
+		<copy file="en-GB/Article_Info.xml.tpl" tofile="en-GB/Article_Info.xml" overwrite="true" />
+		<replace file="en-GB/Article_Info.xml" token="@VERSION@" value="${version}" />
+		 <exec executable="publican">
+			<arg value="build" />
+			<arg value="--lang" />
+			<arg value="en-GB" />
+			<arg value="--format" />
+			<arg value="pdf" />
+		</exec>
+		<copy todir="${dist}">
+			<fileset dir="tmp/en-GB/pdf" />
+		</copy>
+	</target>
+
+</project>

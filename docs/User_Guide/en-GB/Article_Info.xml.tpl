@@ -7,7 +7,7 @@
 	<title>User Guide</title>
 	<subtitle>short description</subtitle>
 	<productname>External Login</productname>
-	<productnumber>2</productnumber>
+	<productnumber>@VERSION@</productnumber>
 	<edition>1</edition>
 	<pubsnumber>0</pubsnumber>
 	<abstract>

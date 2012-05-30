@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login-docs" default="build" basedir=".">
 
-	<target name="build"
-		depends=""
-	/>
+	<import file="../build.xml"/>
+
+	<target name="build" depends="clean, User_Guide" />
+
+	<target name="User_Guide">
+		<ant antfile="User_Guide/build.xml" useNativeBasedir="true"  />
+		<copy todir="${dist}">
+			<fileset dir="User_Guide/${dist}" />
+		</copy>
+	</target>
+	
 </project>

@@ -12,7 +12,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->
-	<version>2.0.0-rc1</version>
+	<version>@version@</version>
 
 	<!-- The description is optional and defaults to the name -->
 	<description>TPL_EXTERNALLOGIN_DESCRIPTION</description>

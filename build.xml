@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
-	<property name="version" value="2.0.0-rc1" />
+	<property name="version" value="2.0.0-rc2" />
 	<property name="dist" value="build" />
 
-	<target name="build" depends="src">
+	<target name="build" depends="clean, src, docs">
 		<copy file="server.xml" tofile="${dist}/server.xml" />
 	</target>
 
 	<target name="src">
 		<ant antfile="src/build.xml" useNativeBasedir="true" />
 		<copy todir="${dist}">
-			<fileset dir="src/build" />
+			<fileset dir="src/${dist}" />
 		</copy>
 	</target>
 	
 	<target name="docs">
 		<ant antfile="docs/build.xml" useNativeBasedir="true"  />
+		<copy todir="${dist}">
+			<fileset dir="docs/${dist}" />
+		</copy>
 	</target>
 	
 	<target name="language">
@@ -23,7 +26,7 @@
 	</target>
 	
 	<target name="zip" description="Generate Zip file">
-		<zip destfile="${dist}/${project-name}-${version}.zip" basedir="." excludes="**/*~,build.xml,update.xml" />
+		<zip destfile="${dist}/${project-name}-${version}.zip" basedir="." excludes="**/*~,*.tpl,build.xml,update.xml" />
 	</target>
 
 	<target name="update" description="Generate Update file">

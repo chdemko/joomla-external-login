@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login-src-plg_system_externallogin" default="build" basedir=".">
-	<property name="project-name" value="plg_system_externallogin" />
+
 	<import file="../build.xml"/>
-	<target name="build" depends="clean, zip" />
+
+	<property name="project-name" value="plg_system_externallogin" />
+
+	<target name="build" depends="prepare, clean, zip" />
+
+	<target name="prepare">
+		<copy file="externallogin.xml.tpl" tofile="externallogin.xml" overwrite="true" />
+		<replace file="externallogin.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
 </project>

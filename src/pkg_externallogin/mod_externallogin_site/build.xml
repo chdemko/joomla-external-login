@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login-src-mod_externallogin_site" default="build" basedir=".">
-	<property name="project-name" value="mod_externallogin_site" />
+
 	<import file="../build.xml"/>
-	<target name="build" depends="clean, zip" />
+
+	<property name="project-name" value="mod_externallogin_site" />
+
+	<target name="build" depends="prepare, clean, zip" />
+
+	<target name="prepare">
+		<copy file="mod_externallogin_site.xml.tpl" tofile="mod_externallogin_site.xml" overwrite="true" />
+		<replace file="mod_externallogin_site.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
 </project>
