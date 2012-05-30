@@ -5,11 +5,15 @@
 
 	<property name="project-name" value="tpl_externallogin" />
 
-	<target name="build" depends="prepare, clean, zip, update" />
+	<target name="build" depends="prepare, clean, zip, finish, update" />
 
 	<target name="prepare">
 		<copy file="templateDetails.xml.tpl" tofile="templateDetails.xml" overwrite="true" />
 		<replace file="templateDetails.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="finish">
+		<delete file="templateDetails.xml" />
 	</target>
 
 </project>

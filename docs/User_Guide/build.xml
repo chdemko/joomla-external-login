@@ -16,6 +16,7 @@
 			<arg value="--format" />
 			<arg value="pdf" />
 		</exec>
+		<delete file="en-GB/Article_Info.xml" />
 		<copy todir="${dist}">
 			<fileset dir="tmp/en-GB/pdf" />
 		</copy>

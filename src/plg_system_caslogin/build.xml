@@ -5,11 +5,15 @@
 
 	<property name="project-name" value="plg_system_caslogin" />
 
-	<target name="build" depends="prepare, clean, zip, update" />
+	<target name="build" depends="prepare, clean, zip, finish, update" />
 
 	<target name="prepare">
 		<copy file="caslogin.xml.tpl" tofile="caslogin.xml" overwrite="true" />
 		<replace file="caslogin.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="finish">
+		<delete file="caslogin.xml" />
 	</target>
 
 </project>

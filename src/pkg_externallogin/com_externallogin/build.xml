@@ -5,11 +5,15 @@
 
 	<property name="project-name" value="com_externallogin" />
 
-	<target name="build" depends="prepare, clean, zip" />
+	<target name="build" depends="prepare, clean, zip, finish" />
 
 	<target name="prepare">
 		<copy file="externallogin.xml.tpl" tofile="externallogin.xml" overwrite="true" />
 		<replace file="externallogin.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="finish">
+		<delete file="externallogin.xml" />
 	</target>
 
 </project>

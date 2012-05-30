@@ -4,8 +4,10 @@
 	<import file="../build.xml"/>
 
 	<target name="build"
-		depends="clean, prepare, com_externallogin, mod_externallogin_site, mod_externallogin_admin, plg_authentication_externallogin, plg_system_externallogin"
-	>
+		depends="clean, prepare, com_externallogin, mod_externallogin_site, mod_externallogin_admin, plg_authentication_externallogin, plg_system_externallogin, subbuild, finish"
+	/>
+
+	<target name="subbuild">
 		<property name="project-name" value="pkg_externallogin" />
 		<zip destfile="${dist}/${project-name}-${version}.zip">
 			<fileset dir="." includes="pkg_externallogin.xml,language/**" excludes="**/*~" />
@@ -21,6 +23,10 @@
 	<target name="prepare">
 		<copy file="pkg_externallogin.xml.tpl" tofile="pkg_externallogin.xml" overwrite="true" />
 		<replace file="pkg_externallogin.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="finish">
+		<delete file="pkg_externallogin.xml" />
 	</target>
 
 	<target name="com_externallogin">

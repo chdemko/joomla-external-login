@@ -5,11 +5,15 @@
 
 	<property name="project-name" value="mod_externallogin_site" />
 
-	<target name="build" depends="prepare, clean, zip" />
+	<target name="build" depends="prepare, clean, zip, finish" />
 
 	<target name="prepare">
 		<copy file="mod_externallogin_site.xml.tpl" tofile="mod_externallogin_site.xml" overwrite="true" />
 		<replace file="mod_externallogin_site.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="finish">
+		<delete file="mod_externallogin_site.xml" />
 	</target>
 
 </project>
