@@ -221,18 +221,28 @@ class plgSystemCaslogin extends JPlugin
 								$input->set('task', 'login');
 								$input->set(JSession::getFormToken(), 1);
 								$input->set('return', base64_encode($return));
+
+								// Keep compatibility with old plugins
+								JRequest::setVar('option', 'com_login');
+								JRequest::setVar('task', 'login');
+								JRequest::setVar(JSession::getFormToken(), 1);
+								JRequest::setVar('return', base64_encode($return));
 							}
 							else
 							{
 								$input->set('option', 'com_users');
 								$input->set('task', 'user.login');
+								$input->post->set(JSession::getFormToken(), 1);
+								$input->post->set('return', base64_encode($return));
 
-								// TODO JInput is buggy. This must replaced by 
-								// $input->post->set(JSession::getFormToken(), 1);
+								// Keep compatibility with old plugins
+								JRequest::setVar('option', 'com_users');
+								JRequest::setVar('task', 'user.login');
+
+								// TODO JInput is buggy. This must removed
 								JRequest::setVar(JSession::getFormToken(), 1, 'post');
 
-								// TODO JInput is buggy. This must replaced by 
-								// $input->post->set('return', base64_encode($return));
+								// TODO JInput is buggy. This must removed
 								JRequest::setVar('return', base64_encode($return), 'post');
 							}
 
