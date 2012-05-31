@@ -37,7 +37,7 @@ class plgAuthenticationExternallogin extends JPlugin
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 	}
-		
+
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
@@ -71,7 +71,7 @@ class plgAuthenticationExternallogin extends JPlugin
 			{
 				// User is found
 				$user->load($id);
-				if ($params->get('autoupdate'))
+				if ($params->get('autoupdate', 0))
 				{
 					// Update it on auto-update
 					$user->set('name', $response->fullname);
@@ -82,9 +82,10 @@ class plgAuthenticationExternallogin extends JPlugin
 					}
 					$user->save();
 				}
+				$response->id = $id;
 				$response->status = JAuthentication::STATUS_SUCCESS;
 			}
-			elseif ($params->get('autoregister'))
+			elseif ($params->get('autoregister', 0))
 			{
 				// User is not found
 				$user->set('id', 0);
@@ -98,6 +99,7 @@ class plgAuthenticationExternallogin extends JPlugin
 				if ($user->save())
 				{
 					$response->status = JAuthentication::STATUS_SUCCESS;
+					$response->id = $user->id;
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true);
 					$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $user->id);
@@ -107,7 +109,7 @@ class plgAuthenticationExternallogin extends JPlugin
 				else
 				{
 					$response->status = JAuthentication::STATUS_UNKNOWN;
-				}				
+				}
 			}
 			else
 			{

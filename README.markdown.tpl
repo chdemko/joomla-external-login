@@ -10,6 +10,11 @@ Downloads
 * [CAS Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_system_caslogin-@VERSION@.zip)
 * [Admin template](https://github.com/downloads/chdemko/joomla-external-login/tpl_externallogin-@VERSION@.zip)
 
+Community Builder
+-----------------
+
+* [Community Builder External Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_user_cbexternallogin-@VERSION@.zip)
+
 Requirements
 ------------
 

@@ -19,6 +19,15 @@
 	/>
 
 	<extension
+		name="User - Community Builder External Login"
+		element="cbexternallogin"
+		folder="user"
+		type="plugin"
+		version="@VERSION@"
+		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-plg_user_cbexternallogin.xml"
+	/>
+
+	<extension
 		name="External Login Admin Template"
 		element="externallogin"
 		type="template"

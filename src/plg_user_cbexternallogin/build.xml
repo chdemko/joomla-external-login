@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="external-login-src-plg_user_cbexternallogin" default="build" basedir=".">
+
+	<import file="../build.xml"/>
+
+	<property name="project-name" value="plg_user_cbexternallogin" />
+
+	<target name="build" depends="prepare, clean, zip, finish, update" />
+
+	<target name="prepare">
+		<copy file="cbexternallogin.xml.tpl" tofile="cbexternallogin.xml" overwrite="true" />
+		<replace file="cbexternallogin.xml" token="@VERSION@" value="${version}"/>
+	</target>
+
+	<target name="finish">
+		<delete file="cbexternallogin.xml" />
+	</target>
+
+</project>

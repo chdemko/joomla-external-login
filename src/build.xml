@@ -4,7 +4,7 @@
 	<import file="../build.xml"/>
 
 	<target name="build"
-		depends="clean, pkg_externallogin, plg_system_caslogin, tpl_externallogin"
+		depends="clean, pkg_externallogin, plg_system_caslogin, plg_user_cbexternallogin, tpl_externallogin"
 	/>
 
 	<target name="pkg_externallogin">
@@ -18,6 +18,13 @@
 		<ant antfile="plg_system_caslogin/build.xml" useNativeBasedir="true" />
 		<copy todir="${dist}">
 			<fileset dir="plg_system_caslogin/${dist}" />
+		</copy>
+	</target>
+	
+	<target name="plg_user_cbexternallogin">
+		<ant antfile="plg_user_cbexternallogin/build.xml" useNativeBasedir="true" />
+		<copy todir="${dist}">
+			<fileset dir="plg_user_cbexternallogin/${dist}" />
 		</copy>
 	</target>
 	
