@@ -89,11 +89,41 @@ class plgSystemExternallogin extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
 		$query->delete('#__externallogin_users')->where('user_id = ' . (int) $user['id']);
-		$db->setQuery($query);
-		$db->query();
+		$dbo->setQuery($query);
+		$dbo->query();
+		return true;
+	}
+
+	/**
+	 * Utility method to act on a user after it has been saved.
+	 *
+	 * This method sends a registration email to new users created in the backend.
+	 *
+	 * @param	array		$user		Holds the new user data.
+	 * @param	boolean		$isnew		True if a new user is stored.
+	 * @param	boolean		$success	True if user was succesfully stored in the database.
+	 * @param	string		$msg		Message.
+	 *
+	 * @return	void
+	 *
+	 * @since	2.0.0
+	 */
+	public function onUserBeforeSave($old, $isnew, $new)
+	{
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('COUNT(*)');
+		$query->from('#__externallogin_users');
+		$query->where('user_id = ' . (int) $new['id']);
+		$dbo->setQuery($query);
+		if ($dbo->loadResult() > 0 && $new['password'] != '')
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_EXTERNALLOGIN_WARNING_PASSWORD_MODIFIED'), 'notice');
+			return false;
+		}
 		return true;
 	}
 }
