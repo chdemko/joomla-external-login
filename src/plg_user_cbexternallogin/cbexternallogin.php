@@ -48,12 +48,9 @@ class plgUserCbexternallogin extends JPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		// User comes from external login plugin and community builder is installed
-		if (isset($user['server']) && file_exists(JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php'))
+		// User comes from external login plugin and community builder is installed and enabled
+		if (isset($user['server']) && JComponentHelper::getComponent('com_comprofiler', true)->enabled)
 		{
-			// Include community builder
-			include_once JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php';
-
 			// Verify if user is stored into community builder
 			$dbo = JFactory::getDbo();
 			$query = $dbo->getQuery(true);
