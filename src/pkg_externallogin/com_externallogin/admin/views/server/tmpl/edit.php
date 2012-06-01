@@ -34,7 +34,7 @@ $fieldSets = $this->form->getFieldsets();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_($fieldSets['details']->label); ?></legend>
 			<?php if (isset($fieldSets['details']->description) && trim($desc = JText::_($fieldSets['details']->description))) :?>
-				<p class="tip"><?php echo $this->escape($desc);?></p>
+				<p class="tip"><?php echo $desc;?></p>
 			<?php endif;?>
 			<ul class="adminformlist">
 <?php
@@ -62,7 +62,7 @@ foreach ($fieldSets as $name => $fieldSet):
 		echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options');
 		if (isset($fieldSet->description) && trim($desc = JText::_($fieldSet->description))):
 ?>
-		<p class="tip"><?php echo $this->escape($desc);?></p>
+		<p class="tip"><?php echo $desc;?></p>
 <?php
 		endif;
 ?>
@@ -93,5 +93,4 @@ endforeach;
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
-
 

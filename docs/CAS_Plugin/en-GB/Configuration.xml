@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+	<title>Configuration</title>
+	<para>
+		You have to enable the plugin and to create an external login server using it.
+	</para>
+	<para>
+		The window is divided in 2 panels, the <command>Server details</command> is common to all the external login plugins and the other panel contains the parameters specific to the <command>CAS Plugin</command>.
+		<variablelist>
+			<varlistentry>
+				<term><command>CAS parameters</command></term>
+				<listitem>
+					<para>
+						<variablelist>
+							<varlistentry>
+								<term><command>URL</command></term>
+								<listitem>
+									<para>
+										The <command>CAS</command> server <acronym>URL</acronym> (<code>cas.univ-montp2.fr</code> for instance).
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term><command>Path</command></term>
+								<listitem>
+									<para>
+										The <command>CAS</command> server path (<code>cas</code> for instance).
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term><command>Port</command></term>
+								<listitem>
+									<para>
+										The <command>CAS</command> server port (<code>443</code> for instance).
+									</para>
+								</listitem>
+							</varlistentry>
+						</variablelist>
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>Attributes</command></term>
+				<listitem>
+					<para>
+						This slider contains <command>xpath</command> parameters to get the user attributes.
+						<variablelist>
+							<varlistentry>
+								<term>Username <command>xpath</command></term>
+								<listitem>
+									<para>
+										The username <command>xpath</command> in the <command>CAS</command> response.
+										<programlisting>string(cas:user)</programlisting> for instance or
+<programlisting>concat(
+  cas:attributes/cas:attribute[@name='uid'],
+  substring(
+    cas:attributes/cas:attribute[@name = 'edupersonprincipalname'],
+    1 div not(cas:attributes/cas:attribute[@name = 'uid'])
+  ),
+  substring(
+    cas:user,
+    1 div not(cas:attributes/cas:attribute[@name = 'uid' or @name = 'edupersonprincipalname'])
+  )
+)
+</programlisting>
+
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Full name <command>xpath</command></term>
+								<listitem>
+									<para>
+										The full name <command>xpath</command> in the <command>CAS</command> response.
+										<programlisting>string(cas:user)</programlisting> for instance or
+<programlisting>concat(
+  cas:attributes/cas:attribute[@name = 'displayname'],
+  substring(
+    cas:attributes/cas:attribute[@name='edupersonprincipalname'],
+    1 div not(cas:attributes/cas:attribute[@name = 'displayname'])
+  ),
+  substring(
+    cas:attributes/cas:attribute[@name = 'uid'],
+    1 div not(cas:attributes/cas:attribute[@name = 'displayname' or @name = 'edupersonprincipalname'])
+  ),
+  substring(
+    cas:user,
+    1 div not(cas:attributes/cas:attribute[@name = 'displayname' or @name = 'edupersonprincipalname' or @name = 'uid'])
+  )
+)
+</programlisting>
+
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Email <command>xpath</command></term>
+								<listitem>
+									<para>
+										The email <command>xpath</command> in the <command>CAS</command> response.
+										<programlisting>concat(cas:user,substring('@univ-montp2.fr', 1 div not(contains(cas:user, '@'))))</programlisting> for instance or
+<programlisting>concat(
+  cas:attributes/cas:attribute[@name = 'mail'],
+  substring(
+    cas:user,
+    1 div not(cas:attributes/cas:attribute[@name = 'mail'])
+  )
+)
+</programlisting>
+
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Groups <command>xpath</command></term>
+								<listitem>
+									<para>
+										The groups <command>xpath</command> in the <command>CAS</command> response.
+<programlisting>cas:attributes/cas:attribute[@name = 'supannaffectation']
+</programlisting> for instance
+
+									</para>
+								</listitem>
+							</varlistentry>
+						</variablelist>
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>Connection</command></term>
+				<listitem>
+					<para>
+						<variablelist>
+							<varlistentry>
+								<term>Timeout</term>
+								<listitem>
+									<para>
+										The timeout server
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Logout <acronym>URL</acronym></term>
+								<listitem>
+									<para>
+										The logout URL transmitted to the <acronym>CAS</acronym> server.
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Automatic login/logout</term>
+								<listitem>
+									<para>
+										To automatically log in/log out a user.
+									</para>
+								</listitem>
+							</varlistentry>
+						</variablelist>
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+</section>
+

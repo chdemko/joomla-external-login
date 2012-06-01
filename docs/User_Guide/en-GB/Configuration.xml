@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "User_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+	<title>Configuration</title>
+	<para>
+		You have to enable both plugins and to publish:
+		<itemizedlist>
+			<listitem>
+				<para>
+					a site login module (if you want to login on the public site using external login servers).
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					an admin login module in the <command>login</command> position (if you want to login on the administrator site using external login servers).
+				</para>
+			</listitem>
+		</itemizedlist>
+		You have to install some <command>External Login Plugins</command> such the <acronym>CAS</acronym> server plugin to be able to create external login servers. The parameters common to all external login servers are:
+		<variablelist>
+			<varlistentry>
+				<term><command>Title</command></term>
+				<listitem>
+					<para>
+						The server title. It must be unique.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>Status</command></term>
+				<listitem>
+					<para>
+						The server status.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>Auto-register</command></term>
+				<listitem>
+					<para>
+						Set true to auto-register new users.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>Auto-update</command></term>
+				<listitem>
+					<para>
+						Set true to auto-update users.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>Default user group</command></term>
+				<listitem>
+					<para>
+						The default user group users belong to.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+	</para>
+</section>
+

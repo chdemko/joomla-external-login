@@ -6,13 +6,13 @@
 <articleinfo id="arti-User_Guide-User_Guide">
 	<title>User Guide</title>
 	<subtitle>External Login</subtitle>
-	<productname>External Login package</productname>
+	<productname>CAS Plugin</productname>
 	<productnumber>@VERSION@</productnumber>
 	<edition>1</edition>
 	<pubsnumber>0</pubsnumber>
 	<abstract>
 		<para>
-			This manual explains how to install and use the <command>externallogin</command> package.
+			This manual explains how to install and use the <command>CAS Plugin</command>.
 		</para>
 	</abstract>
 	<corpauthor>

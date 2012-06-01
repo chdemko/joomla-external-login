@@ -23,5 +23,27 @@
 		<targetplatform name="joomla" version="2.5"/>
 	</update>
 
+	<update>
+		<name>User - Community Builder External Login</name>
+		<description>User - Community Builder External Login</description>
+		<element>cbexternallogin</element>
+		<group>user</group>
+		<type>plugin</type>
+		<version>2.0.0</version>
+		<infourl title="External Login">https://github.com/chdemko/joomla-external-login</infourl>
+
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/downloads/chdemko/joomla-external-login/plg_user_cbexternallogin-2.0.0.zip</downloadurl>
+		</downloads>
+
+		<tags>
+			<tag>2.0.0</tag>
+		</tags>
+
+		<maintainer>Christophe Demko</maintainer>
+		<maintainerurl>http://www.chdemko.com</maintainerurl>
+		<targetplatform name="joomla" version="2.5"/>
+	</update>
+
 </updates>
 

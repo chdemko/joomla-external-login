@@ -6,9 +6,13 @@ The *External Login* project is the continuation of the [Authentication Manager 
 Downloads
 ---------
 
-* [External Login Package](https://github.com/downloads/chdemko/joomla-external-login/pkg_externallogin-@VERSION@.zip)
-* [CAS Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_system_caslogin-@VERSION@.zip)
+* [External Login Package](https://github.com/downloads/chdemko/joomla-external-login/pkg_externallogin-@VERSION@.zip) ([documentation](https://github.com/downloads/chdemko/joomla-external-login/External_Login_package-@VERSION@-User_Guide-en-GB.pdf))
 * [Admin template](https://github.com/downloads/chdemko/joomla-external-login/tpl_externallogin-@VERSION@.zip)
+
+External Login Plugins
+----------------------
+
+* [CAS Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_system_caslogin-@VERSION@.zip) ([documentation](https://github.com/downloads/chdemko/joomla-external-login/CAS_Plugin-@VERSION@-User_Guide-en-GB.pdf))
 
 Community Builder
 -----------------

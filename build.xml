@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
-	<property name="version" value="2.0.0-rc3" />
+	<property name="version" value="2.0.0" />
 	<property name="dist" value="build" />
 
 	<target name="build" depends="clean, src, docs, readme, server "/>

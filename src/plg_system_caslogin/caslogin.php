@@ -39,34 +39,16 @@ class plgSystemCaslogin extends JPlugin
 	protected $server;
 
 	/**
-	 * @var    string  Cas login name
+	 * @var    DOMXPath  The xpath object
 	 * @since  2.0.0
 	 */
-	protected $caslogin;
+	protected $xpath;
 
 	/**
-	 * @var    string  User name
+	 * @var    DOMNode  The success node
 	 * @since  2.0.0
 	 */
-	protected $username;
-
-	/**
-	 * @var    string  Display name
-	 * @since  2.0.0
-	 */
-	protected $name;
-
-	/**
-	 * @var    string  Email
-	 * @since  2.0.0
-	 */
-	protected $email;
-
-	/**
-	 * @var    array  Array of groups
-	 * @since  2.0.0
-	 */
-	protected $groups;
+	protected $success;
 
 	/**
 	 * Constructor.
@@ -204,9 +186,18 @@ class plgSystemCaslogin extends JPlugin
 						$dom = new DOMDocument;
 						$dom->loadXML($result);
 						$xpath = new DOMXPath($dom);
-						$user = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/cas:user[1]');
-						if ($user)
+						$success = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess[1]');
+						if ($success && $success->length == 1)
 						{
+							// Store the xpath
+							$this->xpath = $xpath;
+
+							// Store the success node
+							$this->success = $success->item(0);
+
+							// Store the server
+							$this->server = $server;
+
 							$uri->delVar('server');
 							$return = 'index.php' . $uri->toString(array('query'));
 							if ($return == 'index.php?option=com_login')
@@ -244,66 +235,6 @@ class plgSystemCaslogin extends JPlugin
 
 								// TODO JInput is buggy. This must removed
 								JRequest::setVar('return', base64_encode($return), 'post');
-							}
-
-							// Store the server
-							$this->server = $server;
-
-							// Store the user
-							$this->caslogin = (string) $user->item(0)->nodeValue;
-
-							// Get username from attributes
-							if ($server->params->get('username_xpath'))
-							{
-								$username = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('username_xpath'));
-								if ($username && $username->length > 0)
-								{
-									$this->username = (string) $username->item(0)->nodeValue;
-								}
-							}
-
-							// Get fullname from attributes
-							if ($server->params->get('name_xpath'))
-							{
-								$name = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('name_xpath'));
-								if ($name && $name->length > 0)
-								{
-									$this->name = (string) $name->item(0)->nodeValue;
-								}
-							}
-
-							// Get email from attributes
-							if ($server->params->get('email_xpath'))
-							{
-								$email = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('email_xpath'));
-								if ($email && $email->length > 0)
-								{
-									$this->email = (string) $email->item(0)->nodeValue;
-								}
-							}
-
-							// Get groups from attributes
-							if ($server->params->get('group_xpath'))
-							{
-								$groups = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess/' . $server->params->get('group_xpath'));
-								if ($groups)
-								{
-									// Loop on each group attribute
-									for ($i = 0; $i < $groups->length; $i++)
-									{
-										$group = (string) $groups->item($i)->nodeValue;
-										if (is_numeric($group))
-										{
-											// Group is numeric
-											$this->groups[] = $group;
-										}
-										else
-										{
-											// Group is not numeric, extract the groups
-											$this->groups = array_merge((array)$this->groups, (array) ExternalloginHelper::getGroups($group));											
-										}
-									}
-								}
 							}
 						}
 					}
@@ -375,65 +306,46 @@ class plgSystemCaslogin extends JPlugin
 	 */
 	public function onExternalLogin(&$response)
 	{
-		if (isset($this->caslogin))
+		if (isset($this->success))
 		{
 			// Prepare response
 			$response->status = JAuthentication::STATUS_SUCCESS;
 			$response->server = $this->server;
 			$response->type = 'system.caslogin';
 
-			// Get server params
-			$params = $this->server->params;
+			// Compute username
+			$response->username = $this->xpath->evaluate($this->server->params->get('username_xpath'), $this->success);
 
-			// Get username
-			if (isset($this->username))
-			{
-				$username = $this->username;
-			}
-			else
-			{
-				$username = $this->caslogin;
-			}
+			// Compute email
+			$response->email = $this->xpath->evaluate($this->server->params->get('email_xpath'), $this->success);
 
-			// Compute real username
-			$response->username = str_replace(
-				array('{USERNAME}', '{URL}', '{DIR}', '{PORT}'),
-				array($username, $params->get('url'), $params->get('dir'), $params->get('port')),
-				$params->get('username')
-			);
-
-			// Compute real email
-			if (isset($this->email))
-			{
-				$response->email = $this->email;
-			}
-			else
-			{
-				$response->email = str_replace(
-					array('{USERNAME}', '{URL}', '{DIR}', '{PORT}'),
-					array($username, $params->get('url'), $params->get('dir'), $params->get('port')),
-					$params->get('email')
-				);
-			}
-
-			// Compute real name
-			if (isset($this->name))
-			{
-				$response->fullname = $this->name;
-			}
-			else
-			{
-				$response->fullname = str_replace(
-					array('{USERNAME}', '{URL}', '{DIR}', '{PORT}'),
-					array($username, $params->get('url'), $params->get('dir'), $params->get('port')),
-					$params->get('name')
-				);
-			}
+			// Compute name
+			$response->fullname = $this->xpath->evaluate($this->server->params->get('name_xpath'), $this->success);
 
 			// Compute groups
-			if (isset($this->groups))
+			if ($this->server->params->get('group_xpath'))
 			{
-				$response->groups = $this->groups;
+				$groups = $this->xpath->query($this->server->params->get('group_xpath'), $this->success);
+				if ($groups && $groups->length > 0)
+				{
+					$response->groups = array();
+
+					// Loop on each group attribute
+					for ($i = 0; $i < $groups->length; $i++)
+					{
+						$group = (string) $groups->item($i)->nodeValue;
+						if (is_numeric($group))
+						{
+							// Group is numeric
+							$response->groups[] = $group;
+						}
+						else
+						{
+							// Group is not numeric, extract the groups
+							$response->groups = array_merge($response->groups, (array) ExternalloginHelper::getGroups($group));											
+						}
+					}
+				}
 			}
 			return true;
 		}

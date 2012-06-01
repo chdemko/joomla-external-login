@@ -40,64 +40,45 @@
 			label="PLG_SYSTEM_CASLOGIN_FIELDSET_ATTRIBUTES_LABEL"
 			description="PLG_SYSTEM_CASLOGIN_FIELDSET_ATTRIBUTES_DESC"
 		>
-			<field
-				name="username"
-				type="text"
-				size="50"
-				default="{USERNAME}"
-				label="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_DESC"
-			/>
-
-			<field
-				name="name"
-				type="text"
-				size="50"
-				default="{USERNAME}"
-				label="PLG_SYSTEM_CASLOGIN_FIELD_NAME_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_NAME_DESC"
-			/>
-
-			<field
-				name="email"
-				type="text"
-				size="50"
-				default=""
-				label="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_DESC"
-			/>
 
 			<field
 				name="username_xpath"
-				type="text"
-				size="50"
-				default=""
+				type="textarea"
+				required="true"
+				cols="50"
+				rows="5"
+				default="string(cas:user)"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_XPATH_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_USERNAME_XPATH_DESC"
 			/>
 
 			<field
 				name="name_xpath"
-				type="text"
-				size="50"
-				default=""
+				type="textarea"
+				required="true"
+				cols="50"
+				rows="5"
+				default="string(cas:user)"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_NAME_XPATH_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_NAME_XPATH_DESC"
 			/>
 
 			<field
 				name="email_xpath"
-				type="text"
-				size="50"
-				default=""
+				type="textarea"
+				required="true"
+				cols="50"
+				rows="5"
+				default="concat(cas:user,substring('@localhost.org', 1 div not(contains(cas:user, '@'))))"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_XPATH_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_XPATH_DESC"
 			/>
 
 			<field
 				name="group_xpath"
-				type="text"
-				size="50"
+				type="textarea"
+				cols="50"
+				rows="5"
 				default=""
 				label="PLG_SYSTEM_CASLOGIN_FIELD_GROUP_XPATH_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_GROUP_XPATH_DESC"
