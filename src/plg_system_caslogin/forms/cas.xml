@@ -122,7 +122,7 @@
 			<field
 				name="certificate_file"
 				type="text"
-				size="30"
+				size="50"
 				default=""
 				label="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_FILE_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_FILE_DESC"
@@ -131,7 +131,7 @@
 			<field
 				name="certificate_path"
 				type="text"
-				size="30"
+				size="50"
 				default=""
 				label="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_PATH_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_PATH_DESC"
