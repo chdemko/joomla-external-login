@@ -69,7 +69,7 @@
 				required="true"
 				cols="50"
 				rows="5"
-				default="concat(cas:user,substring('@localhost.org', 1 div not(contains(cas:user, '@'))))"
+				default="concat(cas:user, substring('@localhost.org', 1 div not(contains(cas:user, '@'))))"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_XPATH_LABEL"
 				description="PLG_SYSTEM_CASLOGIN_FIELD_EMAIL_XPATH_DESC"
 			/>
