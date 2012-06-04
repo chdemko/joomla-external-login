@@ -91,23 +91,6 @@
 		>
 
 			<field
-				name="timeout"
-				type="text"
-				size="10"
-				default="1"
-				label="PLG_SYSTEM_CASLOGIN_FIELD_TIMEOUT_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_TIMEOUT_DESC"
-			/>
-
-			<field
-				name="logouturl"
-				type="text"
-				size="30"
-				default=""
-				label="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_DESC"
-			/>
-			<field
 				name="autologin"
 				type="radio"
 				default="0"
@@ -117,6 +100,43 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field
+				name="logouturl"
+				type="text"
+				size="30"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_DESC"
+			/>
+
+			<field
+				name="timeout"
+				type="text"
+				size="10"
+				default="1"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_TIMEOUT_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_TIMEOUT_DESC"
+			/>
+
+			<field
+				name="certificate_file"
+				type="text"
+				size="30"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_FILE_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_FILE_DESC"
+			/>
+
+			<field
+				name="certificate_path"
+				type="text"
+				size="30"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_PATH_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_CERTIFICATE_PATH_DESC"
+			/>
+
 		</fieldset>
 	</fields>
 </form>
