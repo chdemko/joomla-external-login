@@ -137,10 +137,10 @@
 					<para>
 						<variablelist>
 							<varlistentry>
-								<term>Timeout</term>
+								<term>Automatic login/logout</term>
 								<listitem>
 									<para>
-										The timeout server
+										To automatically log in/log out a user.
 									</para>
 								</listitem>
 							</varlistentry>
@@ -153,10 +153,26 @@
 								</listitem>
 							</varlistentry>
 							<varlistentry>
-								<term>Automatic login/logout</term>
+								<term>Timeout</term>
 								<listitem>
 									<para>
-										To automatically log in/log out a user.
+										The timeout server
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Certificate file</term>
+								<listitem>
+									<para>
+										The file path holding one or more certificates to verify the peer with.
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Certificate path</term>
+								<listitem>
+									<para>
+										The directory path holding multiple CA certificates.
 									</para>
 								</listitem>
 							</varlistentry>
