@@ -103,7 +103,7 @@
 								<listitem>
 									<para>
 										The email <command>xpath</command> in the <command>CAS</command> response.
-										<programlisting>concat(cas:user,substring('@univ-montp2.fr', 1 div not(contains(cas:user, '@'))))</programlisting> for instance or
+										<programlisting>concat(cas:user, substring('@univ-montp2.fr', 1 div not(contains(cas:user, '@'))))</programlisting> for instance or
 <programlisting>concat(
   cas:attributes/cas:attribute[@name = 'mail'],
   substring(
