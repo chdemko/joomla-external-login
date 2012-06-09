@@ -344,7 +344,14 @@ class plgSystemCaslogin extends JPlugin
 						if (is_numeric($group))
 						{
 							// Group is numeric
-							$response->groups[] = $group;
+							$dbo = JFactory::getDbo();
+							$query = $dbo->getQuery(true);
+							$query->select('id')->from('#__usergroups')->where('id = ' . (int) $group);
+							$dbo->setQuery($query);
+							if ($dbo->loadResult())
+							{
+								$response->groups[] = $group;
+							}
 						}
 						else
 						{
