@@ -85,5 +85,26 @@
 		<targetplatform name="joomla" version="2.5"/>
 	</update>
 
+	<update>
+		<name>Authentication Manager</name>
+		<description>Authentication Manager Package</description>
+		<element>externallogin</element>
+		<type>package</type>
+		<version>2.0.1</version>
+		<infourl title="Authentication Manager">https://github.com/chdemko/joomla-external-login</infourl>
+
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/downloads/chdemko/joomla-external-login/pkg_externallogin-2.0.1.zip</downloadurl>
+		</downloads>
+
+		<tags>
+			<tag>2.0.1</tag>
+		</tags>
+
+		<maintainer>Christophe Demko</maintainer>
+		<maintainerurl>http://www.chdemko.com</maintainerurl>
+		<targetplatform name="joomla" version="2.5"/>
+	</update>
+
 </updates>
 
