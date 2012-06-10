@@ -113,16 +113,19 @@ class plgSystemExternallogin extends JPlugin
 	 */
 	public function onUserBeforeSave($old, $isnew, $new)
 	{
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from('#__externallogin_users');
-		$query->where('user_id = ' . (int) $new['id']);
-		$dbo->setQuery($query);
-		if ($dbo->loadResult() > 0 && $new['password'] != '')
+		if (!$this->params->get('allow_change_password', 0))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_EXTERNALLOGIN_WARNING_PASSWORD_MODIFIED'), 'notice');
-			return false;
+			$dbo = JFactory::getDbo();
+			$query = $dbo->getQuery(true);
+			$query->select('COUNT(*)');
+			$query->from('#__externallogin_users');
+			$query->where('user_id = ' . (int) $new['id']);
+			$dbo->setQuery($query);
+			if ($dbo->loadResult() > 0 && $new['password'] != '')
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_EXTERNALLOGIN_WARNING_PASSWORD_MODIFIED'), 'notice');
+				return false;
+			}
 		}
 		return true;
 	}
