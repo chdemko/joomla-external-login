@@ -266,9 +266,24 @@ class plgSystemCaslogin extends JPlugin
 					$params = new JRegistry($server->params);
 					if ($params->get('autologin') == 1 && !$session->get('system.caslogin.autologin.' . $server->id))
 					{
-						$uri->setVar('server', $server->id);
-						$session->set('system.caslogin.autologin.' . $server->id, 1);
-						$app->redirect($this->getUrl($params) . '/login?service=' . urlencode($uri) . '&gateway=true');
+						// Verify the service
+						$curl = curl_init();
+						curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+						curl_setopt($curl, CURLOPT_URL, $this->getUrl($params));
+						curl_setopt($curl, CURLOPT_TIMEOUT, $params->get('timeout'));
+						curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $certificateFile || $certificatePath);
+						curl_setopt($curl, CURLOPT_CAINFO, $certificateFile);
+						curl_setopt($curl, CURLOPT_CAPATH, $certificatePath);
+						$result = curl_exec($curl);
+						curl_close($curl);
+
+						// Result is not empty
+						if (!empty($result))
+						{
+							$uri->setVar('server', $server->id);
+							$session->set('system.caslogin.autologin.' . $server->id, 1);
+							$app->redirect($this->getUrl($params) . '/login?service=' . urlencode($uri) . '&gateway=true');
+						}
 					}
 				}
 
