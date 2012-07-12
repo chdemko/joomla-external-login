@@ -266,6 +266,10 @@ class plgSystemCaslogin extends JPlugin
 					$params = new JRegistry($server->params);
 					if ($params->get('autologin') == 1 && !$session->get('system.caslogin.autologin.' . $server->id))
 					{
+						// Get the certificate information
+						$certificateFile = $params->get('certificate_file', '');
+						$certificatePath = $params->get('certificate_path', '');
+
 						// Verify the service
 						$curl = curl_init();
 						curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

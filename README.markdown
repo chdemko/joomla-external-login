@@ -6,18 +6,18 @@ The *External Login* project is the continuation of the [Authentication Manager 
 Downloads
 ---------
 
-* [External Login Package](https://github.com/downloads/chdemko/joomla-external-login/pkg_externallogin-2.0.1.zip) ([documentation](https://github.com/downloads/chdemko/joomla-external-login/External_Login_package-2.0.1-User_Guide-en-GB.pdf))
-* [Admin template](https://github.com/downloads/chdemko/joomla-external-login/tpl_externallogin-2.0.1.zip)
+* [External Login Package](https://github.com/downloads/chdemko/joomla-external-login/pkg_externallogin-2.0.2.zip) ([documentation](https://github.com/downloads/chdemko/joomla-external-login/External_Login_package-2.0.2-User_Guide-en-GB.pdf))
+* [Admin template](https://github.com/downloads/chdemko/joomla-external-login/tpl_externallogin-2.0.2.zip)
 
 External Login Plugins
 ----------------------
 
-* [CAS Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_system_caslogin-2.0.1.zip) ([documentation](https://github.com/downloads/chdemko/joomla-external-login/CAS_Plugin-2.0.1-User_Guide-en-GB.pdf))
+* [CAS Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_system_caslogin-2.0.2.zip) ([documentation](https://github.com/downloads/chdemko/joomla-external-login/CAS_Plugin-2.0.2-User_Guide-en-GB.pdf))
 
 Community Builder
 -----------------
 
-* [Community Builder External Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_user_cbexternallogin-2.0.1.zip)
+* [Community Builder External Login Plugin](https://github.com/downloads/chdemko/joomla-external-login/plg_user_cbexternallogin-2.0.2.zip)
 
 Requirements
 ------------

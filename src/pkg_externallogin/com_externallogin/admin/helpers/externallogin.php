@@ -37,6 +37,7 @@ abstract class ExternalloginHelper
 	{
 		// Addsubmenu
 		JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), JRoute::_('index.php?option=com_externallogin', false), $submenu == 'servers');
+		//JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), JRoute::_('index.php?option=com_externallogin&view=users', false), $submenu == 'users');
 		JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_ABOUT'), JRoute::_('index.php?option=com_externallogin&view=about', false), $submenu == 'about');
 
 		// set some global property

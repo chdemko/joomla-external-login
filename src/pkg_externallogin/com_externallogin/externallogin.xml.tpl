@@ -64,6 +64,16 @@
 	<administration>
 		<!-- Administration Menu Section -->
 		<menu img="../media/com_externallogin/images/administrator/icon-16-externallogin.png">COM_EXTERNALLOGIN_MENU</menu>
+		<!--submenu>
+			<menu
+				view="users"
+				img="../media/com_externallogin/images/administrator/icon-16-users.png"
+			>COM_EXTERNALLOGIN_MENU_USERS</menu>
+			<menu
+				view="about"
+				img="../media/com_externallogin/images/administrator/icon-16-about.png"
+			>COM_EXTERNALLOGIN_MENU_ABOUT</menu>
+		</submenu-->
 
 		<!-- Administration Main File Copy Section -->
 		<!-- Note the folder attribute: This attribute describes the folder

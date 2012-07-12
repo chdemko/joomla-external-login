@@ -35,7 +35,7 @@ abstract class ExternalloginHtmlServers
 	 *
 	 * @see JHtmlJGrid::state
 	 *
-	 * @since   1.7.1
+	 * @since   2.0.0
 	 */
 	public static function state($value, $i, $enabled = true)
 	{

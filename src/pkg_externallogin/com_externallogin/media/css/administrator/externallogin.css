@@ -26,4 +26,23 @@
 	background-image: url(../../images/administrator/icon-32-users-download.png);
 }
 
+.icon-48-users {
+	background-image: url(../../images/administrator/icon-48-users.png);
+}
+
+.icon-32-users-disable-joomla {
+	background-image: url(../../images/administrator/icon-32-users-disable-joomla.png);
+}
+
+.icon-32-users-enable-joomla {
+	background-image: url(../../images/administrator/icon-32-users-enable-joomla.png);
+}
+
+.icon-32-users-disable-externallogin {
+	background-image: url(../../images/administrator/icon-32-users-disable-externallogin.png);
+}
+
+.icon-32-users-enable-externallogin {
+	background-image: url(../../images/administrator/icon-32-users-enable-externallogin.png);
+}
 

@@ -51,8 +51,12 @@ class plgAuthenticationExternallogin extends JPlugin
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		$results = JFactory::getApplication()->triggerEvent('onExternalLogin', array(&$response));
+
 		if (count($results) > 0)
 		{
+			// Get the DB driver
+			$db = JFactory::getDbo();
+
 			// Get server params
 			$params = $response->server->params;
 
@@ -69,21 +73,55 @@ class plgAuthenticationExternallogin extends JPlugin
 			$user = JUser::getInstance();
 			if ($id = intval(JUserHelper::getUserId($response->username)))
 			{
-				// User is found
-				$user->load($id);
 				if ($params->get('autoupdate', 0))
 				{
+					if (!empty($response->groups))
+					{
+						// Delete the old groups
+						$query = $db->getQuery(true);
+						$query->delete('#__user_usergroup_map')->where('user_id = ' . (int) $id);
+						$db->setQuery($query);
+						$db->query();
+					}
+
+					// User is found
+					$user->load($id);
+
 					// Update it on auto-update
 					$user->set('name', $response->fullname);
 					$user->set('email', $response->email);
-					if (isset($response->groups))
+
+					// Attempt to save the user
+					if ($user->save())
 					{
-						$user->set('groups', $response->groups);
+						$response->status = JAuthentication::STATUS_SUCCESS;
+						$response->id = $id;
+						if (!empty($response->groups))
+						{
+							// Add the new groups
+							$groups = $response->groups;
+
+							$query = $db->getQuery(true);
+							$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
+							foreach ($groups as $group)
+							{
+								$query->values((int) $id . ',' . (int) $group);
+							}
+							$db->setQuery($query);
+							$db->query();
+						}
+						JAccess::clearStatics();
 					}
-					$user->save();
+					else
+					{
+						$response->status = JAuthentication::STATUS_UNKNOWN;
+					}
 				}
-				$response->id = $id;
-				$response->status = JAuthentication::STATUS_SUCCESS;
+				else
+				{
+					$response->status = JAuthentication::STATUS_SUCCESS;
+					$response->id = $id;
+				}
 			}
 			elseif ($params->get('autoregister', 0))
 			{
@@ -93,16 +131,26 @@ class plgAuthenticationExternallogin extends JPlugin
 				$user->set('username', $response->username);
 				$user->set('email', $response->email);
 				$user->set('usertype', 'deprecated');
-				$user->set('groups', empty($response->groups) ? array($defaultUserGroup) : $response->groups);
 
 				// Create new user
 				if ($user->save())
 				{
 					$response->status = JAuthentication::STATUS_SUCCESS;
 					$response->id = $user->id;
-					$db = JFactory::getDbo();
+
 					$query = $db->getQuery(true);
 					$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $user->id);
+					$db->setQuery($query);
+					$db->query();
+
+					// Add the new groups
+					$groups = empty($response->groups) ? array($defaultUserGroup) : $response->groups;
+					$query = $db->getQuery(true);
+					$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
+					foreach ($groups as $group)
+					{
+						$query->values((int) $user->id . ',' . (int) $group);
+					}
 					$db->setQuery($query);
 					$db->query();
 				}

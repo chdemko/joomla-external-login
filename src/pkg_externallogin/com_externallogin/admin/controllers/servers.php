@@ -34,8 +34,8 @@ class ExternalloginControllerServers extends JControllerAdmin
 	 *
 	 * @since   2.0.0
 	 */
-	public function getModel($name = 'Server', $prefix = 'ExternalloginModel') 
+	public function getModel($name = 'Server', $prefix = 'ExternalloginModel', $config = null) 
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		return parent::getModel($name, $prefix, isset($config) ? $config : array('ignore_request' => true));
 	}
 }
