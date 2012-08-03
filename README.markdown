@@ -1,7 +1,7 @@
 External Login
 ===============
 
-The *External Login* project is the continuation of the [Authentication Manager project](joomlacode.org/gf/project/auth_manager/) developped for Joomla!1.5.
+The *External Login* project is the continuation of the [Authentication Manager project](http://joomlacode.org/gf/project/auth_manager/) developped for Joomla!1.5.
 
 Downloads
 ---------
