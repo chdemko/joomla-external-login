@@ -127,6 +127,14 @@
 									</para>
 								</listitem>
 							</varlistentry>
+							<varlistentry>
+								<term>Integer groups</term>
+								<listitem>
+									<para>
+										To consider integer groups as their Joomla! identifier.
+									</para>
+								</listitem>
+							</varlistentry>
 						</variablelist>
 					</para>
 				</listitem>
