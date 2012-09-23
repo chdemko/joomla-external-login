@@ -43,6 +43,11 @@
 					label="MOD_EXTERNALLOGIN_ADMIN_FIELD_SERVERS_LABEL"
 					description="MOD_EXTERNALLOGIN_ADMIN_FIELD_SERVERS_DESC"
 				/>
+				<field
+					name="cache"
+					type="hidden"
+					default="0"
+				/>
 			</fieldset>
 		</fields>
 	</config>
