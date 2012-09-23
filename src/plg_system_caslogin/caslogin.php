@@ -273,6 +273,7 @@ class plgSystemCaslogin extends JPlugin
 						// Verify the service
 						$curl = curl_init();
 						curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+						curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 						curl_setopt($curl, CURLOPT_URL, $this->getUrl($params));
 						curl_setopt($curl, CURLOPT_TIMEOUT, $params->get('timeout'));
 						curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $certificateFile || $certificatePath);
@@ -360,7 +361,7 @@ class plgSystemCaslogin extends JPlugin
 					for ($i = 0; $i < $groups->length; $i++)
 					{
 						$group = (string) $groups->item($i)->nodeValue;
-						if (is_numeric($group))
+						if (is_numeric($group) && $this->server->params->get('group_integer', 0))
 						{
 							// Group is numeric
 							$dbo = JFactory::getDbo();
