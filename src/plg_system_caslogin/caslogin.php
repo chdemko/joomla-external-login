@@ -376,7 +376,13 @@ class plgSystemCaslogin extends JPlugin
 						else
 						{
 							// Group is not numeric, extract the groups
-							$response->groups = array_merge($response->groups, (array) ExternalloginHelper::getGroups($group));											
+							$response->groups = array_merge(
+								$response->groups,
+								(array) ExternalloginHelper::getGroups(
+									$group,
+									$this->server->params->get('group_separator', '')
+								)
+							);											
 						}
 					}
 				}

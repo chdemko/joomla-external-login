@@ -94,6 +94,15 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field
+				name="group_separator"
+				type="text"
+				size="10"
+				default=""
+				label="PLG_SYSTEM_CASLOGIN_FIELD_GROUP_SEPARATOR_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_GROUP_SEPARATOR_DESC"
+			/>
 		</fieldset>
 		<fieldset
 			name="connection"

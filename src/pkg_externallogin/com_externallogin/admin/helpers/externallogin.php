@@ -61,17 +61,25 @@ abstract class ExternalloginHelper
 	/**
 	 * Get a list of groups from a string
 	 *
-	 * @param   string  $path  Group path
+	 * @param   string  $path       Group path
+	 * @param   string  $separator  Separator string
 	 *
 	 * @return  array   Array of groups
 	 */
-	public static function getGroups($path)
+	public static function getGroups($path, $separator = '/')
 	{
 		// Get the dbo
 		$db = JFactory::getDbo();
 
 		// Split the path
-		$path = explode('/', $path);
+		if (empty($separator))
+		{
+			$path = array($path);
+		}
+		else
+		{
+			$path = explode($separator, $path);
+		}
 		$count = count($path);
 
 		// Path is correct
