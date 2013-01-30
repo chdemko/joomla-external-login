@@ -247,7 +247,7 @@ class plgSystemCaslogin extends JPlugin
 					}
 				}
 			}
-			else
+			elseif (empty($sid))
 			{
 				// Get CAS servers
 				$model = JModel::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));
@@ -290,14 +290,6 @@ class plgSystemCaslogin extends JPlugin
 							$app->redirect($this->getUrl($params) . '/login?service=' . urlencode($uri) . '&gateway=true');
 						}
 					}
-				}
-
-				// Remove server var
-				if ($uri->hasVar('server') || $uri->hasVar('ticket'))
-				{
-					$uri->delVar('ticket');
-					$uri->delVar('server');
-					$app->redirect($uri);
 				}
 			}
 		}
