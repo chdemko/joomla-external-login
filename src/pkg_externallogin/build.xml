@@ -4,7 +4,7 @@
 	<import file="../build.xml"/>
 
 	<target name="build"
-		depends="clean, prepare, com_externallogin, mod_externallogin_site, mod_externallogin_admin, plg_authentication_externallogin, plg_system_externallogin, subbuild, finish"
+		depends="clean, prepare, com_externallogin, mod_externallogin_site, mod_externallogin_admin, plg_authentication_externallogin, plg_system_externallogin, subbuild, finish, update"
 	/>
 
 	<target name="subbuild">
@@ -17,7 +17,6 @@
 			<fileset dir="plg_authentication_externallogin/build" />
 			<fileset dir="plg_system_externallogin/build" />
 		</zip>
-		<copy tofile="${dist}/update-${project-name}.xml" file="update.xml" />
 	</target>
 
 	<target name="prepare">

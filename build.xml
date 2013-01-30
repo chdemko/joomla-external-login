@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
+	<property name="server" value="http://download.chdemko.com/joomla/extensions/external-login" />
 	<property name="version" value="2.0.5" />
 	<property name="dist" value="build" />
 
@@ -8,13 +9,23 @@
 	<target name="readme">
 		<copy file="README.markdown.tpl" tofile="README.markdown" overwrite="true" />
 		<replace file="README.markdown" token="@VERSION@" value="${version}"/>
+		<replace file="README.markdown" token="@SERVER@" value="${server}"/>
 	</target>
 
-	<target name="server">
+	<target name="server" description="Generate Server file">
 		<copy file="server.xml.tpl" tofile="server.xml" overwrite="true" />
 		<replace file="server.xml" token="@VERSION@" value="${version}"/>
+		<replace file="server.xml" token="@SERVER@" value="${server}"/>
 		<copy file="server.xml" tofile="${dist}/server.xml" />
 		<delete file="server.xml" />
+	</target>
+
+	<target name="update" description="Generate Update file">
+		<copy file="update.xml.tpl" tofile="update.xml" overwrite="true" />
+		<replace file="update.xml" token="@VERSION@" value="${version}"/>
+		<replace file="update.xml" token="@SERVER@" value="${server}"/>
+		<copy file="update.xml" tofile="${dist}/update-${project-name}.xml" />
+		<delete file="update.xml" />
 	</target>
 
 	<target name="src">
@@ -37,10 +48,6 @@
 	
 	<target name="zip" description="Generate Zip file">
 		<zip destfile="${dist}/${project-name}-${version}.zip" basedir="." excludes="**/*~,*.tpl,build.xml,update.xml" />
-	</target>
-
-	<target name="update" description="Generate Update file">
-		<copy tofile="${dist}/update-${project-name}.xml" file="update.xml" />
 	</target>
 
 	<target name="clean" description="Clean up">

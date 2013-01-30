@@ -6,7 +6,7 @@
 		element="pkg_externallogin"
 		type="package"
 		version="@VERSION@"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-pkg_externallogin.xml"
+		detailsurl="@SERVER@/update-pkg_externallogin.xml"
 	/>
 
 	<extension
@@ -15,7 +15,7 @@
 		folder="system"
 		type="plugin"
 		version="@VERSION@"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-plg_system_caslogin.xml"
+		detailsurl="@SERVER@/update-plg_system_caslogin.xml"
 	/>
 
 	<extension
@@ -24,7 +24,7 @@
 		folder="user"
 		type="plugin"
 		version="@VERSION@"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-plg_user_cbexternallogin.xml"
+		detailsurl="@SERVER@/update-plg_user_cbexternallogin.xml"
 	/>
 
 	<extension
@@ -33,7 +33,7 @@
 		type="template"
 		client="administrator"
 		version="@VERSION@"
-		detailsurl="https://github.com/downloads/chdemko/joomla-external-login/update-tpl_externallogin.xml"
+		detailsurl="@SERVER@/update-tpl_externallogin.xml"
 	/>
 
 </extensionset>
