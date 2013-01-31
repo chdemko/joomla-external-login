@@ -8,7 +8,7 @@
 	<author>Christophe Demko, Ioannis Barounis, Alexandre Gandois</author>
 	<authorEmail>external-login@chdemko.com</authorEmail>
 	<authorUrl>http://www.chdemko.com</authorUrl>
-	<copyright>Copyright (C) 2008-2012 Christophe Demko, Ioannis Barounis, Alexandre Gandois.</copyright>
+	<copyright>Copyright (C) 2008-2013 Christophe Demko, Ioannis Barounis, Alexandre Gandois.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->
