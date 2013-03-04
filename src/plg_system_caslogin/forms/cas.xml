@@ -2,6 +2,74 @@
 <form>
 	<fields name="params">
 		<fieldset
+			name="logging"
+		>
+			<field
+				type="spacer"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SPACER_LABEL"
+			/>
+			<field
+				name="log_autologin"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_AUTOLOGIN_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_AUTOLOGIN_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_login"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_LOGIN_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_LOGIN_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_logout"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_LOGOUT_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_LOGOUT_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_verify"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_VERIFY_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_VERIFY_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_xml"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_XML_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_XML_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_groups"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_GROUPS_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SERVER_LOG_GROUPS_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+		<fieldset
 			name="params"
 			label="PLG_SYSTEM_CASLOGIN_FIELDSET_EXTERNAL_URL_LABEL"
 			description="PLG_SYSTEM_CASLOGIN_FIELDSET_EXTERNAL_URL_DESC"

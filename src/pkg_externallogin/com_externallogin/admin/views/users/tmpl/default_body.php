@@ -21,7 +21,7 @@ $user = JFactory::getUser();
 $ordering = $this->state->get('list.ordering') == 'a.ordering';
 $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 ?>
-<?php foreach($this->items as $i => $item):;?>
+<?php foreach($this->items as $i => $item): ?>
 	<tr class="row<?php echo $i % 2; ?>">
 		<td class="center">
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -44,7 +44,6 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 			<?php echo $this->escape($item->title); ?>
 		</td>
 		<td class="center">
-
 			<?php echo JHtml::_('ExternalloginHtml.Users.joomla', $item->joomla, $i, isset($item->plugin)); ?>
 		</td>
 		<td class="center">
@@ -54,8 +53,9 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 				<a
 					class="modal jgrid"
 					title="<?php echo addslashes(htmlspecialchars(JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_ENABLE'), ENT_COMPAT, 'UTF-8'));?>"
+					onclick="listItemTask('cb<?php echo $i;?>',''); return true;"
 					href="<?php echo JRoute::_('index.php?option=com_externallogin&view=servers&layout=modal&tmpl=component');?>"
-					rel="{handler: 'iframe', size: {x: 875, y: 550}, onOpen: function() {return listItemTask('cb<?php echo $i;?>','');}, onClose: function() {}}"
+					rel="{handler: 'iframe', size: {x: 875, y: 550}, onClose: function() {}}"
 				>
 					<span class="state unpublish">
 						<span class="text"><?php echo JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_DISABLED');?></span>

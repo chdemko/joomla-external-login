@@ -27,6 +27,6 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_authentication_externallogin.sys.ini</language>
 	</languages>
 
-	<config />
+	<config/>
 
 </extension>

@@ -20,7 +20,7 @@ JHtml::_('behavior.tooltip');
 <fieldset id="filter-bar">
 	<div class="filter-search fltlft">
 		<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-		<input type="text" class="hasTip" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_FILTER_SEARCH_DESC')); ?>" />
+		<input type="text" class="hasTip" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_FILTER_SERVERS_SEARCH_DESC')); ?>" />
 
 		<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 		<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>

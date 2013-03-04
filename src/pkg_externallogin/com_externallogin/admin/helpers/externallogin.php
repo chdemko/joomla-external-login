@@ -37,7 +37,8 @@ abstract class ExternalloginHelper
 	{
 		// Addsubmenu
 		JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), JRoute::_('index.php?option=com_externallogin', false), $submenu == 'servers');
-		//JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), JRoute::_('index.php?option=com_externallogin&view=users', false), $submenu == 'users');
+		JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), JRoute::_('index.php?option=com_externallogin&view=users', false), $submenu == 'users');
+		JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_LOGS'), JRoute::_('index.php?option=com_externallogin&view=logs', false), $submenu == 'logs');
 		JSubMenuHelper::addEntry(JText::_('COM_EXTERNALLOGIN_SUBMENU_ABOUT'), JRoute::_('index.php?option=com_externallogin&view=about', false), $submenu == 'about');
 
 		// set some global property
@@ -59,6 +60,63 @@ abstract class ExternalloginHelper
 	}
 
 	/**
+	 * Get a list of servers
+	 *
+	 * @return  array  array of servers
+	 *
+	 * @since  2.1.0
+	 */
+	public static function getServers($config = array())
+	{
+		$options = array();
+		$model = JModel::getInstance('Servers', 'ExternalloginModel', $config);
+		$model->setState('list.ordering', 'a.ordering');
+		$model->setState('list.direction', 'ASC');
+		$items = $model->getItems();
+		foreach($items as $item)
+		{
+			$options[] = array('value' => $item->id, 'text' => $item->title);
+		}
+		return $options;
+	}
+
+	/**
+	 * Get a list of priorities
+	 *
+	 * @return  array  array of priorities
+	 *
+	 * @since  2.1.0
+	 */
+	public static function getPriorities()
+	{
+		$options = array();
+		for ($i = 1; $i <= 128; $i = $i * 2)
+		{
+			$options[] = array('value' => $i, 'text' => 'COM_EXTERNALLOGIN_GRID_LOG_PRIORITY_' . $i);
+		}
+		return $options;
+	}
+
+	/**
+	 * Get a list of categories
+	 *
+	 * @return  array  array of categories
+	 *
+	 * @since  2.1.0
+	 */
+	public static function getCategories()
+	{
+		$dbo = JFactory::getDbo();
+		$categories = $dbo->setQuery($dbo->getQuery(true)->select('category')->from('#__externallogin_logs')->group('category'))->loadColumn();
+		$options = array();
+		foreach ($categories as $category)
+		{
+			$options[] = array('value' => $category, 'text' => $category);
+		}
+		return $options;
+	}
+
+	/**
 	 * Get a list of groups from a string
 	 *
 	 * @param   string  $path       Group path
@@ -69,7 +127,7 @@ abstract class ExternalloginHelper
 	public static function getGroups($path, $separator = '/')
 	{
 		// Get the dbo
-		$db = JFactory::getDbo();
+		$dbo = JFactory::getDbo();
 
 		// Split the path
 		if (empty($separator))
@@ -86,10 +144,10 @@ abstract class ExternalloginHelper
 		if ($count && !empty($path[$count - 1]))
 		{
 			// prepare query
-			$query = $db->getQuery(true);
+			$query = $dbo->getQuery(true);
 			$query->select('a' . ($count - 1) . '.id as id');
 			$query->from('#__usergroups AS a' . ($count - 1));
-			$query->where('a' . ($count - 1) . '.title = ' . $db->quote($path[$count - 1]));
+			$query->where('a' . ($count - 1) . '.title = ' . $dbo->quote($path[$count - 1]));
 			for ($i = $count - 2; $i >= 0; $i--)
 			{
 				if (empty($path[$i]))
@@ -108,12 +166,12 @@ abstract class ExternalloginHelper
 				else
 				{
 					$query->leftJoin('#__usergroups AS a' . $i . ' ON a' . $i . '.id = a' . ($i + 1) . '.parent_id');
-					$query->where('a' . $i . '.title LIKE ' . $db->quote($path[$i]));
+					$query->where('a' . $i . '.title LIKE ' . $dbo->quote($path[$i]));
 					
 				}
 			}
-			$db->setQuery($query);
-			return $db->loadColumn();
+			$dbo->setQuery($query);
+			return $dbo->loadColumn();
 		}
 		// Path is incorrect
 		else

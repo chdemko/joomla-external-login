@@ -133,12 +133,62 @@ class ExternalloginModelUser extends JModel
 					$query->from('#__externallogin_users');
 					$query->where('user_id = ' . (int)$pk);
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 				else
 				{
 					unset($pks[$i]);
 				}
+			}
+			else
+			{
+				unset($pks[$i]);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Method to enable the external login for a set of user.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $sid    The server id
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.1.0
+	 */
+	public function enableExternallogin(&$pks, $sid)
+	{
+		// Initialise variables.
+		$table = JTable::getInstance('User');
+		$pks = (array) $pks;
+
+		// Attempt to change the state of the records.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				$query = $this->_db->getQuery(true);
+				$query->select('user_id');
+				$query->from('#__externallogin_users');
+				$query->where('user_id = ' . (int)$pk);
+				$this->_db->setQuery($query);
+
+				$query = $this->_db->getQuery(true);
+				$query->set('server_id = ' . (int)$sid);
+				if ($this->_db->loadResult())
+				{
+					$query->update('#__externallogin_users');
+					$query->where('user_id = ' . (int)$pk);
+				}
+				else
+				{
+					$query->insert('#__externallogin_users');
+					$query->set('user_id = ' . (int)$pk);
+				}
+				$this->_db->setQuery($query);
+				$this->_db->execute();
 			}
 			else
 			{

@@ -20,7 +20,7 @@ JHtml::_('behavior.tooltip');
 <fieldset id="filter-bar">
 	<div class="filter-search fltlft">
 		<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-		<input type="text" class="hasTip" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_FILTER_SEARCH_DESC')); ?>" />
+		<input type="text" class="hasTip" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_FILTER_USERS_SEARCH_DESC')); ?>" />
 
 		<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 		<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
@@ -30,9 +30,17 @@ JHtml::_('behavior.tooltip');
 			<option value=""><?php echo JText::_('COM_EXTERNALLOGIN_OPTION_SELECT_PLUGIN');?></option>
 			<?php echo JHtml::_('select.options', ExternalloginHelper::getPlugins(), 'value', 'text', $this->state->get('filter.plugin'), true);?>
 		</select>
-		<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-			<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-			<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+		<select name="filter_server" class="inputbox" onchange="this.form.submit()">
+			<option value=""><?php echo JText::_('COM_EXTERNALLOGIN_OPTION_SELECT_SERVER');?></option>
+			<?php echo JHtml::_('select.options', ExternalloginHelper::getServers(array('ignore_request' => true)), 'value', 'text', $this->state->get('filter.server'), true);?>
+		</select>
+		<select name="filter_joomla" class="inputbox" onchange="this.form.submit()">
+			<option value=""><?php echo JText::_('COM_EXTERNALLOGIN_OPTION_SELECT_JOOMLA');?></option>
+			<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false, 'trash' => false, 'all' => false)), 'value', 'text', $this->state->get('filter.joomla'), true);?>
+		</select>
+		<select name="filter_external" class="inputbox" onchange="this.form.submit()">
+			<option value=""><?php echo JText::_('COM_EXTERNALLOGIN_OPTION_SELECT_EXTERNAL');?></option>
+			<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false, 'trash' => false, 'all' => false)), 'value', 'text', $this->state->get('filter.external'), true);?>
 		</select>
 	</div>
 </fieldset>

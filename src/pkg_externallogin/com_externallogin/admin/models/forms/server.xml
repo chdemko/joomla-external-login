@@ -60,6 +60,17 @@
 			</field>
 
 			<field
+				name="allow_change_password"
+				type="radio"
+				default="0"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_ALLOW_CHANGE_PASSWORD_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_ALLOW_CHANGE_PASSWORD_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
 				name="usergroup"
 				type="usergroup"
 				default=""
@@ -71,4 +82,55 @@
 
 		</fields>
 	</fieldset>
+	<fields name="params">
+		<fieldset
+			name="logging"
+			label="COM_EXTERNALLOGIN_FIELDSET_SERVER_LOGGING_LABEL"
+		>
+			<field
+				type="spacer"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_SPACER_LABEL"
+			/>
+			<field
+				name="log_user_delete"
+				type="radio"
+				default="0"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_USER_DELETE_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_USER_DELETE_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_user_change_password"
+				type="radio"
+				default="0"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_USER_CHANGE_PASSWORD_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_USER_CHANGE_PASSWORD_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_autoregister"
+				type="radio"
+				default="0"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_AUTOREGISTER_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_AUTOREGISTER_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_autoupdate"
+				type="radio"
+				default="0"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_AUTOUPDATE_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_AUTOUPDATE_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
 </form>

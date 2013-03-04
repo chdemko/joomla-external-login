@@ -33,7 +33,7 @@ $fieldSets = $this->form->getFieldsets();
 	<div class="width-50 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_($fieldSets['details']->label); ?></legend>
-			<?php if (isset($fieldSets['details']->description) && trim($desc = JText::_($fieldSets['details']->description))) :?>
+			<?php if (isset($fieldSets['details']->description) && $desc = trim(JText::_($fieldSets['details']->description))) :?>
 				<p class="tip"><?php echo $desc;?></p>
 			<?php endif;?>
 			<ul class="adminformlist">

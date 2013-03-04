@@ -36,7 +36,7 @@ class ExternalloginModelUsers extends JModelList
 	 *
 	 * @since  2.1.0
 	 */
-	protected $filter_fields = array('a.id', 'a.username', 'a.name', 'a.email', 's.title', 's.published', 'e.ordering');
+	protected $filter_fields = array('a.id', 'a.username', 'a.name', 'a.email', 's.title', 'e.ordering');
 
 	/**
 	 * Method to auto-populate the model state.
@@ -59,8 +59,14 @@ class ExternalloginModelUsers extends JModelList
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
+		$external = $this->getUserStateFromRequest($this->context.'.filter.external', 'filter_external', '');
+		$this->setState('filter.external', $external);
+
+		$joomla = $this->getUserStateFromRequest($this->context.'.filter.joomla', 'filter_joomla', '');
+		$this->setState('filter.joomla', $joomla);
+
+		$server = $this->getUserStateFromRequest($this->context.'.filter.server', 'filter_server', '');
+		$this->setState('filter.server', $server);
 
 		$plugin = $this->getUserStateFromRequest($this->context.'.filter.plugin', 'filter_plugin', '');
 		$this->setState('filter.plugin', $plugin);
@@ -111,15 +117,32 @@ class ExternalloginModelUsers extends JModelList
 			$query->where('e.enabled = ' . (int) $enabled);
 		}
 
-		// Filter by published state
-		$published = $this->getState('filter.published');
-		if (is_numeric($published))
+		// Filter by external state
+		$external = $this->getState('filter.external');
+		if (is_numeric($external))
 		{
-			$query->where('s.published = ' . (int) $published);
+			if ($external == 0)
+			{
+				$query->where('s.plugin IS NULL');
+			}
+			else
+			{
+				$query->where('s.plugin IS NOT NULL');
+			}
 		}
-		else if ($published === '')
+
+		// Filter by Joomla! state
+		$joomla = $this->getState('filter.joomla');
+		if (is_numeric($joomla))
 		{
-			$query->where('(s.published >= 0 OR s.published IS NULL)');
+			if ($joomla == 0)
+			{
+				$query->where('a.password = ' . $db->quote(''));
+			}
+			else
+			{
+				$query->where('a.password <> ' . $db->quote(''));
+			}
 		}
 
 		// Filter by search in title.
@@ -132,9 +155,17 @@ class ExternalloginModelUsers extends JModelList
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('a.username LIKE ' . $search);
-				$query->where('a.name LIKE ' . $search);
+				// Escape the search token.
+				$token	= $db->Quote('%'.$db->escape($search).'%');
+
+				// Compile the different search clauses.
+				$searches	= array();
+				$searches[]	= 'a.name LIKE '.$token;
+				$searches[]	= 'a.username LIKE '.$token;
+				$searches[]	= 'a.email LIKE '.$token;
+
+				// Add the clauses to the query.
+				$query->where('('.implode(' OR ', $searches).')');
 			}
 		}
 
@@ -145,12 +176,11 @@ class ExternalloginModelUsers extends JModelList
 			$query->where('s.plugin = ' . $db->quote($plugin));
 		}
 
-		// Filter by servers
-		$servers = $this->getState('filter.servers');
-		JArrayHelper::toInteger($servers);
-		if (!empty($servers))
+		// Filter by server
+		$server = $this->getState('filter.server');
+		if (!empty($server))
 		{
-			$query->where('s.id IN (' . implode(',', $servers) . ')');
+			$query->where('s.id = ' . (int)$server);
 		}
 
 		// Add the list ordering clause.

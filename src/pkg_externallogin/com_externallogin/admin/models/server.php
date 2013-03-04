@@ -133,7 +133,7 @@ class ExternalloginModelServer extends JModelAdmin
 				$query->from('#__users AS u');
 				$query->leftJoin('#__externallogin_users AS e ON e.user_id = u.id');
 				$query->where('e.server_id IN (' . implode(',', $pks) . ')');
-				$this->_db->setQuery($query)->query();
+				$this->_db->setQuery($query)->execute();
 			}
 			return true;
 		}
@@ -186,7 +186,7 @@ class ExternalloginModelServer extends JModelAdmin
 						$query = $db->getQuery(true);
 						$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $sid . ',' . (int) $user->id);
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			} while ($data);

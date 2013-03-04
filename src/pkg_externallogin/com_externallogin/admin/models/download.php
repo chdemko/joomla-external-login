@@ -62,7 +62,6 @@ class ExternalloginModelDownload extends JModel
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
 
 	/**
 	 * Get file name

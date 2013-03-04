@@ -29,8 +29,8 @@ $fieldSets = $this->form->getFieldsets();
 <?php foreach ($fieldSets as $name => $fieldSet):?>
 	<fieldset class="panelform">
 		<legend><?php echo JText::sprintf($fieldSet->label, $this->item->title);?></legend>
-	<?php if (isset($fieldSet->description) && trim($fieldSet->description)):?>
-		<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+	<?php if (isset($fieldSet->description) && $desc = trim(JText::_($fieldSet->description))):?>
+		<p class="tip"><?php echo $desc;?></p>
 	<?php endif;?>
 		<ul class="adminformlist">
 	<?php foreach ($this->form->getFieldset($name) as $field):?>

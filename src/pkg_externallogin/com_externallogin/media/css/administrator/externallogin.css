@@ -14,6 +14,10 @@
 	background-image: url(../../images/administrator/icon-48-servers.png);
 }
 
+.icon-48-logs {
+	background-image: url(../../images/administrator/icon-48-logs.png);
+}
+
 .icon-48-about {
 	background-image: url(../../images/administrator/icon-48-about.png);
 }
@@ -24,6 +28,10 @@
 
 .icon-32-users-download {
 	background-image: url(../../images/administrator/icon-32-users-download.png);
+}
+
+.icon-32-logs-download {
+	background-image: url(../../images/administrator/icon-32-logs-download.png);
 }
 
 .icon-48-users {

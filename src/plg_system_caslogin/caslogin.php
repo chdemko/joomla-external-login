@@ -21,6 +21,8 @@ jimport('joomla.application.component.model');
 JModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
 JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
+JLoader::register('JLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
 /**
  * External Login - CAS plugin.
@@ -62,6 +64,11 @@ class plgSystemCaslogin extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
+		JLog::addLogger(
+			array('logger' => 'externallogin', 'db_table' => '#__externallogin_logs', 'plugin' => 'system-caslogin'),
+			JLog::ALL,
+			array('system-caslogin-logout', 'system-caslogin-login', 'system-caslogin-verify', 'system-caslogin-xml', 'system-caslogin-autologin', 'system-caslogin-groups')
+		);
 	}
 
 	/**
@@ -170,17 +177,28 @@ class plgSystemCaslogin extends JPlugin
 				$server = JTable::getInstance('Server', 'ExternalloginTable');
 				if ($server->load($sid) && $server->plugin == 'system.caslogin')
 				{
+					$params = $server->params;
+					// Log message
+					if ($params->get('log_login', 0))
+					{
+						JLog::add(new ExternalloginLogEntry(
+							'Attempt to login using ticket "' . $ticket . '" on server ' . $sid,
+							JLog::INFO,
+							'system-caslogin-login'
+						));
+					}
+
 					$uri->delVar('ticket');
 
 					// Get the certificate information
-					$certificateFile = $server->params->get('certificate_file', '');
-					$certificatePath = $server->params->get('certificate_path', '');
+					$certificateFile = $params->get('certificate_file', '');
+					$certificatePath = $params->get('certificate_path', '');
 
 					// Verify the service
 					$curl = curl_init();
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-					curl_setopt($curl, CURLOPT_URL, $this->getUrl($server->params) . '/serviceValidate?ticket=' . $ticket . '&service=' . urlencode($uri));
-					curl_setopt($curl, CURLOPT_TIMEOUT, $server->params->get('timeout'));
+					curl_setopt($curl, CURLOPT_URL, $this->getUrl($params) . '/serviceValidate?ticket=' . $ticket . '&service=' . urlencode($uri));
+					curl_setopt($curl, CURLOPT_TIMEOUT, $params->get('timeout'));
 					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $certificateFile || $certificatePath);
 					curl_setopt($curl, CURLOPT_CAINFO, $certificateFile);
 					curl_setopt($curl, CURLOPT_CAPATH, $certificatePath);
@@ -190,59 +208,132 @@ class plgSystemCaslogin extends JPlugin
 					// Result is not empty
 					if (!empty($result))
 					{
-						$dom = new DOMDocument;
-						$dom->loadXML($result);
-						$xpath = new DOMXPath($dom);
-						$success = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess[1]');
-						if ($success && $success->length == 1)
+						// Log message
+						if ($params->get('log_verify', 0))
 						{
-							// Store the xpath
-							$this->xpath = $xpath;
+							JLog::add(new ExternalloginLogEntry(
+								'Successful verification of server ' . $sid,
+								JLog::INFO,
+								'system-caslogin-verify'
+							));
+						}
 
-							// Store the success node
-							$this->success = $success->item(0);
+						// Log message
+						if ($params->get('log_xml', 0))
+						{
+							JLog::add(new ExternalloginLogEntry(
+								'Analyzing XML response on server ' . $sid . "\n" . $result,
+								JLog::INFO,
+								'system-caslogin-xml'
+							));
+						}
 
-							// Store the server
-							$this->server = $server;
-
-							$uri->delVar('server');
-							$return = 'index.php' . $uri->toString(array('query'));
-							if ($return == 'index.php?option=com_login')
+						$dom = new DOMDocument;
+						if ($dom->loadXML($result))
+						{
+							// Log message
+							if ($params->get('log_xml', 0))
 							{
-								$return = 'index.php';
+								JLog::add(new ExternalloginLogEntry(
+									'Successful analysis of XML response on server ' . $sid,
+									JLog::INFO,
+									'system-caslogin-xml'
+								));
 							}
-
-							// Prepare the connection process
-							if ($app->isAdmin())
+							$xpath = new DOMXPath($dom);
+							$success = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess[1]');
+							if ($success && $success->length == 1)
 							{
-								$input->set('option', 'com_login');
-								$input->set('task', 'login');
-								$input->set(JSession::getFormToken(), 1);
-								$input->set('return', base64_encode($return));
+								// Store the xpath
+								$this->xpath = $xpath;
 
-								// Keep compatibility with old plugins
-								JRequest::setVar('option', 'com_login');
-								JRequest::setVar('task', 'login');
-								JRequest::setVar(JSession::getFormToken(), 1);
-								JRequest::setVar('return', base64_encode($return));
+								// Store the success node
+								$this->success = $success->item(0);
+
+								// Store the server
+								$this->server = $server;
+
+								// Log message
+								if ($params->get('log_xml', 0))
+								{
+									JLog::add(new ExternalloginLogEntry(
+										'Successful login on server ' . $sid . ' for CAS user "' . $this->xpath->evaluate('string(cas:user)', $this->success) .'"',
+										JLog::INFO,
+										'system-caslogin-xml'
+									));
+								}
+
+								$uri->delVar('server');
+								$return = 'index.php' . $uri->toString(array('query'));
+								if ($return == 'index.php?option=com_login')
+								{
+									$return = 'index.php';
+								}
+
+								// Prepare the connection process
+								if ($app->isAdmin())
+								{
+									$input->set('option', 'com_login');
+									$input->set('task', 'login');
+									$input->set(JSession::getFormToken(), 1);
+									$input->set('return', base64_encode($return));
+
+									// Keep compatibility with old plugins
+									JRequest::setVar('option', 'com_login');
+									JRequest::setVar('task', 'login');
+									JRequest::setVar(JSession::getFormToken(), 1);
+									JRequest::setVar('return', base64_encode($return));
+								}
+								else
+								{
+									$input->set('option', 'com_users');
+									$input->set('task', 'user.login');
+									$input->post->set(JSession::getFormToken(), 1);
+									$input->post->set('return', base64_encode($return));
+
+									// Keep compatibility with old plugins
+									JRequest::setVar('option', 'com_users');
+									JRequest::setVar('task', 'user.login');
+
+									// TODO JInput is buggy. This must removed
+									JRequest::setVar(JSession::getFormToken(), 1, 'post');
+
+									// TODO JInput is buggy. This must removed
+									JRequest::setVar('return', base64_encode($return), 'post');
+								}
 							}
 							else
 							{
-								$input->set('option', 'com_users');
-								$input->set('task', 'user.login');
-								$input->post->set(JSession::getFormToken(), 1);
-								$input->post->set('return', base64_encode($return));
-
-								// Keep compatibility with old plugins
-								JRequest::setVar('option', 'com_users');
-								JRequest::setVar('task', 'user.login');
-
-								// TODO JInput is buggy. This must removed
-								JRequest::setVar(JSession::getFormToken(), 1, 'post');
-
-								// TODO JInput is buggy. This must removed
-								JRequest::setVar('return', base64_encode($return), 'post');
+								// Log message
+								if ($params->get('log_xml', 0))
+								{
+									JLog::add(new ExternalloginLogEntry(
+										'Unsuccessful login on server ' . $sid,
+										JLog::INFO,
+										'system-caslogin-xml'
+									));
+								}
 							}
+						}
+						else
+						{
+							JLog::add(new ExternalloginLogEntry(
+								'Unsuccessful analysis of XML response on server ' . $sid,
+								JLog::WARNING,
+								'system-caslogin-xml'
+							));
+						}
+					}
+					else
+					{
+						// Log message
+						if ($params->get('log_verify', 0))
+						{
+							JLog::add(new ExternalloginLogEntry(
+								'Unsuccessful verification of server ' . $sid,
+								JLog::WARNING,
+								'system-caslogin-verify'
+							));
 						}
 					}
 				}
@@ -264,6 +355,7 @@ class plgSystemCaslogin extends JPlugin
 				foreach ($servers as $server)
 				{
 					$params = new JRegistry($server->params);
+					$sid = $server->id;
 					if ($params->get('autologin') == 1 && !$session->get('system.caslogin.autologin.' . $server->id))
 					{
 						// Get the certificate information
@@ -285,10 +377,60 @@ class plgSystemCaslogin extends JPlugin
 						// Result is not empty
 						if (!empty($result))
 						{
+							// Log message
+							if ($params->get('log_verify', 0))
+							{
+								JLog::add(new ExternalloginLogEntry(
+									'Successful verification of server ' . $sid,
+									JLog::INFO,
+									'system-caslogin-verify'
+								));
+							}
+
+							// Log message
+							if ($params->get('log_autologin', 0))
+							{
+								JLog::add(new ExternalloginLogEntry(
+									'Trying autologin on server ' . $sid,
+									JLog::INFO,
+									'system-caslogin-autologin'
+								));
+							}
+
 							$uri->setVar('server', $server->id);
 							$session->set('system.caslogin.autologin.' . $server->id, 1);
 							$app->redirect($this->getUrl($params) . '/login?service=' . urlencode($uri) . '&gateway=true');
 						}
+						else
+						{
+							// Log message
+							if ($params->get('log_verify', 0))
+							{
+								JLog::add(new ExternalloginLogEntry(
+									'Unsuccessful verification of server ' . $sid,
+									JLog::WARNING,
+									'system-caslogin-verify'
+								));
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// Load the server
+				$server = JTable::getInstance('Server', 'ExternalloginTable');
+				if ($server->load($sid) && $server->plugin == 'system.caslogin')
+				{
+					$params = $server->params;
+					// Log message
+					if ($params->get('log_autologin', 0))
+					{
+						JLog::add(new ExternalloginLogEntry(
+							'Autologin failed on server ' . $sid,
+							JLog::INFO,
+							'system-caslogin-autologin'
+						));
 					}
 				}
 			}
@@ -328,33 +470,57 @@ class plgSystemCaslogin extends JPlugin
 		if (isset($this->success))
 		{
 			// Prepare response
+			$server = $this->server;
+			$params = $server->params;
+			$sid = $server->id;
 			$response->status = JAuthentication::STATUS_SUCCESS;
-			$response->server = $this->server;
+			$response->server = $server;
 			$response->type = 'system.caslogin';
+			$response->message='';
 
 			// Compute username
-			$response->username = $this->xpath->evaluate($this->server->params->get('username_xpath'), $this->success);
+			$response->username = $this->xpath->evaluate($params->get('username_xpath'), $this->success);
 
 			// Compute email
-			$response->email = $this->xpath->evaluate($this->server->params->get('email_xpath'), $this->success);
+			$response->email = $this->xpath->evaluate($params->get('email_xpath'), $this->success);
 
 			// Compute name
-			$response->fullname = $this->xpath->evaluate($this->server->params->get('name_xpath'), $this->success);
+			$response->fullname = $this->xpath->evaluate($params->get('name_xpath'), $this->success);
 
 			// Compute groups
-			if ($this->server->params->get('group_xpath'))
+			if ($params->get('group_xpath'))
 			{
-				$groups = $this->xpath->query($this->server->params->get('group_xpath'), $this->success);
+				$groups = $this->xpath->query($params->get('group_xpath'), $this->success);
 				if ($groups && $groups->length > 0)
 				{
+					// Log message
+					if ($params->get('log_groups', 0))
+					{
+						JLog::add(new ExternalloginLogEntry(
+							'Successful detection of groups for user "' . $response->username . '" on server ' . $sid,
+							JLog::INFO,
+							'system-caslogin-groups'
+						));
+					}
+
 					$response->groups = array();
 
 					// Loop on each group attribute
 					for ($i = 0; $i < $groups->length; $i++)
 					{
 						$group = (string) $groups->item($i)->nodeValue;
-						if (is_numeric($group) && $this->server->params->get('group_integer', 0))
+						if (is_numeric($group) && $params->get('group_integer', 0))
 						{
+							// Log message
+							if ($params->get('log_groups', 0))
+							{
+								JLog::add(new ExternalloginLogEntry(
+									'Found integer group ' . $group . ' of groups for user "' . $response->username . '" on server ' . $sid,
+									JLog::INFO,
+									'system-caslogin-groups'
+								));
+							}
+
 							// Group is numeric
 							$dbo = JFactory::getDbo();
 							$query = $dbo->getQuery(true);
@@ -362,20 +528,68 @@ class plgSystemCaslogin extends JPlugin
 							$dbo->setQuery($query);
 							if ($dbo->loadResult())
 							{
+								// Log message
+								if ($params->get('log_groups', 0))
+								{
+									JLog::add(new ExternalloginLogEntry(
+										'Added integer group ' . $group . ' of groups for user "' . $response->username . '" on server ' . $sid,
+										JLog::INFO,
+										'system-caslogin-groups'
+									));
+								}
+
 								$response->groups[] = $group;
 							}
 						}
 						else
 						{
+							// Log message
+							if ($params->get('log_groups', 0))
+							{
+								JLog::add(new ExternalloginLogEntry(
+									'Found string group(s) "' . $group . '" for user "' . $response->username . '" on server ' . $sid,
+									JLog::INFO,
+									'system-caslogin-groups'
+								));
+							}
+
 							// Group is not numeric, extract the groups
-							$response->groups = array_merge(
-								$response->groups,
-								(array) ExternalloginHelper::getGroups(
-									$group,
-									$this->server->params->get('group_separator', '')
-								)
-							);											
+							$newgroups = (array) ExternalloginHelper::getGroups($group, $params->get('group_separator', ''));
+							$response->groups = array_merge($response->groups, $newgroups);
+
+							// Log message
+							if ($params->get('log_groups', 0))
+							{
+								if (empty($newgroups))
+								{
+									JLog::add(new ExternalloginLogEntry(
+										'No Joomla! groups found from "' . $group . '" on server ' . $sid,
+										JLog::INFO,
+										'system-caslogin-groups'
+									));
+								}
+								else
+								{
+									JLog::add(new ExternalloginLogEntry(
+										'Added groups (' . implode(',', $newgroups) . ') for user "' . $response->username . '" on server ' . $sid,
+										JLog::INFO,
+										'system-caslogin-groups'
+									));
+								}
+							}
 						}
+					}
+				}
+				else
+				{
+					// Log message
+					if ($params->get('log_groups', 0))
+					{
+						JLog::add(new ExternalloginLogEntry(
+							'Unsuccessful detection of groups for user "' . $response->username . '" on server ' . $sid,
+							JLog::WARNING,
+							'system-caslogin-groups'
+						));
 					}
 				}
 			}
@@ -452,12 +666,23 @@ class plgSystemCaslogin extends JPlugin
 				' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
 				' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
 			);
-			$db->query();
+			$db->execute();
+
+			$params = new JRegistry($server->params);
 
 			// Logout from CAS
-			$params = new JRegistry($server->params);
 			if ($params->get('autologin') && $my->get('id') == $user['id'])
 			{
+				// Log message
+				if ($params->get('log_logout', 0))
+				{
+					JLog::add(new ExternalloginLogEntry(
+						'Logout of user "' . $user['username'] . '" on server ' . $server->id,
+						JLog::INFO,
+						'system-caslogin-logout'
+					));
+				}
+
 				if ($params->get('logouturl'))
 				{
 					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($params->get('logouturl'));

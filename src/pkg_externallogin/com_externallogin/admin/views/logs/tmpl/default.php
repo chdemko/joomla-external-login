@@ -17,14 +17,7 @@ defined('_JEXEC') or die;
 // load tooltip behavior
 JHtml::_('behavior.tooltip');
 ?>
-<script type="text/javascript">
-	function submitbutton(pressbutton) {
-		if (pressbutton) {
-			submitform(pressbutton);
-		}
-	}
-</script>
-<form action="<?php echo JRoute::_('index.php?option=com_externallogin&view=users'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_externallogin&view=logs'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php echo $this->loadTemplate('filter');?>
 	<table class="adminlist">
 		<thead><?php echo $this->loadTemplate('head');?></thead>
@@ -34,7 +27,6 @@ JHtml::_('behavior.tooltip');
 	<div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="server" value="" />
 		<input type="hidden" name="filter_order" value="<?php echo $this->escape($this->state->get('list.ordering'));?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->escape($this->state->get('list.direction'));?>" />
 		<?php echo JHtml::_('form.token'); ?>

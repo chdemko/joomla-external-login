@@ -27,23 +27,6 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_externallogin.sys.ini</language>
 	</languages>
 
-	<config>
-		<fields name="params">
-			<fieldset
-				name="basic"
-			>
-				<field
-					name="allow_change_password"
-					type="radio"
-					default="0"
-					label="PLG_SYSTEM_EXTERNALLOGIN_FIELD_ALLOW_CHANGE_PASSWORD_LABEL"
-					description="PLG_SYSTEM_EXTERNALLOGIN_FIELD_ALLOW_CHANGE_PASSWORD_DESC"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
+	<config/>
 
 </extension>

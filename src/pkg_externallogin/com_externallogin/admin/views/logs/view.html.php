@@ -18,14 +18,14 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Servers View of External Login component
+ * Logs View of External Login component
  * 
  * @package    External Login
  * @subpackage Component
  *             
- * @since      2.0.0
+ * @since      2.1.0
  */
-class ExternalloginViewServers extends JView
+class ExternalloginViewLogs extends JView
 {
 
 	/**
@@ -37,7 +37,7 @@ class ExternalloginViewServers extends JView
 	 *
 	 * @see     Overload JView::display
 	 *
-	 * @since   2.0.0
+	 * @since   2.1.0
 	 */
 	public function display($tpl = null) 
 	{
@@ -69,7 +69,7 @@ class ExternalloginViewServers extends JView
 	/**
 	 * Setting the toolbar
 	 *
-	 * @since   2.0.0
+	 * @since   2.1.0
 	 */
 	protected function addToolbar() 
 	{
@@ -78,31 +78,14 @@ class ExternalloginViewServers extends JView
 		JHtml::_('stylesheet', 'com_externallogin/administrator/externallogin.css', array(), true);
 
 		// Set the toolbar
-		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_SERVERS'), 'servers');
+		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_LOGS'), 'logs');
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_externallogin&amp;view=plugins&amp;tmpl=component', 875, 550, 0, 0, '');
-		JToolBarHelper::editList('server.edit');
+		$bar->appendButton('Confirm', 'COM_EXTERNALLOGIN_MSG_LOGS_DELETE', 'delete', 'JTOOLBAR_DELETE', 'logs.delete', false);
 		JToolBarHelper::divider();
-		JToolBarHelper::publishList('servers.publish');
-		JToolBarHelper::unpublishList('servers.unpublish');
-		JToolBarHelper::divider();
-		JToolBarHelper::checkin('servers.checkin');
-		if ($this->state->get('filter.published') == - 2) 
-		{
-			JToolBarHelper::deleteList('COM_EXTERNALLOGIN_MSG_SERVERS_DELETE', 'servers.delete');
-			JToolBarHelper::divider();
-		}
-		else
-		{
-			JToolBarHelper::archiveList('servers.archive');
-			JToolBarHelper::trash('servers.trash');
-			JToolBarHelper::divider();
-		}
-		JToolBarHelper::custom('server.upload', 'users-upload', 'users-upload', 'COM_EXTERNALLOGIN_TOOLBAR_SERVER_UPLOAD');
-		JToolBarHelper::custom('server.download', 'users-download', 'users-download', 'COM_EXTERNALLOGIN_TOOLBAR_SERVER_DOWNLOAD');
+		$bar->appendButton('Link', 'logs-download', 'COM_EXTERNALLOGIN_TOOLBAR_LOGS_DOWNLOAD', 'index.php?option=com_externallogin&view=logs&format=csv');
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_externallogin');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_SERVERS');
+		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_LOGS');
 	}
 }

@@ -14,6 +14,12 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+jimport('joomla.database.table');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tables');
+
+JLoader::register('JLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
+
 /**
  * External Login - External Login plugin.
  *
@@ -36,6 +42,11 @@ class plgSystemExternallogin extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
+		JLog::addLogger(
+			array('logger' => 'externallogin', 'db_table' => '#__externallogin_logs', 'plugin' => 'system-externallogin'),
+			JLog::ALL,
+			array('system-externallogin-deletion', 'system-externallogin-password')
+		);
 	}
 
 	/**
@@ -85,16 +96,42 @@ class plgSystemExternallogin extends JPlugin
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
-		if (!$success) {
-			return false;
-		}
-
 		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->delete('#__externallogin_users')->where('user_id = ' . (int) $user['id']);
-		$dbo->setQuery($query);
-		$dbo->query();
-		return true;
+		$dbo->setQuery($dbo->getQuery(true)->select('server_id')->from('#__externallogin_users')->where('user_id = ' . (int) $user['id']));
+		$sid = $dbo->loadResult();
+		$server = JTable::getInstance('Server', 'ExternalloginTable');
+		if ($server->load($sid))
+		{
+			if (!$success)
+			{
+				if ($server->params->get('log_user_delete', 0))
+				{
+					JLog::add(new ExternalloginLogEntry(
+						'Unsuccessful deletion of user "' . $user['username'] . '" by user "' . JFactory::getUser()->username . '" on server ' . $sid,
+						JLog::WARNING,
+						'system-externallogin-deletion'
+					));
+				}
+				return false;
+			}
+			else
+			{
+				$dbo = JFactory::getDbo();
+				$query = $dbo->getQuery(true);
+				$query->delete('#__externallogin_users')->where('user_id = ' . (int) $user['id']);
+				$dbo->setQuery($query);
+				$dbo->execute();
+				if ($server->params->get('log_user_delete', 0))
+				{
+					JLog::add(new ExternalloginLogEntry(
+						'Successful deletion of user "' . $user['username'] . '" by user "' . JFactory::getUser()->username . '" on server ' . $sid,
+						JLog::INFO,
+						'system-externallogin-deletion'
+					));
+				}
+				return true;
+			}
+		}
 	}
 
 	/**
@@ -113,20 +150,35 @@ class plgSystemExternallogin extends JPlugin
 	 */
 	public function onUserBeforeSave($old, $isnew, $new)
 	{
-		if ($new['password'] != '' && !$this->params->get('allow_change_password', 0))
+		if ($new['password'] != '')
 		{
 			$dbo = JFactory::getDbo();
-			$query = $dbo->getQuery(true);
-			$query->select('COUNT(*)');
-			$query->from('#__externallogin_users AS e');
-			$query->where('e.user_id = ' . (int) $new['id']);
-			$query->leftJoin('#__users AS u ON u.id = e.user_id');
-			$query->where('u.password = ' . $dbo->quote(''));
-			$dbo->setQuery($query);
-			if ($dbo->loadResult() > 0)
+			$dbo->setQuery($dbo->getQuery(true)->select('server_id')->from('#__externallogin_users')->where('user_id = ' . (int) $new['id']));
+			$sid = $dbo->loadResult();
+			$server = JTable::getInstance('Server', 'ExternalloginTable');
+			if ($server->load($sid) && !$server->params->get('allow_change_password', 0))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_EXTERNALLOGIN_WARNING_PASSWORD_MODIFIED'), 'notice');
-				return false;
+				$dbo = JFactory::getDbo();
+				$query = $dbo->getQuery(true);
+				$query->select('COUNT(*)');
+				$query->from('#__externallogin_users AS e');
+				$query->where('e.user_id = ' . (int) $new['id']);
+				$query->leftJoin('#__users AS u ON u.id = e.user_id');
+				$query->where('u.password = ' . $dbo->quote(''));
+				$dbo->setQuery($query);
+				if ($dbo->loadResult() > 0)
+				{
+					if ($server->params->get('log_user_change_password', 0))
+					{
+						JLog::add(new ExternalloginLogEntry(
+							'Attempt to change password for user "' . $new['username'] . '" on server ' . $sid,
+							JLog::WARNING,
+							'system-externallogin-deletion'
+						));
+					}
+					JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_EXTERNALLOGIN_WARNING_PASSWORD_MODIFIED'), 'notice');
+					return false;
+				}
 			}
 		}
 		return true;

@@ -9,4 +9,6 @@
 
 DROP TABLE IF EXISTS `#__externallogin_servers`;
 DROP TABLE IF EXISTS `#__externallogin_users`;
+DROP TABLE IF EXISTS `#__externallogin_logs`;
+ALTER TABLE `#__users` DROP INDEX `idx_externallogin`;
 

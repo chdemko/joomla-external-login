@@ -78,7 +78,7 @@ class plgUserCbexternallogin extends JPlugin
 					$query->values((int) $user['id'] . ',' . (int) $user['id'] . ', 0, 0');
 				}
 				$dbo->setQuery($query);
-				$dbo->query();
+				$dbo->execute();
 			}
 		}
 		return true;
