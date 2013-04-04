@@ -62,6 +62,10 @@ class ExternalloginTableServer extends JTable
 			{
 				$this->params = new JRegistry($this->params);
 			}
+			else
+			{
+				$this->params = new JRegistry;
+			}
 			return true;
 		}
 		else
