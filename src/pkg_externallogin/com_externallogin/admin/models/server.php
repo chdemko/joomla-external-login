@@ -103,11 +103,11 @@ class ExternalloginModelServer extends JModelAdmin
 		$data = JFactory::getApplication()->getUserState('com_externallogin.edit.server.data', array());
 		if (empty($data)) 
 		{
-			$data = (array) $this->getItem();
+			$data = $this->getItem();
 		}
-		if (empty($data['plugin']))
+		if (empty($data->plugin))
 		{
-			$data['plugin'] = $this->getState($this->getName() . '.plugin');
+			$data->plugin = $this->getState($this->getName() . '.plugin');
 		}
 		return $data;
 	}
