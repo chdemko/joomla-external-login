@@ -23,14 +23,8 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_externallogin'))
 // require helpers file
 require_once dirname(__FILE__) . '/helpers.php';
 
-// Set the submenu
-ExternalloginHelper::addSubmenu(JFactory::getApplication()->input->get('view', 'servers'));
-
-// import joomla controller library
-jimport('joomla.application.component.controller');
-
 // Get an instance of the controller prefixed by Externallogin
-$controller = JController::getInstance('Externallogin');
+$controller = JControllerLegacy::getInstance('Externallogin');
 
 // Perform the Request task
 $controller->execute(JFactory::getApplication()->input->get('task'));

@@ -190,11 +190,11 @@ class ExternalloginModelUsers extends JModelList
 		switch ($orderCol)
 		{
 			case 'e.ordering':
-				$query->order($db->getEscaped('e.ordering ' . $orderDirn));
-				$query->order($db->getEscaped('a.username ASC'));
+				$query->order($db->escape('e.ordering ' . $orderDirn));
+				$query->order($db->escape('a.username ASC'));
 			break;
 			default:
-				$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+				$query->order($db->escape($orderCol.' '.$orderDirn));
 			break;
 		}
 

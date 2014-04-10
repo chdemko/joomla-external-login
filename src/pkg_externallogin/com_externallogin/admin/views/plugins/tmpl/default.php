@@ -17,5 +17,7 @@ defined('_JEXEC') or die;
 $html = JHtml::_('icons.buttons', $this->items);
 ?>
 <?php if (!empty($html)): ?>
-	<div class="cpanel"><?php echo $html;?></div>
-<?php endif;?>
+	<div class="cpanel"><?php echo $html; ?></div>
+<?php else : ?>
+    <div class="cpanel"><?php echo JText::_('COM_EXTERNALLOGIN_NO_PLUGINS'); ?></div>
+<?php endif; ?>

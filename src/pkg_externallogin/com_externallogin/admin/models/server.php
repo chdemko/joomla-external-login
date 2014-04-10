@@ -46,9 +46,9 @@ class ExternalloginModelServer extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type    The table type to instantiate
-	 * @param   string  A prefix for the table class name. Optional.
-	 * @param   array   Configuration array for model. Optional.
+	 * @param   string  $type   The table type to instantiate
+	 * @param   string  $prefix A prefix for the table class name. Optional.
+	 * @param   array   $config Configuration array for model. Optional.
 	 *
 	 * @return	JTable  A database object
 	 *
@@ -56,11 +56,11 @@ class ExternalloginModelServer extends JModelAdmin
 	 *
 	 * @since	2.0.0
 	 */
-	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array()) 
+	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the record form.
 	 *
@@ -71,9 +71,9 @@ class ExternalloginModelServer extends JModelAdmin
 	 *
 	 * @see    JModelForm::getForm
 	 *
-	 * @since  2.0.0 
+	 * @since  2.0.0
 	 */
-	public function getForm($data = array(), $loadData = true) 
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$plugin = isset($data['plugin']) ? $data['plugin'] : $this->getState($this->getName() . '.plugin');
@@ -81,15 +81,15 @@ class ExternalloginModelServer extends JModelAdmin
 		{
 			$item = $this->getItem();
 			$plugin = $item->plugin;
-		}		
+		}
 		$form = $this->loadForm('com_externallogin.server.' . $plugin, 'server', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) 
+		if (empty($form))
 		{
 			return false;
 		}
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
@@ -97,18 +97,22 @@ class ExternalloginModelServer extends JModelAdmin
 	 *
 	 * @since  2.0.0
 	 */
-	protected function loadFormData() 
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_externallogin.edit.server.data', array());
-		if (empty($data)) 
+		if (empty($data))
 		{
-			$data = (array) $this->getItem();
+			$data = $this->getItem();
 		}
-		if (empty($data['plugin']))
+		if (is_object($data) && empty($data->plugin))
 		{
-			$data['plugin'] = $this->getState($this->getName() . '.plugin');
+			$data->plugin = $this->getState($this->getName() . '.plugin');
 		}
+        elseif (is_array($data) && empty($data['plugin']))
+        {
+            $data['plugin'] = $this->getState($this->getName() . '.plugin');
+        }
 		return $data;
 	}
 
@@ -130,9 +134,8 @@ class ExternalloginModelServer extends JModelAdmin
 				JArrayHelper::toInteger($pks);
 				$query = $this->_db->getQuery(true);
 				$query->delete();
-				$query->from('#__users AS u');
-				$query->leftJoin('#__externallogin_users AS e ON e.user_id = u.id');
-				$query->where('e.server_id IN (' . implode(',', $pks) . ')');
+				$query->from('#__externallogin_users');
+				$query->where('server_id IN (' . implode(',', $pks) . ')');
 				$this->_db->setQuery($query)->execute();
 			}
 			return true;
@@ -196,7 +199,7 @@ class ExternalloginModelServer extends JModelAdmin
 		else
 		{
 			$this->setError('COM_EXTERNALLOGIN_ERROR_BAD_FILE');
-			return false;		
+			return false;
 		}
 	}
 }

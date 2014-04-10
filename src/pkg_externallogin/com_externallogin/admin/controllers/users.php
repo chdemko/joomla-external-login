@@ -25,7 +25,7 @@ jimport('joomla.application.component.controller');
  *
  * @since  2.1.0
  */
-class ExternalloginControllerUsers extends JController
+class ExternalloginControllerUsers extends JControllerLegacy
 {
 	/**
 	 * Proxy for getModel.

@@ -25,7 +25,7 @@ jimport('joomla.application.component.model');
  *
  * @since	2.1.0
  */
-class ExternalloginModelUser extends JModel
+class ExternalloginModelUser extends JModelLegacy
 {
 	/**
 	 * Method to enable the Joomla login for a set of user.

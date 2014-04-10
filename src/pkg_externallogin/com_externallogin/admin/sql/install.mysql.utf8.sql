@@ -40,4 +40,3 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_logs` (
 ) DEFAULT CHARSET=utf8;
 
 ALTER TABLE `#__users` ADD INDEX `idx_externallogin` (`password`);
-

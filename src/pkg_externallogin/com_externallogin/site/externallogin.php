@@ -14,14 +14,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// require helpers file
-require_once dirname(__FILE__) . '/helpers.php';
-
-// import joomla controller library
-jimport('joomla.application.component.controller');
-
 // Get an instance of the controller prefixed by Externallogin
-$controller = JController::getInstance('Externallogin');
+$controller = JControllerLegacy::getInstance('Externallogin');
 
 // Perform the Request task
 $controller->execute(JFactory::getApplication()->input->get('task'));

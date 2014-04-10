@@ -14,7 +14,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-JModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
 abstract class modExternalloginsiteHelper
 {
@@ -24,7 +24,7 @@ abstract class modExternalloginsiteHelper
 		$uri = JFactory::getURI();
 
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));
 		$model->setState('filter.published', 1);
 		$model->setState('filter.enabled', 1);
 		$model->setState('filter.servers', $params->get('server'));

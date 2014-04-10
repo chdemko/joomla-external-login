@@ -129,7 +129,7 @@ class ExternalloginModelServers extends JModelList
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('a.title LIKE ' . $search);
 			}
 		}
@@ -155,11 +155,11 @@ class ExternalloginModelServers extends JModelList
 		switch ($orderCol)
 		{
 			case 'e.ordering':
-				$query->order($db->getEscaped('e.ordering ' . $orderDirn));
-				$query->order($db->getEscaped('a.ordering ASC'));
+				$query->order($db->escape('e.ordering ' . $orderDirn));
+				$query->order($db->escape('a.ordering ASC'));
 			break;
 			default:
-				$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+				$query->order($db->escape($orderCol.' '.$orderDirn));
 			break;
 		}
 

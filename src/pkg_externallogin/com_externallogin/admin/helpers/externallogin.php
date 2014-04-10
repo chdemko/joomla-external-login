@@ -69,7 +69,7 @@ abstract class ExternalloginHelper
 	public static function getServers($config = array())
 	{
 		$options = array();
-		$model = JModel::getInstance('Servers', 'ExternalloginModel', $config);
+		$model = JModelLegacy::getInstance('Servers', 'ExternalloginModel', $config);
 		$model->setState('list.ordering', 'a.ordering');
 		$model->setState('list.direction', 'ASC');
 		$items = $model->getItems();

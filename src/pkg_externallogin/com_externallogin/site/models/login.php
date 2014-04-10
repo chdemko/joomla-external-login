@@ -83,7 +83,7 @@ class ExternalloginModelLogin extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		return $query;
 	}

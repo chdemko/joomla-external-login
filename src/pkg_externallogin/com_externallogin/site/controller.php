@@ -14,9 +14,6 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla controller library
-jimport('joomla.application.component.controller');
-
 /**
  * General Controller of External Login component
  *
@@ -25,7 +22,7 @@ jimport('joomla.application.component.controller');
  *
  * @since  2.0.0
  */
-class ExternalloginController extends JController
+class ExternalloginController extends JControllerLegacy
 {
 	/**
 	 * @var  string  The default view for the display method.
@@ -36,4 +33,3 @@ class ExternalloginController extends JController
 	 */
 	protected $default_view = 'login';
 }
-
