@@ -18,10 +18,10 @@ jimport('joomla.database.table');
 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tables');
 
 jimport('joomla.application.component.model');
-JModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
 JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
-JLoader::register('JLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
 /**
@@ -341,7 +341,7 @@ class plgSystemCaslogin extends JPlugin
 			elseif (empty($sid))
 			{
 				// Get CAS servers
-				$model = JModel::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));
+				$model = JModelLegacy::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));
 				$model->setState('filter.published', 1);
 				$model->setState('filter.plugin', 'system.caslogin');
 				$model->setState('list.start', 0);
@@ -671,7 +671,7 @@ class plgSystemCaslogin extends JPlugin
 			$params = new JRegistry($server->params);
 
 			// Logout from CAS
-			if ($params->get('autologin') && $my->get('id') == $user['id'])
+			if ($params->get('autologin') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
 			{
 				// Log message
 				if ($params->get('log_logout', 0))
@@ -687,7 +687,11 @@ class plgSystemCaslogin extends JPlugin
 				{
 					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($params->get('logouturl'));
 				}
-				else
+				elseif ($app->input->get('return'))
+                {
+                    $redirect = $this->getUrl($params) . '/logout?url=' . urlencode($app->input->getString('return'));
+                }
+                else
 				{
 					$redirect = $this->getUrl($params) . '/logout';
 				}

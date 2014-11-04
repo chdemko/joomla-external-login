@@ -14,7 +14,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-JLoader::register('JLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
 /**
@@ -50,9 +50,9 @@ class plgAuthenticationExternallogin extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	array	Array holding the user credentials
-	 * @param	array	Array of extra options
-	 * @param	object	Authentication response object
+	 * @param	array	$credentials    Array holding the user credentials
+	 * @param	array	$options        Array of extra options
+	 * @param	object	$response       Authentication response object
 	 * @return	boolean
 	 * @since 1.5
 	 */

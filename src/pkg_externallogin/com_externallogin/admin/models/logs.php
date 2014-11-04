@@ -100,7 +100,7 @@ class ExternalloginModelLogs extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+			$search = $db->Quote('%'.$db->escape($search, true).'%');
 			$query->where('a.message LIKE ' . $search);
 		}
 
@@ -137,7 +137,7 @@ class ExternalloginModelLogs extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		return $query;
 	}
@@ -198,7 +198,7 @@ class ExternalloginModelLogs extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+			$search = $db->Quote('%'.$db->escape($search, true).'%');
 			$query->where('message LIKE ' . $search);
 		}
 

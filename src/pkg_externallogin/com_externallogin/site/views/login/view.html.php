@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 
 // import Joomla view library
 jimport('joomla.application.component.view');
+jimport('joomla.application.component.helper');
 
 /**
  * Login View of External Login component
@@ -25,7 +26,7 @@ jimport('joomla.application.component.view');
  *
  * @since  2.0.0
  */
-class ExternalloginViewLogin extends JView
+class ExternalloginViewLogin extends JViewLegacy
 {
 	/**
 	 * Execute and display a layout script.

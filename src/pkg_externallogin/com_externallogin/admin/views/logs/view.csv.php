@@ -25,7 +25,7 @@ jimport('joomla.application.component.view');
  *
  * @since  2.1.0
  */
-class ExternalloginViewLogs extends JView
+class ExternalloginViewLogs extends JViewLegacy
 {
 	/**
 	 * Execute and display a layout script.

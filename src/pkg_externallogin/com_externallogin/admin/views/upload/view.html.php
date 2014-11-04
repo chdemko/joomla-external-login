@@ -25,7 +25,7 @@ jimport('joomla.application.component.view');
  *
  * @since  2.0.0
  */
-class ExternalloginViewUpload extends JView
+class ExternalloginViewUpload extends JViewLegacy
 {
 	/**
 	 * Execute and display a layout script.

@@ -25,7 +25,7 @@ jimport('joomla.application.component.model');
  *
  * @since  2.0.0
  */
-class ExternalloginModelPlugins extends JModel
+class ExternalloginModelPlugins extends JModelLegacy
 {
 	/**
 	 * Get plugins

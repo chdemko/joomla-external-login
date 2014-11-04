@@ -25,7 +25,7 @@ jimport('joomla.application.component.view');
  *
  * @since  2.0.0
  */
-class ExternalloginViewSuccess extends JView
+class ExternalloginViewSuccess extends JViewLegacy
 {
 }
 

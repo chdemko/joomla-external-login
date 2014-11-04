@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.1.0
  */
-class JLoggerExternallogin extends JLoggerDatabase
+class JLogLoggerExternallogin extends JLogLoggerDatabase
 {
 	/**
 	 * Method to add an entry to the log.
@@ -38,7 +38,7 @@ class JLoggerExternallogin extends JLoggerDatabase
 		if ($entry instanceof ExternalloginLogEntry)
 		{
 			// Connect to the database if not connected.
-			if (empty($this->dbo))
+			if (empty($this->db))
 			{
 				$this->connect();
 			}
@@ -46,7 +46,7 @@ class JLoggerExternallogin extends JLoggerDatabase
 			// Convert the date.
 			$entry->date = $entry->date->format('U.u');
 
-			$this->dbo->insertObject($this->table, $entry);
+			$this->db->insertObject($this->table, $entry);
 		}
 	}
 }

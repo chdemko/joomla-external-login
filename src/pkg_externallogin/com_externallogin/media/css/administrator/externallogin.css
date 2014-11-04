@@ -54,3 +54,7 @@
 	background-image: url(../../images/administrator/icon-32-users-enable-externallogin.png);
 }
 
+.filter-modal-box {
+	padding: 5px 0;
+	overflow: hidden;
+}

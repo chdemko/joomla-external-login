@@ -14,8 +14,13 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+echo '<div id="j-sidebar-container" class="span2">' . $this->sidebar . '</div>';
+
 echo JText::sprintf(
 	'COM_EXTERNALLOGIN_ABOUT',
 	'http://www.univ-montp2.fr',
 	JHtml::_('image', 'com_externallogin/administrator/logo_um2.png', 'logo_um2', null, true)
 );
+?>
+<br>
+<h2 style="text-align: center;">...and upgraded to Joomla! 3.x by <a href="http://www.ninjaforge.com/" target="_blank">Ninja Forge</a> and <a href="http://www.pdxfixit.com/" target="_blank">PDXfixIT</a>.</h2>

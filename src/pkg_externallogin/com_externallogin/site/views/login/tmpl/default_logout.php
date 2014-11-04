@@ -15,7 +15,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="logout<?php echo htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');?>">
+<div class="logout<?php echo htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<h1>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>

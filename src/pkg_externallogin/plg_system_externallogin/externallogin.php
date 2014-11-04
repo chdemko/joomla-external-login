@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tables');
 
-JLoader::register('JLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
 /**
@@ -144,7 +144,7 @@ class plgSystemExternallogin extends JPlugin
 	 * @param	boolean		$success	True if user was succesfully stored in the database.
 	 * @param	string		$msg		Message.
 	 *
-	 * @return	void
+	 * @return	boolean
 	 *
 	 * @since	2.0.0
 	 */
