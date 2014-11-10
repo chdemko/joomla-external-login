@@ -3,7 +3,7 @@
 /**
  * @package     External Login
  * @subpackage  CAS Plugin
- * @copyright   Copyright (C) 2008-2013 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @author      Christophe Demko
  * @author      Ioannis Barounis
  * @author      Alexandre Gandois
@@ -241,6 +241,7 @@ class plgSystemCaslogin extends JPlugin
 								));
 							}
 							$xpath = new DOMXPath($dom);
+							$xpath->registerNamespace('cas', 'http://www.yale.edu/tp/cas');
 							$success = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess[1]');
 							if ($success && $success->length == 1)
 							{
@@ -609,12 +610,13 @@ class plgSystemCaslogin extends JPlugin
 	protected function getUrl($params)
 	{
 		// Get the parameters
+		$ssl = $params->get('ssl', 1);
 		$url = $params->get('url');
 		$dir = $params->get('dir');
 		$port = (int) $params->get('port');
 
 		// Return the server URL
-		return 'https://' . $url . ($port && $port != 443 ? (':' . $port) : '') . ($dir ? ('/' . $dir) : '');
+		return 'http' . ($ssl == 1 ? 's' : '') . '://' . $url . ($port && $port != 443 ? (':' . $port) : '') . ($dir ? ('/' . $dir) : '');
 	}
 
 	/**
@@ -671,7 +673,7 @@ class plgSystemCaslogin extends JPlugin
 			$params = new JRegistry($server->params);
 
 			// Logout from CAS
-			if ($params->get('autologin') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
+			if ($params->get('autologout') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
 			{
 				// Log message
 				if ($params->get('log_logout', 0))

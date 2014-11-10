@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
 	<property name="server" value="http://download.chdemko.com/joomla/extensions/external-login" />
-	<property name="version" value="2.1.1" />
+	<property name="version" value="3.0.0-beta1" />
 	<property name="dist" value="build" />
 
 	<target name="build" depends="clean, src, docs, readme, server "/>
@@ -13,18 +13,18 @@
 	</target>
 
 	<target name="server" description="Generate Server file">
-		<copy file="server.xml.tpl" tofile="server.xml" overwrite="true" />
-		<replace file="server.xml" token="@VERSION@" value="${version}"/>
-		<replace file="server.xml" token="@SERVER@" value="${server}"/>
-		<copy file="server.xml" tofile="${dist}/server.xml" />
-		<delete file="server.xml" />
+		<copy file="server.xml.tpl" tofile="server-3.xml" overwrite="true" />
+		<replace file="server-3.xml" token="@VERSION@" value="${version}"/>
+		<replace file="server-3.xml" token="@SERVER@" value="${server}"/>
+		<copy file="server-3.xml" tofile="${dist}/server-3.xml" />
+		<delete file="server-3.xml" />
 	</target>
 
 	<target name="update" description="Generate Update file">
 		<copy file="update.xml.tpl" tofile="update.xml" overwrite="true" />
 		<replace file="update.xml" token="@VERSION@" value="${version}"/>
 		<replace file="update.xml" token="@SERVER@" value="${server}"/>
-		<copy file="update.xml" tofile="${dist}/update-${project-name}.xml" />
+		<copy file="update.xml" tofile="${dist}/update-${project-name}-3.xml" />
 		<delete file="update.xml" />
 	</target>
 

@@ -1,9 +1,4 @@
-.idea
-*.zip
-src/plg_system_caslogin/caslogin.xml
-src/pkg_externallogin/pkg_externallogin.xml
-src/pkg_externallogin/plg_system_externallogin/externallogin.xml
-src/pkg_externallogin/plg_authentication_externallogin/externallogin.xml
-src/pkg_externallogin/mod_externallogin_site/mod_externallogin_site.xml
-src/pkg_externallogin/mod_externallogin_admin/mod_externallogin_admin.xml
-src/pkg_externallogin/com_externallogin/externallogin.xml
+build
+*~
+.gitignore
+

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="user" method="upgrade">
+<extension version="3" type="plugin" group="user" method="upgrade">
 
 	<name>PLG_USER_CBEXTERNALLOGIN</name>
 
@@ -8,7 +8,7 @@
 	<author>Christophe Demko</author>
 	<authorEmail>external-login@chdemko.com</authorEmail>
 	<authorUrl>http://www.chdemko.com</authorUrl>
-	<copyright>Copyright (C) 2008-2013 Christophe Demko</copyright>
+	<copyright>Copyright (C) 2008-2014 Christophe Demko</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->
@@ -32,7 +32,7 @@
 	<!-- UPDATESERVER DEFINITION -->
 	<updateservers>
 		<!-- Note: No spaces or linebreaks allowed between the server tags -->
-		<server type="collection" priority="1" name="External Login Update Site">http://download.chdemko.com/joomla/extensions/external-login/server.xml</server>
+		<server type="collection" priority="1" name="External Login Update Site">http://download.chdemko.com/joomla/extensions/external-login/server-3.xml</server>
 	</updateservers>
 
 </extension>

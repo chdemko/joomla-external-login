@@ -75,6 +75,17 @@
 			description="PLG_SYSTEM_CASLOGIN_FIELDSET_EXTERNAL_URL_DESC"
 		>
 			<field
+				name="ssl"
+				type="radio"
+				default="1"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_SSL_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_SSL_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
 				name="url"
 				type="text"
 				size="30"
@@ -182,8 +193,19 @@
 				name="autologin"
 				type="radio"
 				default="0"
-				label="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_DESC"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_LOGIN_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_LOGIN_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="autologout"
+				type="radio"
+				default="0"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_LOGOUT_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_AUTOMATIC_LOGOUT_DESC"
 			>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

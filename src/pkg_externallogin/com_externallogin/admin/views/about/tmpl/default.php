@@ -3,7 +3,7 @@
 /**
  * @package     External Login
  * @subpackage  Component
- * @copyright   Copyright (C) 2008-2013 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @author      Christophe Demko
  * @author      Ioannis Barounis
  * @author      Alexandre Gandois
@@ -23,4 +23,4 @@ echo JText::sprintf(
 );
 ?>
 <br>
-<h2 style="text-align: center;">...and upgraded to Joomla! 3.x by <a href="http://www.ninjaforge.com/" target="_blank">Ninja Forge</a> and <a href="http://www.pdxfixit.com/" target="_blank">PDXfixIT</a>.</h2>
+<h2 style="text-align: center;">...and upgraded to Joomla! 3.x by <a href="http://www.ninjaforge.com/" target="_blank">Ninja Forge</a> and <a href="http://www.pdxfixit.com/" target="_blank">PDXfixIT</a> with the help and the final validation of Christophe Demko.</h2>

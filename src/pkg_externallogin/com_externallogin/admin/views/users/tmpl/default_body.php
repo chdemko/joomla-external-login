@@ -3,7 +3,7 @@
 /**
  * @package     External Login
  * @subpackage  Component
- * @copyright   Copyright (C) 2008-2013 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @author      Christophe Demko
  * @author      Ioannis Barounis
  * @author      Alexandre Gandois
@@ -53,7 +53,8 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
                 <button
                     class="modal jgrid btn btn-micro"
                     title="<?php echo addslashes(htmlspecialchars(JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_ENABLE'), ENT_COMPAT, 'UTF-8')); ?>"
-                    onclick="<?php echo JRoute::_('index.php?option=com_externallogin&view=servers&layout=modal&tmpl=component'); ?>"
+                    onclick="listItemTask('cb<?php echo $i;?>',''); return true;"
+					href="<?php echo JRoute::_('index.php?option=com_externallogin&view=servers&layout=modal&tmpl=component');?>"
                     data-toggle="modal"
                     data-target="#modal-enable"
                     >

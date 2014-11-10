@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="2.5" method="upgrade">
+<extension type="component" version="3" method="upgrade">
 
 	<name>COM_EXTERNALLOGIN</name>
 
@@ -8,7 +8,7 @@
 	<author>Christophe Demko, Ioannis Barounis, Alexandre Gandois</author>
 	<authorEmail>externallogin@chdemko.com</authorEmail>
 	<authorUrl>http://www.chdemko.com</authorUrl>
-	<copyright>Copyright (C) 2008-2013 Christophe Demko, Ioannis Barounis, Alexandre Gandois.</copyright>
+	<copyright>Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->

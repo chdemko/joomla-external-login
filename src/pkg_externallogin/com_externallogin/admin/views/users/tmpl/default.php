@@ -3,7 +3,7 @@
 /**
  * @package     External Login
  * @subpackage  Component
- * @copyright   Copyright (C) 2008-2013 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @author      Christophe Demko
  * @author      Ioannis Barounis
  * @author      Alexandre Gandois
@@ -65,7 +65,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
             <input type="hidden" name="server" value="" />
-            <input type="hidden" name="cid" value="<?php echo JFactory::getUser()->id; ?>" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 			<?php echo JHtml::_('form.token'); ?>

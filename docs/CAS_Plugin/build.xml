@@ -11,9 +11,9 @@
 		<replace file="en-GB/Article_Info.xml" token="@VERSION@" value="${version}" />
 		 <exec executable="publican">
 			<arg value="build" />
-			<arg value="--lang" />
+			<arg value="--langs" />
 			<arg value="en-GB" />
-			<arg value="--format" />
+			<arg value="--formats" />
 			<arg value="pdf" />
 		</exec>
 		<delete file="en-GB/Article_Info.xml" />
