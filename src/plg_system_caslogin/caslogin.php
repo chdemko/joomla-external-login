@@ -610,12 +610,13 @@ class plgSystemCaslogin extends JPlugin
 	protected function getUrl($params)
 	{
 		// Get the parameters
+		$ssl = $params->get('ssl', 1);
 		$url = $params->get('url');
 		$dir = $params->get('dir');
 		$port = (int) $params->get('port');
 
 		// Return the server URL
-		return 'https://' . $url . ($port && $port != 443 ? (':' . $port) : '') . ($dir ? ('/' . $dir) : '');
+		return 'http' . ($ssl == 1 ? 's' : '') . '://' . $url . ($port && $port != 443 ? (':' . $port) : '') . ($dir ? ('/' . $dir) : '');
 	}
 
 	/**
