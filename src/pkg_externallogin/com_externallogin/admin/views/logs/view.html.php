@@ -84,6 +84,8 @@ class ExternalloginViewLogs extends JViewLegacy
 		$bar->appendButton('Confirm', 'COM_EXTERNALLOGIN_MSG_LOGS_DELETE', 'delete', 'JTOOLBAR_DELETE', 'logs.delete', false);
 		$bar->appendButton('Link', 'box-add', 'COM_EXTERNALLOGIN_TOOLBAR_LOGS_DOWNLOAD', 'index.php?option=com_externallogin&view=logs&format=csv');
 		JToolBarHelper::preferences('com_externallogin');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_LOGS');
 		
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), 'index.php?option=com_externallogin', false); 
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), 'index.php?option=com_externallogin&view=users', false); 

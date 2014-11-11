@@ -96,7 +96,9 @@ class ExternalloginViewServers extends JViewLegacy
 			JToolBarHelper::trash('servers.trash');
 		}
 		JToolBarHelper::preferences('com_externallogin');
-		
+		JToolBarHelper::divider();
+		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_SERVERS');
+
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), 'index.php?option=com_externallogin', true);
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), 'index.php?option=com_externallogin&view=users', false); 
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_LOGS'), 'index.php?option=com_externallogin&view=logs', false); 
