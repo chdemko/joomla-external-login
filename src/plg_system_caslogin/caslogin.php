@@ -241,6 +241,7 @@ class plgSystemCaslogin extends JPlugin
 								));
 							}
 							$xpath = new DOMXPath($dom);
+							$xpath->registerNamespace('cas', 'http://www.yale.edu/tp/cas');
 							$success = $xpath->query('/cas:serviceResponse/cas:authenticationSuccess[1]');
 							if ($success && $success->length == 1)
 							{
