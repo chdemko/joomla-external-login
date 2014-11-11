@@ -23,5 +23,5 @@ Requirements
 
 * Joomla! 3.x
 
-You can find the version for Joomla! 2.5 [here](https://github.com/chdemko/joomla-external-login/tree/2.1.1).
+You can find the version for Joomla! 2.5 [here](https://github.com/chdemko/joomla-external-login/tree/2.x).
 
