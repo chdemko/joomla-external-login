@@ -673,7 +673,7 @@ class plgSystemCaslogin extends JPlugin
 			$params = new JRegistry($server->params);
 
 			// Logout from CAS
-			if ($params->get('autologin') && $my->get('id') == $user['id'])
+			if ($params->get('autologout', $params->get('autologin')) && $my->get('id') == $user['id']) // && $app->getClientId() == 0
 			{
 				// Log message
 				if ($params->get('log_logout', 0))
