@@ -265,7 +265,28 @@ class plgSystemCaslogin extends JPlugin
 								}
 
 								$uri->delVar('server');
-								$return = 'index.php' . $uri->toString(array('query'));
+
+								// If the return url is for an Itemid, we look it up in the menu
+								// in case it is a redirect to an external source
+								$query = $uri->getQuery(true);
+
+								if (!empty($query) && sizeof($query) === 1 && array_key_exists('Itemid', $query))
+								{
+									$menu = $app->getMenu();
+									$menuEntry = $menu->getItem($query['Itemid']);
+
+									if (!empty($menuEntry))
+									{
+										$return = $menuEntry->link;
+									}
+								}
+
+								if (empty($return))
+								{
+									// Original way of determining the return url
+									$return = 'index.php' . $uri->toString(array('query'));
+								}
+
 								if ($return == 'index.php?option=com_login')
 								{
 									$return = 'index.php';
@@ -301,6 +322,10 @@ class plgSystemCaslogin extends JPlugin
 
 									// TODO JInput is buggy. This must removed
 									JRequest::setVar('return', base64_encode($return), 'post');
+
+									// Make sure the redirect to user.login doesn't authenticate
+									// according to the the return url
+									JRequest::setVar('Itemid');
 								}
 							}
 							else

@@ -83,11 +83,21 @@ class ExternalloginModelServer extends JModelItem
 
 		// Compute the url
 		$app = JFactory::getApplication();
-		$url = $app->input->server->getString('HTTP_REFERER');
-		if (empty($url) || !JURI::isInternal($url))
+		$baseUrl = JURI::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$redirect = $app->getParams('com_externallogin')->get('redirect');
+
+		if (!empty($redirect))
 		{
-			$redirect = JFactory::getApplication()->getParams('com_externallogin')->get('redirect');
-			$url = JURI::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $redirect, true);
+			$url = $baseUrl . JRoute::_('index.php?Itemid=' . $redirect, true);
+		}
+		else
+		{
+			$url = $app->input->server->getString('HTTP_REFERER');
+
+			if (empty($url) || !JURI::isInternal($url))
+			{
+				$url = $baseUrl . JRoute::_('index.php', true);
+			}
 		}
 
 		// Compute the URI
