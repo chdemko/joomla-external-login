@@ -160,6 +160,9 @@ class plgSystemCaslogin extends JPlugin
 			// Get the dbo
 			$db = JFactory::getDbo();
 
+			// Get the session
+			$session = JFactory::getSession();
+
 			// Get the input
 			$input = $app->input;
 
@@ -168,7 +171,7 @@ class plgSystemCaslogin extends JPlugin
 
 			// Get the ticket and the server
 			$ticket = $input->get('ticket');
-			$sid = $input->getInt('server');
+			$sid = $session->get('com_externallogin.server');
 
 			// If ticket and server exist
 			if (!empty($ticket) && !empty($sid))
@@ -263,8 +266,6 @@ class plgSystemCaslogin extends JPlugin
 										'system-caslogin-xml'
 									));
 								}
-
-								$uri->delVar('server');
 
 								// If the return url is for an Itemid, we look it up in the menu
 								// in case it is a redirect to an external source
@@ -424,7 +425,7 @@ class plgSystemCaslogin extends JPlugin
 								));
 							}
 
-							$uri->setVar('server', $server->id);
+							$session->set('com_externallogin.server', $server->id);
 							$session->set('system.caslogin.autologin.' . $server->id, 1);
 							$app->redirect($this->getUrl($params) . '/login?service=' . urlencode($uri) . '&gateway=true');
 						}
