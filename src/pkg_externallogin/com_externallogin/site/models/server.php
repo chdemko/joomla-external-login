@@ -106,7 +106,9 @@ class ExternalloginModelServer extends JModelItem
 		// Return the service/URL
 		if (JFactory::getUser()->guest)
 		{
-			$uri->setVar('server', $item->id);
+			$session = JFactory::getSession();
+			$session->set('com_externallogin.server', $item->id);
+
 			$results = $app->triggerEvent('onGetLoginUrl', array($item, $uri));
 			if (!empty($results))
 			{
