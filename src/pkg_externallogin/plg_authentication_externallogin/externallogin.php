@@ -138,6 +138,20 @@ class plgAuthenticationExternallogin extends JPlugin
 								'authentication-externallogin-autoupdate'
 							));
 						}
+
+						// Check for an existing externallogin_users record. If none, create one.
+						$query = $db->getQuery(true);
+						$query->select('*')->from('#__externallogin_users')->where('user_id = ' . $id);
+						$db->setQuery($query);
+						$results = $db->loadObject();
+
+						if (!$results)
+						{
+							$query = $db->getQuery(true);
+							$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $id);
+							$db->setQuery($query);
+							$db->execute();
+						}
 					}
 					else
 					{
