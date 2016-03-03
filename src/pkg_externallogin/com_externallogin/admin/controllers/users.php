@@ -169,6 +169,36 @@ class ExternalloginControllerUsers extends JControllerLegacy
 	}
 
 	/**
+	 * Disable all Joomla! users to login using external login method for the selected server
+	 *
+	 * @since   2.1.0
+	 */
+	public function disableExternalloginGlobal()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		// Get server id.
+		$sid = JRequest::getInt('server');
+
+
+		// Get the model.
+		$model = $this->getModel();
+
+		// Publish the items.
+		if (!$model->disableExternalloginGlobal($sid))
+		{
+			JError::raiseWarning(500, $model->getError());
+		}
+		else
+		{
+			$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_EXTERNALLOGIN_DISABLED'));
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
+	}
+
+	/**
 	 * Enable Joomla! users to login using external login method
 	 *
 	 * @return  void
@@ -205,6 +235,35 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			{
 				$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_EXTERNALLOGIN_ENABLED', count($cid)));
 			}
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
+	}
+
+	/**
+	 * Enable all Joomla! users to login using selected external login method
+	 *
+	 * @since   2.1.1
+	 */
+	public function enableExternalloginGlobal()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		// Get server id.
+		$sid = JRequest::getInt('server');
+
+		// Get the model.
+		$model = $this->getModel();
+
+		// Publish the items.
+		if (!$model->enableExternalloginGlobal($sid))
+		{
+			JError::raiseWarning(500, $model->getError());
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_ALL_USERS_JOOMLA_ENABLED'));
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));

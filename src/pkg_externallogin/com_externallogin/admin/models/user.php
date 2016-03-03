@@ -154,6 +154,39 @@ class ExternalloginModelUser extends JModelLegacy
 	}
 
 	/**
+	 * Method to disable the external login for a set of user.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.1.0
+	 */
+	public function disableExternalloginGlobal($sid)
+	{
+		//TODO: delete all entrys with server id = sid
+
+		// Attempt to change the state of the records.
+		$query = $this->_db->getQuery(true);
+		$query->select('user_id');
+		$query->from('#__externallogin_users');
+		$query->where('server_id = ' . (int)$sid);
+		$this->_db->setQuery($query);
+
+		if ($this->_db->loadResult()) {
+
+			$query = $this->_db->getQuery(true);
+			$query->delete();
+			$query->from('#__externallogin_users');
+			$query->where('server_id = ' . (int)$sid);
+			$this->_db->setQuery($query);
+			$this->_db->execute();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to enable the external login for a set of user.
 	 *
 	 * @param   array    &$pks  A list of the primary keys to change.
@@ -204,5 +237,63 @@ class ExternalloginModelUser extends JModelLegacy
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to enable the external login for all users.
+	 *
+     * @throws  Exception
+	 * @param   integer  $sid    The server id
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.1.1
+	 */
+	public function enableExternalloginGlobal($sid)
+	{
+		// Get all user id's
+		$query = $this->_db->getQuery(true);
+		$query->select('id');
+		$query->from('#__users');
+		$this->_db->setQuery($query);
+		$column = $this->_db->loadColumn();
+
+        // Check if user is already activated and update/insert value
+		try
+        {
+            foreach($column as $userID)
+            {
+                $query = $this->_db->getQuery(true);
+                $query->select('user_id');
+                $query->from('#__externallogin_users');
+                $query->where('user_id = ' . (int)$userID);
+                $this->_db->setQuery($query);
+
+                $query = $this->_db->getQuery(true);
+                $query->set('server_id = ' . (int)$sid);
+
+                if ($this->_db->loadResult())
+                {
+                    $query->update('#__externallogin_users');
+                    $query->where('user_id = ' . (int)$userID);
+                }
+                else
+                {
+                    $query->insert('#__externallogin_users');
+                    $query->set('user_id = ' . (int)$userID);
+                }
+
+                $this->_db->setQuery($query);
+                $this->_db->execute();
+
+
+            }
+
+			return true;
+        }
+        catch(Exception $e)
+        {
+            throw new Exception($e->getMessage());
+        }
 	}
 }
