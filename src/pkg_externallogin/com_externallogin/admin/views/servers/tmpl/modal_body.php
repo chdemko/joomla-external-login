@@ -36,6 +36,12 @@ if (!count($this->items)){
 			<a class="pointer" onclick="if (window.parent) {window.parent.document.adminForm.server.value=<?php echo $item->id; ?>;window.close(); window.parent.submitbutton('users.enableExternallogin');}"><?php echo $this->escape($item->title); ?></a>
 		</td>
 		<td>
+			<button class="btn" onclick="if (window.parent) {window.parent.document.adminForm.server.value=<?php echo $item->id; ?>;window.close(); window.parent.submitbutton('users.enableExternalloginGlobal');}">Activate for all users</button>
+		</td>
+		<td>
+			<button class="btn" onclick="if (window.parent) {window.parent.document.adminForm.server.value=<?php echo $item->id; ?>;window.close(); window.parent.submitbutton('users.disableExternalloginGlobal');}">Disable for all users</button>
+		</td>
+		<td>
 			<?php echo isset($plugins[$item->plugin]) ? $this->escape(JText::_($plugins[$item->plugin]['text'])) : JText::_('COM_EXTERNALLOGIN_GRID_SERVER_DISABLED'); ?>
 		</td>
 		<td class="center">
