@@ -151,7 +151,7 @@ class ExternalloginModelUser extends JModelLegacy
 	/**
 	 * Method to disable the external login for a set of user.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $sid   Server id.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -159,23 +159,43 @@ class ExternalloginModelUser extends JModelLegacy
 	 */
 	public function disableExternalloginGlobal($sid)
 	{
-		//TODO: delete all entrys with server id = sid
 
 		// Attempt to change the state of the records.
 		$query = $this->_db->getQuery(true);
-		$query->select('user_id');
-		$query->from('#__externallogin_users');
-		$query->where('server_id = ' . (int)$sid);
+		$query->select($this->_db->quoteName('user_id'));
+		$query->from($this->_db->quoteName('#__externallogin_users'));
+		$query->where($this->_db->quoteName('server_id') . ' = ' . (int)$sid);
 		$this->_db->setQuery($query);
 
-		if ($this->_db->loadResult()) {
+		// Get application
+		$app = JFactory::getApplication();
 
+		try
+		{
+			$userID = $this->_db->loadResult();
+		}
+		catch(Exception $exc)
+		{
+			$app->enqueueMessage($exc->getMessage(), 'error');
+		}
+
+		if(!empty($userID))
+		{
 			$query = $this->_db->getQuery(true);
 			$query->delete();
-			$query->from('#__externallogin_users');
-			$query->where('server_id = ' . (int)$sid);
+			$query->from($this->_db->quoteName('#__externallogin_users'));
+			$query->where($this->_db->quoteName('server_id') . ' = ' . (int)$sid);
 			$this->_db->setQuery($query);
-			$this->_db->execute();
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch(Exception $exc)
+			{
+				$app->enqueueMessage($exc->getMessage(), 'error');
+			}
+
 		}
 
 		return true;
@@ -243,49 +263,70 @@ class ExternalloginModelUser extends JModelLegacy
 	 */
 	public function enableExternalloginGlobal($sid)
 	{
+		// Get application
+		$app = JFactory::getApplication();
+
 		// Get all user id's
 		$query = $this->_db->getQuery(true);
-		$query->select('id');
-		$query->from('#__users');
+		$query->select($this->_db->quoteName('id'));
+		$query->from($this->_db->quoteName('#__users'));
 		$this->_db->setQuery($query);
-		$column = $this->_db->loadColumn();
+
+		try
+		{
+			$column = $this->_db->loadColumn();
+		}
+		catch(Exception $exc)
+		{
+			$app->enqueueMessage($exc->getMessage(), 'error');
+		}
 
         // Check if user is already activated and update/insert value
-		try
-        {
-            foreach($column as $userID)
-            {
-                $query = $this->_db->getQuery(true);
-                $query->select('user_id');
-                $query->from('#__externallogin_users');
-                $query->where('user_id = ' . (int)$userID);
-                $this->_db->setQuery($query);
+		foreach ($column as $userID) {
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('user_id'));
+			$query->from($this->_db->quoteName('#__externallogin_users'));
+			$query->where($this->_db->quoteName('user_id') . ' = ' . $userID);
+			$this->_db->setQuery($query);
 
-                $query = $this->_db->getQuery(true);
-                $query->set('server_id = ' . (int)$sid);
+			// Get result if user is already activated
+			try
+			{
+				$success = $this->_db->loadResult();
+			}
+			catch (Exception $exc)
+			{
+				$app->enqueueMessage($exc->getMessage(), 'error');
+			}
 
-                if ($this->_db->loadResult())
-                {
-                    $query->update('#__externallogin_users');
-                    $query->where('user_id = ' . (int)$userID);
-                }
-                else
-                {
-                    $query->insert('#__externallogin_users');
-                    $query->set('user_id = ' . (int)$userID);
-                }
+			$query = $this->_db->getQuery(true);
+			$query->set($this->_db->quoteName('server_id') . ' = ' . (int)$sid);
 
-                $this->_db->setQuery($query);
-                $this->_db->execute();
+			// Update if already activated/insert if not
+			if($success)
+			{
+				$query->update($this->_db->quoteName('#__externallogin_users'));
+				$query->where($this->_db->quoteName('user_id') . ' = ' . $userID);
+			}
+			else
+			{
+				$query->insert($this->_db->quoteName('#__externallogin_users'));
+				$query->set($this->_db->quoteName('user_id') . ' = ' . $userID);
+			}
 
+			$this->_db->setQuery($query);
 
-            }
+			try
+			{
+				$this->_db->execute();
+			}
+			catch (Exception $exc)
+			{
+				$app->enqueueMessage($exc->getMessage(), 'error');
+			}
 
-			return true;
-        }
-        catch(Exception $e)
-        {
-            throw new Exception($e->getMessage());
-        }
+		}
+
+		return true;
 	}
 }

@@ -21,12 +21,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<th>
 		<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 	</th>
-	<th>
-		<?php echo JText::_('COM_EXTERNALLOGIN_TOOLBAR_ENABLE_ACTIVATE_ALL'); ?>
-	</th>
-	<th>
-		<?php echo JText::_('COM_EXTERNALLOGIN_TOOLBAR_DISABLE_ALL'); ?>
-	</th>
+	<?php if(isset($this->globalS)): ?>
+		<th>
+			<?php echo JText::_('COM_EXTERNALLOGIN_TOOLBAR_ENABLE_ACTIVATE_ALL'); ?>
+		</th>
+		<th>
+			<?php echo JText::_('COM_EXTERNALLOGIN_TOOLBAR_DISABLE_ALL'); ?>
+		</th>
+	<?php endif; ?>
 	<th width="20%">
 		<?php echo JHtml::_('grid.sort', 'COM_EXTERNALLOGIN_HEADING_PLUGIN', 'e.ordering', $listDirn, $listOrder); ?>
 	</th>

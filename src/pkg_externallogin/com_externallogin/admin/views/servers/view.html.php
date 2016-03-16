@@ -47,6 +47,9 @@ class ExternalloginViewServers extends JViewLegacy
 		$pagination = $this->get('Pagination');
 		$state = $this->get('State');
 
+		// Get global var if set
+		$global = JFactory::getApplication()->input->getInt('globalS');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) 
 		{
@@ -58,6 +61,12 @@ class ExternalloginViewServers extends JViewLegacy
 		$this->items = $items;
 		$this->pagination = $pagination;
 		$this->state = $state;
+
+		// Check if a server should be set global
+		if ($global === 1)
+		{
+			$this->globalS = true;
+		}
 
 		// Set the toolbar
 		$this->addToolBar();
