@@ -70,7 +70,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			Joomla\Utilities\ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->enableJoomla($cid))
@@ -178,23 +178,29 @@ class ExternalloginControllerUsers extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		// Get server id.
-		$sid = JRequest::getInt('server');
+		// Get application
+		$app = JFactory::getApplication();
 
+		// Get server id.
+		$sid = $app->input->getInt('server');
 
 		// Get the model.
 		$model = $this->getModel();
 
 		// Publish the items.
-		if (!$model->disableExternalloginGlobal($sid))
+		$success = $model->disableExternalloginGlobal($sid);
+
+		// Check if disable was successful
+		if (!$success)
 		{
-			JError::raiseWarning(500, $model->getError());
+			$app->enqueueMessage($model->getError(), 'error');
 		}
 		else
 		{
-			$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_EXTERNALLOGIN_DISABLED'));
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_ALL_USERS_EXTERNALLOGIN_DISABLED'));
 		}
 
+		// Go back to user overview
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 
@@ -250,22 +256,29 @@ class ExternalloginControllerUsers extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
+		// Get application
+		$app = JFactory::getApplication();
+
 		// Get server id.
-		$sid = JRequest::getInt('server');
+		$sid = $app->input->getInt('server');
 
 		// Get the model.
 		$model = $this->getModel();
 
 		// Publish the items.
-		if (!$model->enableExternalloginGlobal($sid))
+		$success = $model->enableExternalloginGlobal($sid);
+
+		// Check if enable was successful
+		if (!$success)
 		{
-			JError::raiseWarning(500, $model->getError());
+			$app->enqueueMessage($model->getError(), 'error');
 		}
 		else
 		{
 			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_ALL_USERS_JOOMLA_ENABLED'));
 		}
 
+		// Go back to user overview
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 }
