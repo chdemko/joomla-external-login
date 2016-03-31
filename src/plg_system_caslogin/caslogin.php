@@ -173,6 +173,12 @@ class plgSystemCaslogin extends JPlugin
 			$ticket = $input->get('ticket');
 			$sid = $session->get('com_externallogin.server');
 
+			// Check if server was in session, else try get it from input
+			if ($sid == null)
+			{
+				$sid = $input->getInt('server');
+			}
+
 			// If ticket and server exist
 			if (!empty($ticket) && !empty($sid))
 			{
@@ -267,67 +273,146 @@ class plgSystemCaslogin extends JPlugin
 									));
 								}
 
-								// If the return url is for an Itemid, we look it up in the menu
-								// in case it is a redirect to an external source
-								$query = $uri->getQuery(true);
+								// check if user is enabled for cas login. Deny if not
+								$query = $db->getQuery(true);
+								$query->select($db->quoteName('id'));
+								$query->from($db->quoteName('#__users'));
+								$query->where($db->quoteName('username') . " = " . $db->quote($this->xpath->evaluate('string(cas:user)', $this->success)));
+								$db->setQuery($query);
 
-								if (!empty($query) && sizeof($query) === 1 && array_key_exists('Itemid', $query))
+								try
 								{
-									$menu = $app->getMenu();
-									$menuEntry = $menu->getItem($query['Itemid']);
+									$uID = $db->loadResult();
+								}
+								catch (Exception $exc)
+								{
+									$app->enqueueMessage($exc->getMessage(), 'error');
+								}
 
-									if (!empty($menuEntry))
+								// After check: true if user is activated for current server, else false
+								$access = null;
+
+								if (!empty($uID))
+								{
+									$query = $db->getQuery(true);
+									$query->select($db->quoteName('server_id'));
+									$query->from($db->quoteName('#__externallogin_users'));
+									$query->where($db->quoteName('user_id') . " = " . $db->quote($uID));
+									$db->setQuery($query);
+
+									// Load the servers assigned to the user
+									try
 									{
-										$return = $menuEntry->link;
+										$servers = $db->loadColumn();
+
+										// Check if current server is activated for the user
+										if (!empty($servers))
+										{
+											foreach ($servers as $server)
+											{
+												if ($server == $sid){
+
+													// Server is activated for this user - access granted
+													$access = true;
+													break;
+												}
+											}
+
+											// Current server is not activated for this user - no access
+											if (!$access)
+											{
+												$app->enqueueMessage(JText::_('PLG_SYSTEM_CASLOGIN_NO_ACTIVATED_SERVER'), 'error');
+											}
+
+										}
+										else
+										{
+											// No server is activated for this user - no access
+											$app->enqueueMessage(JText::_('PLG_SYSTEM_CASLOGIN_NO_ACTIVATED_SERVER'), 'error');
+											$access = false;
+										}
 									}
+									catch (Exception $exc)
+									{
+										$app->enqueueMessage($exc->getMessage(), 'error');
+									}
+
 								}
 
-								if (empty($return))
+								// Log that access was denied
+								if (!$access)
 								{
-									// Original way of determining the return url
-									$return = 'index.php' . $uri->toString(array('query'));
-								}
-
-								if ($return == 'index.php?option=com_login')
-								{
-									$return = 'index.php';
-								}
-
-								// Prepare the connection process
-								if ($app->isAdmin())
-								{
-									$input->set('option', 'com_login');
-									$input->set('task', 'login');
-									$input->set(JSession::getFormToken(), 1);
-									$input->set('return', base64_encode($return));
-
-									// Keep compatibility with old plugins
-									JRequest::setVar('option', 'com_login');
-									JRequest::setVar('task', 'login');
-									JRequest::setVar(JSession::getFormToken(), 1);
-									JRequest::setVar('return', base64_encode($return));
+									JLog::add(new ExternalloginLogEntry(
+										'Unsuccessful login on server ' . $sid . ', user not activated for this server',
+										JLog::INFO,
+										'system-caslogin-xml'
+									));
 								}
 								else
 								{
-									$input->set('option', 'com_users');
-									$input->set('task', 'user.login');
-									$input->set('Itemid', 0);
-									$input->post->set(JSession::getFormToken(), 1);
-									$input->post->set('return', base64_encode($return));
 
-									// Keep compatibility with old plugins
-									JRequest::setVar('option', 'com_users');
-									JRequest::setVar('task', 'user.login');
+									// If the return url is for an Itemid, we look it up in the menu
+									// in case it is a redirect to an external source
+									$query = $uri->getQuery(true);
 
-									// TODO JInput is buggy. This must removed
-									JRequest::setVar(JSession::getFormToken(), 1, 'post');
+									if (!empty($query) && sizeof($query) === 1 && array_key_exists('Itemid', $query))
+									{
+										$menu = $app->getMenu();
+										$menuEntry = $menu->getItem($query['Itemid']);
 
-									// TODO JInput is buggy. This must removed
-									JRequest::setVar('return', base64_encode($return), 'post');
+										if (!empty($menuEntry))
+										{
+											$return = $menuEntry->link;
+										}
+									}
 
-									// Make sure the redirect to user.login doesn't authenticate
-									// according to the the return url
-									JRequest::setVar('Itemid', 0);
+									if (empty($return))
+									{
+										// Original way of determining the return url
+										$return = 'index.php' . $uri->toString(array('query'));
+									}
+
+									if ($return == 'index.php?option=com_login')
+									{
+										$return = 'index.php';
+									}
+
+									// Prepare the connection process
+									if ($app->isAdmin())
+									{
+										$input->set('option', 'com_login');
+										$input->set('task', 'login');
+										$input->set(JSession::getFormToken(), 1);
+										$input->set('return', base64_encode($return));
+
+										// Keep compatibility with old plugins
+										JRequest::setVar('option', 'com_login');
+										JRequest::setVar('task', 'login');
+										JRequest::setVar(JSession::getFormToken(), 1);
+										JRequest::setVar('return', base64_encode($return));
+									}
+									else
+									{
+										$input->set('option', 'com_users');
+										$input->set('task', 'user.login');
+										$input->set('Itemid', 0);
+										$input->post->set(JSession::getFormToken(), 1);
+										$input->post->set('return', base64_encode($return));
+
+										// Keep compatibility with old plugins
+										JRequest::setVar('option', 'com_users');
+										JRequest::setVar('task', 'user.login');
+
+										// TODO JInput is buggy. This must removed
+										JRequest::setVar(JSession::getFormToken(), 1, 'post');
+
+										// TODO JInput is buggy. This must removed
+										JRequest::setVar('return', base64_encode($return), 'post');
+
+										// Make sure the redirect to user.login doesn't authenticate
+										// according to the the return url
+										JRequest::setVar('Itemid', 0);
+									}
 								}
 							}
 							else
