@@ -340,6 +340,7 @@ class PlgSystemCaslogin extends JPlugin
 								// After check: true if user is activated for current server, else false
 								$access = null;
 
+								// Check if server is active for registered user, unregistered users should pass for reg.
 								if (!empty($uID))
 								{
 									$query = $db->getQuery(true);
@@ -385,6 +386,11 @@ class PlgSystemCaslogin extends JPlugin
 										$app->enqueueMessage($exc->getMessage(), 'error');
 									}
 
+								}
+								else
+								{
+									// User from CAS is a new user on this Joomla! instance
+									$access = true;
 								}
 
 								// Log that access was denied
