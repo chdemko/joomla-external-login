@@ -311,8 +311,8 @@ class plgSystemCaslogin extends JPlugin
 										{
 											foreach ($servers as $server)
 											{
-												if ($server == $sid){
-
+												if ($server == $sid)
+												{
 													// Server is activated for this user - access granted
 													$access = true;
 													break;
@@ -790,8 +790,15 @@ class plgSystemCaslogin extends JPlugin
 
 			$params = new JRegistry($server->params);
 
+			$local = $app->input->get('local');
+
+			// Local logout only?
+			if(isset($local))
+			{
+				return true;
+			}
 			// Logout from CAS
-			if ($params->get('autologout') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
+			elseif ($params->get('autologout') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
 			{
 				// Log message
 				if ($params->get('log_logout', 0))
@@ -805,6 +812,7 @@ class plgSystemCaslogin extends JPlugin
 
 				if ($params->get('logouturl'))
 				{
+					$app->enqueueMessage($params->get('logouturl'));
 					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($params->get('logouturl'));
 				}
 				elseif ($app->input->get('return'))
