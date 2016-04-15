@@ -162,9 +162,9 @@ class ExternalloginModelUser extends JModelLegacy
 
 		// Attempt to change the state of the records.
 		$query = $this->_db->getQuery(true);
-		$query->select($this->_db->quoteName('user_id'));
-		$query->from($this->_db->quoteName('#__externallogin_users'));
-		$query->where($this->_db->quoteName('server_id') . ' = ' . (int)$sid);
+		$query->select("user_id");
+		$query->from("#__externallogin_users");
+		$query->where("server_id = '$sid'");
 		$this->_db->setQuery($query);
 
 		// Get application
@@ -183,8 +183,8 @@ class ExternalloginModelUser extends JModelLegacy
 		{
 			$query = $this->_db->getQuery(true);
 			$query->delete();
-			$query->from($this->_db->quoteName('#__externallogin_users'));
-			$query->where($this->_db->quoteName('server_id') . ' = ' . (int)$sid);
+			$query->from("#__externallogin_users");
+			$query->where("server_id = '$sid'");
 			$this->_db->setQuery($query);
 
 			try
@@ -268,8 +268,8 @@ class ExternalloginModelUser extends JModelLegacy
 
 		// Get all user id's
 		$query = $this->_db->getQuery(true);
-		$query->select($this->_db->quoteName('id'));
-		$query->from($this->_db->quoteName('#__users'));
+		$query->select('id');
+		$query->from('#__users');
 		$this->_db->setQuery($query);
 
 		try
@@ -284,9 +284,9 @@ class ExternalloginModelUser extends JModelLegacy
         // Check if user is already activated and update/insert value
 		foreach ($column as $userID) {
 			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('user_id'));
-			$query->from($this->_db->quoteName('#__externallogin_users'));
-			$query->where($this->_db->quoteName('user_id') . ' = ' . $userID);
+			$query->select("user_id");
+			$query->from("#__externallogin_users");
+			$query->where("user_id = '$userID'");
 			$this->_db->setQuery($query);
 
 			// Get result if user is already activated
@@ -300,18 +300,18 @@ class ExternalloginModelUser extends JModelLegacy
 			}
 
 			$query = $this->_db->getQuery(true);
-			$query->set($this->_db->quoteName('server_id') . ' = ' . (int)$sid);
+			$query->set("server_id = '$sid'");
 
 			// Update if already activated/insert if not
 			if($success)
 			{
-				$query->update($this->_db->quoteName('#__externallogin_users'));
-				$query->where($this->_db->quoteName('user_id') . ' = ' . $userID);
+				$query->update("#__externallogin_users");
+				$query->where("user_id = '$userID'");
 			}
 			else
 			{
-				$query->insert($this->_db->quoteName('#__externallogin_users'));
-				$query->set($this->_db->quoteName('user_id') . ' = ' . $userID);
+				$query->insert("#__externallogin_users");
+				$query->set("user_id = '$userID'");
 			}
 
 			$this->_db->setQuery($query);
