@@ -195,13 +195,15 @@ class PlgSystemCaslogin extends JPlugin
 			// Get the ticket and the server
 			$ticket = $input->get('ticket');
 
+			$inputSid = $input->getInt('server');
+			
 			if ($app->isAdmin())
 			{
 				$sid = $input->get('server');
 			}
 			else
 			{
-				$sid = $session->get('com_externallogin.server');
+				$sid = $session->get('com_externallogin.server', $inputSid);
 			}
 
 			//todo check this peter
@@ -309,23 +311,24 @@ class PlgSystemCaslogin extends JPlugin
 								// Store the server
 								$this->server = $server;
 
+								// Get username
+								$userName = $this->xpath->evaluate('string(cas:user)', $this->success);
+
 								// Log message
 								if ($params->get('log_xml', 0))
 								{
-									JLog::add(
-										new ExternalloginLogEntry(
-											'Successful login on server ' . $sid . ' for CAS user "' . $this->xpath->evaluate('string(cas:user)', $this->success) . '"',
-											JLog::INFO,
-											'system-caslogin-xml'
-										)
-									);
+									JLog::add(new ExternalloginLogEntry(
+										'Successful login on server ' . $sid . ' for CAS user "' . $userName .'"',
+										JLog::INFO,
+										'system-caslogin-xml'
+									));
 								}
 
 								// check if user is enabled for cas login. Deny if not
 								$query = $db->getQuery(true);
-								$query->select($db->quoteName('id'));
-								$query->from($db->quoteName('#__users'));
-								$query->where($db->quoteName('username') . " = " . $db->quote($this->xpath->evaluate('string(cas:user)', $this->success)));
+								$query->select("id");
+								$query->from("#__users");
+								$query->where($db->quoteName("username") . ' = ' . $db->quote($userName));
 								$db->setQuery($query);
 
 								try
@@ -344,9 +347,9 @@ class PlgSystemCaslogin extends JPlugin
 								if (!empty($uID))
 								{
 									$query = $db->getQuery(true);
-									$query->select($db->quoteName('server_id'));
-									$query->from($db->quoteName('#__externallogin_users'));
-									$query->where($db->quoteName('user_id') . " = " . $db->quote($uID));
+									$query->select("server_id");
+									$query->from("#__externallogin_users");
+									$query->where("user_id = '$uID'");
 									$db->setQuery($query);
 
 									// Load the servers assigned to the user
