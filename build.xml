@@ -44,18 +44,7 @@
 			<fileset dir="src/${dist}" />
 		</copy>
 	</target>
-	
-	<target name="docs">
-		<ant antfile="docs/build.xml" useNativeBasedir="true"  />
-		<copy todir="${dist}">
-			<fileset dir="docs/${dist}" />
-		</copy>
-	</target>
-	
-	<target name="language">
-		<ant antfile="language/build.xml" useNativeBasedir="true"  />
-	</target>
-	
+
 	<target name="zip" description="Generate Zip file">
 		<zip destfile="${dist}/${project-name}-${version}.zip" basedir="." excludes="**/*~,*.tpl,build.xml,update.xml" />
 	</target>

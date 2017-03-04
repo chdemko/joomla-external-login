@@ -1,17 +1,17 @@
 External Login
 ===============
 
-The *External Login* project is the continuation of the [Authentication Manager project](http://joomlacode.org/gf/project/auth_manager/), originally developed for Joomla! 1.5, and now compatible with Joomla! 3.x.
+The *External Login* project is the continuation of the [Authentication Manager project](http://joomlacode.org/gf/project/auth_manager/), originally developed for Joomla! 1.5, and now compatible with Joomla! 3.x. Documentation can be found in the [wiki pages](https://github.com/chdemko/joomla-external-login/wiki).
 
 Downloads
 ---------
 
-* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.1.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/External_Login_package-3.1.0-rc1-User_Guide-en-GB.pdf))
+* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.1.0-rc1.zip)
 
 External Login Plugins
 ----------------------
 
-* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.1.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/CAS_Plugin-3.1.0-rc1-User_Guide-en-GB.pdf))
+* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.1.0-rc1.zip)
 
 Community Builder
 -----------------
