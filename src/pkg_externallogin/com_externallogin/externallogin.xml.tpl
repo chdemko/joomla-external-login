@@ -56,7 +56,6 @@
 	<media destination="com_externallogin" folder="media">
 		<folder>css</folder>
 		<folder>images</folder>
-		<folder>js</folder>
 	</media>
 
 	<administration>

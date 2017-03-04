@@ -6,17 +6,17 @@ The *External Login* project is the continuation of the [Authentication Manager 
 Downloads
 ---------
 
-* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.0.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/External_Login_package-3.0.0-rc1-User_Guide-en-GB.pdf))
+* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.1.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/External_Login_package-3.1.0-rc1-User_Guide-en-GB.pdf))
 
 External Login Plugins
 ----------------------
 
-* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.0.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/CAS_Plugin-3.0.0-rc1-User_Guide-en-GB.pdf))
+* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.1.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/CAS_Plugin-3.1.0-rc1-User_Guide-en-GB.pdf))
 
 Community Builder
 -----------------
 
-* [Community Builder External Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_user_cbexternallogin-3.0.0-rc1.zip)
+* [Community Builder External Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_user_cbexternallogin-3.1.0-rc1.zip)
 
 Requirements
 ------------
