@@ -19,7 +19,6 @@
 
 	<files>
 		<filename plugin="cbexternallogin">cbexternallogin.php</filename>
-		<filename>index.html</filename>
 	</files>
 
 	<languages>

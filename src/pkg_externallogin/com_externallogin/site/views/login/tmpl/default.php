@@ -2,7 +2,7 @@
 
 /**
  * @package     External_Login
- * @subpackage  CAS Plugin
+ * @subpackage  Component
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>

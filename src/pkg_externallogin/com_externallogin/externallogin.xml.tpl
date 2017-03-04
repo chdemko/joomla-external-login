@@ -41,7 +41,6 @@
 		to copy FROM in the package to install therefore files copied
 		in this section are copied from /site/ in the package -->
 	<files folder="site">
-		<filename>index.html</filename>
 		<filename>externallogin.php</filename>
 		<filename>controller.php</filename>
 		<filename>helpers.php</filename>
@@ -55,7 +54,6 @@
 	</languages>
 
 	<media destination="com_externallogin" folder="media">
-		<filename>index.html</filename>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>
@@ -85,7 +83,6 @@
 			in this section are copied from /admin/ in the package -->
 		<files folder="admin">
 			<!-- Admin Main File Copy Section -->
-			<filename>index.html</filename>
 			<filename>config.xml</filename>
 			<filename>access.xml</filename>
 			<filename>externallogin.php</filename>

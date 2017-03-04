@@ -18,7 +18,6 @@
 	<description>MOD_EXTERNALLOGIN_ADMIN_DESCRIPTION</description>
 
 	<files>
-		<filename>index.html</filename>
 		<filename module="mod_externallogin_admin">mod_externallogin_admin.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>

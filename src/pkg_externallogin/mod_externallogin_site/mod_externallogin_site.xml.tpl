@@ -18,7 +18,6 @@
 	<description>MOD_EXTERNALLOGIN_SITE_DESCRIPTION</description>
 
 	<files>
-		<filename>index.html</filename>
 		<filename module="mod_externallogin_site">mod_externallogin_site.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>

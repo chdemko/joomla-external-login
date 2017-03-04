@@ -19,12 +19,10 @@
 
 	<files>
 		<filename plugin="caslogin">caslogin.php</filename>
-		<filename>index.html</filename>
 		<folder>forms</folder>
 	</files>
 
 	<media destination="plg_system_caslogin" folder="media">
-		<filename>index.html</filename>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>

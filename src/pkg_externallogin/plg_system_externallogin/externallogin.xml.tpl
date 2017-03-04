@@ -19,7 +19,6 @@
 
 	<files>
 		<filename plugin="externallogin">externallogin.php</filename>
-		<filename>index.html</filename>
 	</files>
 
 	<languages>
