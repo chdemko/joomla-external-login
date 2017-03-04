@@ -1,29 +1,29 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import the Joomla modellist library
+// Import the Joomla modellist library
 jimport('joomla.application.component.modelitem');
 
 /**
  * Server Model of External Login component
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.0.0
+ * @since       2.0.0
  */
 class ExternalloginModelServer extends JModelItem
 {
@@ -40,17 +40,19 @@ class ExternalloginModelServer extends JModelItem
 	 */
 	protected function populateState()
 	{
-		$id = JFactory::getApplication()->input->get('server');
+		$id = JFactory::getApplication()->input->get('server', 0, 'uint');
 		$this->setState('server.id', $id);
+		$redirect = JFactory::getApplication()->input->get('redirect');
+		$this->setState('server.redirect', $redirect);
 		parent::populateState();
 	}
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type    The table type to instantiate
-	 * @param   string  A prefix for the table class name. Optional.
-	 * @param   array   Configuration array for model. Optional.
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return	JTable  A database object
 	 *
@@ -58,11 +60,11 @@ class ExternalloginModelServer extends JModelItem
 	 *
 	 * @since	2.0.0
 	 */
-	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array()) 
+	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
+
 	/**
 	 * Returns the server
 	 *
@@ -75,16 +77,18 @@ class ExternalloginModelServer extends JModelItem
 		// Load the server
 		$id = $this->getState('server.id');
 		$item = $this->getTable();
+
 		if (!$item->load($id) || $item->published != 1)
 		{
 			$this->setError(JText::_('COM_EXTERNALLOGIN_ERROR_SERVER_UNPUBLISHED'));
+
 			return false;
 		}
 
 		// Compute the url
 		$app = JFactory::getApplication();
 		$baseUrl = JURI::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$redirect = $app->getParams('com_externallogin')->get('redirect');
+		$redirect = $this->getState('server.redirect', $item->params->get('redirect', $app->getParams('com_externallogin')->get('redirect')));
 
 		if (!empty($redirect))
 		{
@@ -110,6 +114,7 @@ class ExternalloginModelServer extends JModelItem
 			$session->set('com_externallogin.server', $item->id);
 
 			$results = $app->triggerEvent('onGetLoginUrl', array($item, $uri));
+
 			if (!empty($results))
 			{
 				return $results[0];

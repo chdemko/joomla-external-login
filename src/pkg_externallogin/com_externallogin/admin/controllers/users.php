@@ -1,46 +1,54 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla controller library
+// Import Joomla controller library
 jimport('joomla.application.component.controller');
 
 /**
  * Users Controller of External Login component
  * 
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.1.0
+ * @since       2.1.0
  */
-class ExternalloginControllerUsers extends JController
+class ExternalloginControllerUsers extends JControllerLegacy
 {
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string      $name    Model name
+	 * @param   string      $prefix  Model prefix
+	 * @param   array|null  $config  Array of options
+	 *
+	 * @return  JModel
 	 *
 	 * @see     JController::getModel
 	 *
 	 * @since   2.1.0
 	 */
-	public function getModel($name = 'User', $prefix = 'ExternalloginModel', $config = null) 
+	public function getModel($name = 'User', $prefix = 'ExternalloginModel', $config = null)
 	{
 		return parent::getModel($name, $prefix, isset($config) ? $config : array('ignore_request' => true));
 	}
 
 	/**
 	 * Enable external login users to login using classical Joomla! method
+	 *
+	 * @return  void
 	 *
 	 * @since   2.1.0
 	 */
@@ -50,7 +58,7 @@ class ExternalloginControllerUsers extends JController
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (empty($cid))
 		{
@@ -74,11 +82,14 @@ class ExternalloginControllerUsers extends JController
 				$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_JOOMLA_ENABLED', count($cid)));
 			}
 		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 
 	/**
 	 * Enable external login users to login using classical Joomla! method
+	 *
+	 * @return  void
 	 *
 	 * @since   2.1.0
 	 */
@@ -88,7 +99,7 @@ class ExternalloginControllerUsers extends JController
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (empty($cid))
 		{
@@ -112,11 +123,14 @@ class ExternalloginControllerUsers extends JController
 				$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_JOOMLA_DISABLED', count($cid)));
 			}
 		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 
 	/**
 	 * Disable Joomla! users to login using external login method
+	 *
+	 * @return  void
 	 *
 	 * @since   2.1.0
 	 */
@@ -126,7 +140,7 @@ class ExternalloginControllerUsers extends JController
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (empty($cid))
 		{
@@ -150,11 +164,14 @@ class ExternalloginControllerUsers extends JController
 				$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_EXTERNALLOGIN_DISABLED', count($cid)));
 			}
 		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 
 	/**
 	 * Enable Joomla! users to login using external login method
+	 *
+	 * @return  void
 	 *
 	 * @since   2.1.0
 	 */
@@ -164,8 +181,8 @@ class ExternalloginControllerUsers extends JController
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
-		$sid = JRequest::getInt('server');
+		$cid  = $this->input->get('cid', array(), 'array');
+		$sid  = $this->input->get('server', 0, 'uint');
 
 		if (empty($cid))
 		{
@@ -189,6 +206,7 @@ class ExternalloginControllerUsers extends JController
 				$this->setMessage(JText::plural('COM_EXTERNALLOGIN_USERS_N_USERS_EXTERNALLOGIN_ENABLED', count($cid)));
 			}
 		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 }

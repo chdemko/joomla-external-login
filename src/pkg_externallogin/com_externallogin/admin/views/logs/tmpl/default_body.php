@@ -18,8 +18,17 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $user = JFactory::getUser();
-?>
-<?php foreach($this->items as $i => $item): ?>
+
+if (!count($this->items)){
+	?>
+	<tr class="row<?php echo $i % 2; ?>">
+		<td colspan="4" class="center">
+			<?php echo JText::_('COM_EXTERNALLOGIN_NO_RECORDS'); ?>
+		</td>
+	</tr>
+	<?php 
+} else {
+ foreach($this->items as $i => $item): ?>
 	<tr class="row<?php echo $i % 2; ?>">
 		<td>
 			<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_GRID_LOG_PRIORITY_' . $item->priority)); ?>
@@ -34,4 +43,4 @@ $user = JFactory::getUser();
 			<?php echo $this->escape($item->message); ?>
 		</td>
 	</tr>
-<?php endforeach; ?>
+<?php endforeach; }?>

@@ -1,31 +1,30 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla view library
+// Import Joomla view library
 jimport('joomla.application.component.view');
 
 /**
  * About View of External Login component
- * 
- * @package     External Login
- * @subpackage  Component
  *
- * @since  2.0.0
+ * @package     External_Login
+ * @subpackage  Component
+ * @since       2.0.0
  */
-class ExternalloginViewAbout extends JView
+class ExternalloginViewAbout extends JViewLegacy
 {
 	/**
 	 * Execute and display a layout script.
@@ -38,10 +37,12 @@ class ExternalloginViewAbout extends JView
 	 *
 	 * @since   2.0.0
 	 */
-	public function display($tpl = null) 
+	public function display($tpl = null)
 	{
 		// Set the toolbar
 		$this->addToolBar();
+
+		$this->sidebar = JHtml::_('sidebar.render');
 
 		// Display the template
 		parent::display($tpl);
@@ -50,19 +51,25 @@ class ExternalloginViewAbout extends JView
 	/**
 	 * Setting the toolbar
 	 *
+	 * @return  void
+	 *
 	 * @since   2.0.0
 	 */
-	protected function addToolbar() 
+	protected function addToolbar()
 	{
 		// Load specific css component
 		JHtml::_('stylesheet', 'com_externallogin/administrator/externallogin.css', array(), true);
 
 		// Set the title
-		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_ABOUT'), 'about');
+		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_ABOUT'), 'help');
 
 		JToolBarHelper::preferences('com_externallogin');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_ABOUT');
+
+		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), 'index.php?option=com_externallogin', false);
+		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), 'index.php?option=com_externallogin&view=users', false);
+		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_LOGS'), 'index.php?option=com_externallogin&view=logs', false);
+		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_ABOUT'), 'index.php?option=com_externallogin&view=about', true);
 	}
 }
-

@@ -15,7 +15,12 @@
 defined('_JEXEC') or die;
 
 // load tooltip behavior
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
+JHtml::_('dropdown.init');
+JHtml::_('formbehavior.chosen', 'select');
+
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <script type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -24,20 +29,45 @@ JHtml::_('behavior.tooltip');
 		}
 	}
 </script>
+<script type="text/javascript">
+	Joomla.orderTable = function()
+	{
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != '<?php echo $listOrder; ?>')
+		{
+			dirn = 'asc';
+		}
+		else
+		{
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn, '');
+	}
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_externallogin&view=users'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php echo $this->loadTemplate('filter');?>
-	<table class="adminlist">
-		<thead><?php echo $this->loadTemplate('head');?></thead>
-		<tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
-		<tbody><?php echo $this->loadTemplate('body');?></tbody>
-	</table>
-	<div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="server" value="" />
-		<input type="hidden" name="filter_order" value="<?php echo $this->escape($this->state->get('list.ordering'));?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->escape($this->state->get('list.direction'));?>" />
-		<?php echo JHtml::_('form.token'); ?>
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif; ?>
+		<?php echo $this->loadTemplate('filter'); ?>
+		<table class="table table-striped">
+			<thead><?php echo $this->loadTemplate('head'); ?></thead>
+			<tfoot><?php echo $this->loadTemplate('foot'); ?></tfoot>
+			<tbody><?php echo $this->loadTemplate('body'); ?></tbody>
+		</table>
+		<div>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+            <input type="hidden" name="server" value="" />
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+		</div>
 	</div>
 </form>
-

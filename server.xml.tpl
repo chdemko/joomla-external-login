@@ -6,7 +6,7 @@
 		element="pkg_externallogin"
 		type="package"
 		version="@VERSION@"
-		detailsurl="@SERVER@/update-pkg_externallogin.xml"
+		detailsurl="@SERVER@/update-pkg_externallogin-3.xml"
 	/>
 
 	<extension
@@ -15,7 +15,7 @@
 		folder="system"
 		type="plugin"
 		version="@VERSION@"
-		detailsurl="@SERVER@/update-plg_system_caslogin.xml"
+		detailsurl="@SERVER@/update-plg_system_caslogin-3.xml"
 	/>
 
 	<extension
@@ -24,16 +24,7 @@
 		folder="user"
 		type="plugin"
 		version="@VERSION@"
-		detailsurl="@SERVER@/update-plg_user_cbexternallogin.xml"
-	/>
-
-	<extension
-		name="External Login Admin Template"
-		element="externallogin"
-		type="template"
-		client="administrator"
-		version="@VERSION@"
-		detailsurl="@SERVER@/update-tpl_externallogin.xml"
+		detailsurl="@SERVER@/update-plg_user_cbexternallogin-3.xml"
 	/>
 
 </extensionset>

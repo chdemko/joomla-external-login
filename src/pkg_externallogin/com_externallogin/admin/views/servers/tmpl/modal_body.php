@@ -20,11 +20,20 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $user = JFactory::getUser();
 $ordering = $this->state->get('list.ordering') == 'a.ordering';
 $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
+if (!count($this->items)){
+	?>
+	<tr class="row<?php echo $i % 2; ?>">
+		<td colspan="6" class="center">
+			<?php echo JText::_('COM_EXTERNALLOGIN_NO_RECORDS'); ?>
+		</td>
+	</tr>
+	<?php 
+} else {
 ?>
 <?php foreach($this->items as $i => $item): ?>
 	<tr class="row<?php echo $i % 2; ?>">
 		<td>
-			<a class="pointer" onclick="if (window.parent) {window.parent.document.adminForm.server.value=<?php echo $item->id;?>;window.close(); window.parent.submitbutton('users.enableExternallogin');}"><?php echo $this->escape($item->title); ?></a>
+			<a class="pointer" onclick="if (window.parent) {window.parent.document.adminForm.server.value=<?php echo $item->id; ?>;window.close(); window.parent.submitbutton('users.enableExternallogin');}"><?php echo $this->escape($item->title); ?></a>
 		</td>
 		<td>
 			<?php echo isset($plugins[$item->plugin]) ? $this->escape(JText::_($plugins[$item->plugin]['text'])) : JText::_('COM_EXTERNALLOGIN_GRID_SERVER_DISABLED'); ?>
@@ -40,4 +49,4 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 			<?php echo $item->id; ?>
 		</td>
 	</tr>
-<?php endforeach; ?>
+<?php endforeach; }?>

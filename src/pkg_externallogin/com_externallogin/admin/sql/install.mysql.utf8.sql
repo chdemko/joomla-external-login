@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_users` (
 	`server_id` INT(11) NOT NULL,
 	`user_id` INT(11) NOT NULL,
 	INDEX (`server_id`),
-	INDEX (`user_id`),
+	UNIQUE (`user_id`),
 	UNIQUE (`server_id`, `user_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -40,4 +40,3 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_logs` (
 ) DEFAULT CHARSET=utf8;
 
 ALTER TABLE `#__users` ADD INDEX `idx_externallogin` (`password`);
-

@@ -38,7 +38,7 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 		<td>
 			<?php if (isset($item->plugin)):?>
 				<?php echo isset($plugins[$item->plugin]) ? $this->escape(JText::_($plugins[$item->plugin]['text'])) : JText::_('COM_EXTERNALLOGIN_GRID_SERVER_DISABLED'); ?>
-			<?php endif;?>
+			<?php endif; ?>
 		</td>
 		<td>
 			<?php echo $this->escape($item->title); ?>
@@ -49,19 +49,18 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 		<td class="center">
 			<?php if (isset($item->plugin)):?>
 				<?php echo JHtml::_('ExternalloginHtml.Users.externallogin', 1, $i, $item->joomla); ?>
-			<?php else:?>
-				<a
-					class="modal jgrid"
-					title="<?php echo addslashes(htmlspecialchars(JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_ENABLE'), ENT_COMPAT, 'UTF-8'));?>"
-					onclick="listItemTask('cb<?php echo $i;?>',''); return true;"
-					href="<?php echo JRoute::_('index.php?option=com_externallogin&view=servers&layout=modal&tmpl=component');?>"
-					rel="{handler: 'iframe', size: {x: 875, y: 550}, onClose: function() {}}"
+			<?php else: ?>
+				<button
+					value="<?php echo JRoute::_('index.php?option=com_externallogin&amp;view=servers&amp;layout=modal&amp;tmpl=component', true);?>"
+					class="btn btn-small modal"
+					onclick="document.getElementById('cb<?php echo $i;?>').checked = true; return true;"
+                    title="<?php echo addslashes(htmlspecialchars(JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_ENABLE'), ENT_COMPAT, 'UTF-8')); ?>"
+					data-toggle="modal"
+					data-target="#modal-publish"
 				>
-					<span class="state unpublish">
-						<span class="text"><?php echo JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_DISABLED');?></span>
-					</span>
-				</a>
-			<?php endif;?>
+					<span class="icon-unpublish"></span>
+				</button>
+			<?php endif; ?>
 		</td>
 		<td class="right">
 			<?php echo $item->id; ?>

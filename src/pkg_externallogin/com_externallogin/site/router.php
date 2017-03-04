@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
@@ -17,12 +17,13 @@ defined('_JEXEC') or die;
 /**
  * Function to build a External Login URL route.
  *
- * @param	array	The array of query string values for which to build a route.
+ * @param   array  &$query  The array of query string values for which to build a route.
  *
- * @return	array	The URL route with segments represented as an array.
+ * @return  array  The URL route with segments represented as an array.
+ *
  * @since	2.0.0
  */
-function ExternalloginBuildRoute(&$query)
+function externalloginBuildRoute(&$query)
 {
 	// Declare static variables.
 	static $items;
@@ -67,6 +68,7 @@ function ExternalloginBuildRoute(&$query)
 				}
 				break;
 		}
+
 		unset ($query['view']);
 	}
 
@@ -76,11 +78,13 @@ function ExternalloginBuildRoute(&$query)
 /**
  * Function to parse a External Login URL route.
  *
- * @param	array	The URL route with segments represented as an array.
- * @return	array	The array of variables to set in the request.
+ * @param   array  $segments  The URL route with segments represented as an array.
+ *
+ * @return  array  The array of variables to set in the request.
+ *
  * @since	2.0.0
  */
-function ExternalloginParseRoute($segments)
+function externalloginParseRoute($segments)
 {
 	// Only run routine if there are segments to parse.
 	if (count($segments) == 0)
@@ -91,6 +95,7 @@ function ExternalloginParseRoute($segments)
 	{
 		$view = array_pop($segments);
 		$vars['view'] = $view;
+
 		return $vars;
 	}
 }

@@ -1,29 +1,29 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla controlleradmin library
+// Import Joomla controlleradmin library
 jimport('joomla.application.component.controlleradmin');
 
 /**
  * Logs Controller of External Login component
  * 
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.1.0
+ * @since       2.1.0
  */
 class ExternalloginControllerLogs extends JControllerAdmin
 {
@@ -38,17 +38,25 @@ class ExternalloginControllerLogs extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
+	 * @param   string      $name    Model name
+	 * @param   string      $prefix  Model prefix
+	 * @param   array|null  $config  Array of options
+	 *
+	 * @return  JModel
+	 *
 	 * @see     JController::getModel
 	 *
 	 * @since   2.1.0
 	 */
-	public function getModel($name = 'Log', $prefix = 'ExternalloginModel', $config = null) 
+	public function getModel($name = 'Log', $prefix = 'ExternalloginModel', $config = null)
 	{
 		return parent::getModel($name, $prefix, isset($config) ? $config : array('ignore_request' => true));
 	}
 
 	/**
 	 * Delete logs
+	 *
+	 * @return  void
 	 *
 	 * @since   2.1.0
 	 */
@@ -62,6 +70,7 @@ class ExternalloginControllerLogs extends JControllerAdmin
 
 		// Remove the items.
 		$count = $model->getTotal();
+
 		if ($model->delete())
 		{
 			$this->setMessage(JText::plural('COM_EXTERNALLOGIN_LOGS_N_ITEMS_DELETED', $count));

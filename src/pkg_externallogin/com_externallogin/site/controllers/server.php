@@ -14,34 +14,58 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// Import Joomla controlleradmin library
-jimport('joomla.application.component.controlleradmin');
-
 /**
- * Servers Controller of External Login component
+ * Server Controller of External Login component
  * 
  * @package     External_Login
  * @subpackage  Component
  *
- * @since       2.0.0
+ * @since       2.3.0
  */
-class ExternalloginControllerServers extends JControllerAdmin
+class ExternalloginControllerServer extends JController
 {
 	/**
 	 * Proxy for getModel.
 	 *
 	 * @param   string      $name    Model name
 	 * @param   string      $prefix  Model prefix
-	 * @param   array|null  $config  Array of options
+	 * @param   array|null  $config  Options
 	 *
 	 * @return  JModel
 	 *
 	 * @see     JController::getModel
 	 *
-	 * @since   2.0.0
+	 * @since   2.3.0
 	 */
 	public function getModel($name = 'Server', $prefix = 'ExternalloginModel', $config = null)
 	{
 		return parent::getModel($name, $prefix, isset($config) ? $config : array('ignore_request' => true));
+	}
+
+	/**
+	 * Login task.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.3.0
+	 */
+	public function login()
+	{
+		JSession::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+
+		// Get the model
+		$model = $this->getModel();
+
+		// Get the uri
+		$uri = $model->getItem();
+
+		if (empty($uri))
+		{
+			JError::raiseWarning(500, $model->getError());
+		}
+		else
+		{
+			$this->setRedirect(JRoute::_($uri, false));
+		}
 	}
 }

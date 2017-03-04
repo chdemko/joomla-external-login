@@ -145,10 +145,18 @@
 					<para>
 						<variablelist>
 							<varlistentry>
-								<term>Automatic login/logout</term>
+								<term>Automatic login</term>
 								<listitem>
 									<para>
-										To automatically log in/log out a user.
+										To automatically log in a user when he is already logged in on the CAS server.
+									</para>
+								</listitem>
+							</varlistentry>
+							<varlistentry>
+								<term>Automatic logout</term>
+								<listitem>
+									<para>
+										To automatically log out a user on the CAS server when he logs out on the Joomla! site.
 									</para>
 								</listitem>
 							</varlistentry>

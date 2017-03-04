@@ -20,7 +20,7 @@ $fieldSets = $this->form->getFieldsets();
 
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_externallogin&task=server.upload');?>"
+	action="<?php echo JRoute::_('index.php?option=com_externallogin&task=server.upload'); ?>"
 	method="post"
 	name="adminForm"
 	id="upload-form"
@@ -28,22 +28,22 @@ $fieldSets = $this->form->getFieldsets();
 >
 <?php foreach ($fieldSets as $name => $fieldSet):?>
 	<fieldset class="panelform">
-		<legend><?php echo JText::sprintf($fieldSet->label, $this->item->title);?></legend>
+		<legend><?php echo JText::sprintf($fieldSet->label, $this->item->title); ?></legend>
 	<?php if (isset($fieldSet->description) && $desc = trim(JText::_($fieldSet->description))):?>
-		<p class="tip"><?php echo $desc;?></p>
-	<?php endif;?>
+		<p class="tip"><?php echo $desc; ?></p>
+	<?php endif; ?>
 		<ul class="adminformlist">
 	<?php foreach ($this->form->getFieldset($name) as $field):?>
 		<?php if ($field->hidden):?>
-			<?php echo $field->input;?>
+			<?php echo $field->input; ?>
 		<?php else:?>
 			<li><?php echo $field->label . $field->input; ?></li>
-		<?php endif;?>
-	<?php endforeach;?>
+		<?php endif; ?>
+	<?php endforeach; ?>
 		</ul>
-		<button type="button" onclick="this.form.submit();"><?php echo JText::_('COM_EXTERNALLOGIN_BUTTON_UPLOAD');?></button>
-		<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_EXTERNALLOGIN_BUTTON_CANCEL');?></button>
+		<button type="button" onclick="this.form.submit();"><?php echo JText::_('COM_EXTERNALLOGIN_BUTTON_UPLOAD'); ?></button>
+		<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_EXTERNALLOGIN_BUTTON_CANCEL'); ?></button>
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
-<?php endforeach;?>
+<?php endforeach; ?>
 

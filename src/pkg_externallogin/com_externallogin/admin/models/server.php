@@ -1,29 +1,29 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla modeladmin library
+// Import Joomla modeladmin library
 jimport('joomla.application.component.modeladmin');
 
 /**
  * Server Model of External Login component
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since	2.0.0
+ * @since       2.0.0
  */
 class ExternalloginModelServer extends JModelAdmin
 {
@@ -46,9 +46,9 @@ class ExternalloginModelServer extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type    The table type to instantiate
-	 * @param   string  A prefix for the table class name. Optional.
-	 * @param   array   Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return	JTable  A database object
 	 *
@@ -56,11 +56,11 @@ class ExternalloginModelServer extends JModelAdmin
 	 *
 	 * @since	2.0.0
 	 */
-	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array()) 
+	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the record form.
 	 *
@@ -71,25 +71,29 @@ class ExternalloginModelServer extends JModelAdmin
 	 *
 	 * @see    JModelForm::getForm
 	 *
-	 * @since  2.0.0 
+	 * @since  2.0.0
 	 */
-	public function getForm($data = array(), $loadData = true) 
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$plugin = isset($data['plugin']) ? $data['plugin'] : $this->getState($this->getName() . '.plugin');
+
 		if (empty($plugin))
 		{
 			$item = $this->getItem();
 			$plugin = $item->plugin;
-		}		
+		}
+
 		$form = $this->loadForm('com_externallogin.server.' . $plugin, 'server', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) 
+
+		if (empty($form))
 		{
 			return false;
 		}
+
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
@@ -97,18 +101,25 @@ class ExternalloginModelServer extends JModelAdmin
 	 *
 	 * @since  2.0.0
 	 */
-	protected function loadFormData() 
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_externallogin.edit.server.data', array());
-		if (empty($data)) 
+
+		if (empty($data))
 		{
-			$data = (array) $this->getItem();
+			$data = $this->getItem();
 		}
-		if (empty($data['plugin']))
+
+		if (is_object($data) && empty($data->plugin))
+		{
+			$data->plugin = $this->getState($this->getName() . '.plugin');
+		}
+		elseif (is_array($data) && empty($data['plugin']))
 		{
 			$data['plugin'] = $this->getState($this->getName() . '.plugin');
 		}
+
 		return $data;
 	}
 
@@ -130,11 +141,11 @@ class ExternalloginModelServer extends JModelAdmin
 				JArrayHelper::toInteger($pks);
 				$query = $this->_db->getQuery(true);
 				$query->delete();
-				$query->from('#__users AS u');
-				$query->leftJoin('#__externallogin_users AS e ON e.user_id = u.id');
-				$query->where('e.server_id IN (' . implode(',', $pks) . ')');
+				$query->from('#__externallogin_users');
+				$query->where('server_id IN (' . implode(',', $pks) . ')');
 				$this->_db->setQuery($query)->execute();
 			}
+
 			return true;
 		}
 		else
@@ -145,30 +156,39 @@ class ExternalloginModelServer extends JModelAdmin
 
 	/**
 	 * Upload users
+	 *
+	 * @param   JForm  $form  Form
+	 *
+	 * @return  boolean  True on success
 	 */
 	public function upload($form)
 	{
-		// TODO To be replaced by JInput (buggy at that time)
-		$files = JRequest::getVar('jform', null, 'files', 'array');
-		$sid = (int)$form['id'];
-		if ($files['type']['file'] == 'text/csv')
+		$files = JFactory::getApplication()->input->files->get('jform', null, 'array');
+		$sid = (int) $form['id'];
+
+		if ($files['file']['type'] == 'text/csv')
 		{
-			$handle = fopen($files['tmp_name']['file'], "r");
+			$handle = fopen($files['file']['tmp_name'], "r");
+
 			do
 			{
 				$data = fgetcsv($handle);
+
 				if ($data && count($data) == 4)
 				{
 					$user = JUser::getInstance();
+
 					if ($id = intval(JUserHelper::getUserId($data[0])))
 					{
 						$user->load($id);
 					}
+
 					$user->username = $data[0];
 					$user->name = $data[1];
 					$user->email = $data[2];
 					$user->groups = array();
 					$groups = explode(',', $data[3]);
+
 					foreach ($groups as $group)
 					{
 						if (is_numeric($group))
@@ -177,26 +197,48 @@ class ExternalloginModelServer extends JModelAdmin
 						}
 						else
 						{
-							$user->groups = array_merge((array)$user->groups, (array) ExternalloginHelper::getGroups($group));
+							$user->groups = array_merge((array) $user->groups, (array) ExternalloginHelper::getGroups($group));
 						}
 					}
+
 					if ($user->save())
 					{
-						$db = JFactory::getDbo();
-						$query = $db->getQuery(true);
-						$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $sid . ',' . (int) $user->id);
-						$db->setQuery($query);
-						$db->execute();
+						$query = $this->_db->getQuery(true);
+						$query->select('user_id');
+						$query->from('#__externallogin_users');
+						$query->where('user_id = ' . (int) $user->id);
+						$this->_db->setQuery($query);
+
+						$query = $this->_db->getQuery(true);
+						$query->set('server_id = ' . (int) $sid);
+
+						if ($this->_db->loadResult())
+						{
+							$query->update('#__externallogin_users');
+							$query->where('user_id = ' . (int) $user->id);
+						}
+						else
+						{
+							$query->insert('#__externallogin_users');
+							$query->set('user_id = ' . (int) $user->id);
+						}
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
 					}
 				}
-			} while ($data);
+			}
+			while ($data);
+
 			fclose($handle);
+
 			return true;
 		}
 		else
 		{
-			$this->setError('COM_EXTERNALLOGIN_ERROR_BAD_FILE');
-			return false;		
+			$this->setError(JText::_('COM_EXTERNALLOGIN_ERROR_BAD_FILE'));
+
+			return false;
 		}
 	}
 }

@@ -1,29 +1,29 @@
 <?php
 
 /**
- * @package    External Login
- * @subpackage Component
- * @copyright  Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author     Christophe Demko
- * @author     Ioannis Barounis
- * @author     Alexandre Gandois
- * @link       http://www.chdemko.com
- * @license    http://www.gnu.org/licenses/gpl-2.0.html
+ * @package     External_Login
+ * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
+ * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
+ * @link        http://www.chdemko.com
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla controllerform library
+// Import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 /**
  * Server Controller of External Login component
  * 
- * @package    External Login
- * @subpackage Component
+ * @package     External_Login
+ * @subpackage  Component
  *             
- * @since      2.0.0
+ * @since       2.0.0
  */
 class ExternalloginControllerServer extends JControllerForm
 {
@@ -39,19 +39,23 @@ class ExternalloginControllerServer extends JControllerForm
 	 *
 	 * @since   2.0.0
 	 */
-	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id') 
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$plugin = JFactory::getApplication()->input->get('plugin', '');
 		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
-		if (!empty($plugin)) 
+
+		if (!empty($plugin))
 		{
-			$append.= '&plugin=' . $plugin;
+			$append .= '&plugin=' . $plugin;
 		}
+
 		return $append;
 	}
 
 	/**
 	 * Download users
+	 *
+	 * @return  boolean  True on success
 	 */
 	public function download()
 	{
@@ -62,11 +66,14 @@ class ExternalloginControllerServer extends JControllerForm
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=download&format=csv&id=' . $cid[0], false));
+
 		return true;
 	}
 
 	/**
 	 * Upload users
+	 *
+	 * @return  void
 	 */
 	public function upload()
 	{
@@ -78,9 +85,13 @@ class ExternalloginControllerServer extends JControllerForm
 		$id = (int) $form['id'];
 
 		$model = $this->getModel();
+
 		if ($model->upload($form))
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=success&tmpl=component', false), JText::_('COM_EXTERNALLOGIN_MSG_UPLOAD_SUCCESS'));
+			$this->setRedirect(
+				JRoute::_('index.php?option=com_externallogin&view=success&tmpl=component', false),
+				JText::_('COM_EXTERNALLOGIN_MSG_UPLOAD_SUCCESS')
+			);
 		}
 		else
 		{

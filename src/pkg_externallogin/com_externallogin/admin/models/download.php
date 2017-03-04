@@ -1,31 +1,31 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import the Joomla model library
+// Import the Joomla model library
 jimport('joomla.application.component.model');
 
 /**
  * Download Model of External Login component
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.0.0
+ * @since       2.0.0
  */
-class ExternalloginModelDownload extends JModel
+class ExternalloginModelDownload extends JModelLegacy
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -48,9 +48,9 @@ class ExternalloginModelDownload extends JModel
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type    The table type to instantiate
-	 * @param   string  A prefix for the table class name. Optional.
-	 * @param   array   Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return	JTable  A database object
 	 *
@@ -58,7 +58,7 @@ class ExternalloginModelDownload extends JModel
 	 *
 	 * @since	2.0.0
 	 */
-	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array()) 
+	public function getTable($type = 'Server', $prefix = 'ExternalloginTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -67,11 +67,13 @@ class ExternalloginModelDownload extends JModel
 	 * Get file name
 	 *
 	 * @return	string	The file name
+	 *
 	 * @since	1.6
 	 */
 	public function getBaseName()
 	{
 		$table = $this->getTable();
+
 		if ($table->load($this->getState($this->getName() . '.id')))
 		{
 			return JFactory::getConfig()->get('sitename') . '_' . $table->title . '_' . JFactory::getDate();
@@ -79,6 +81,7 @@ class ExternalloginModelDownload extends JModel
 		else
 		{
 			$this->setError(JText::_('COM_EXTERNALLOGIN_ERROR_CANNOT_DOWNLOAD'));
+
 			return false;
 		}
 	}
@@ -87,6 +90,7 @@ class ExternalloginModelDownload extends JModel
 	 * Get the content
 	 *
 	 * @return	string	The content.
+	 *
 	 * @since	1.6
 	 */
 	public function getContent()
@@ -103,10 +107,12 @@ class ExternalloginModelDownload extends JModel
 		$query->select('GROUP_CONCAT(g.group_id SEPARATOR ",")');
 		$db->setQuery($query);
 		$results = $db->loadRowList();
+
 		foreach ($results as $result)
 		{
 			fputcsv($file, $result);
 		}
+
 		fclose($file);
 	}
 }

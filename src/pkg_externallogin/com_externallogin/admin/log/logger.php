@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
@@ -17,12 +17,12 @@ defined('_JEXEC') or die;
 /**
  * External Login - External Login logger.
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.1.0
+ * @since       2.1.0
  */
-class JLoggerExternallogin extends JLoggerDatabase
+class JLogLoggerExternallogin extends JLogLoggerDatabase
 {
 	/**
 	 * Method to add an entry to the log.
@@ -38,7 +38,7 @@ class JLoggerExternallogin extends JLoggerDatabase
 		if ($entry instanceof ExternalloginLogEntry)
 		{
 			// Connect to the database if not connected.
-			if (empty($this->dbo))
+			if (empty($this->db))
 			{
 				$this->connect();
 			}
@@ -46,7 +46,7 @@ class JLoggerExternallogin extends JLoggerDatabase
 			// Convert the date.
 			$entry->date = $entry->date->format('U.u');
 
-			$this->dbo->insertObject($this->table, $entry);
+			$this->db->insertObject($this->table, $entry);
 		}
 	}
 }

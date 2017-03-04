@@ -1,34 +1,37 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import the Joomla modellist library
+// Import the Joomla modellist library
 jimport('joomla.application.component.modellist');
 
 /**
  * Login Model of External Login component
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.0.0
+ * @since       2.0.0
  */
 class ExternalloginModelLogin extends JModelList
 {
 	/**
 	 * Method to auto-populate the model state.
+	 *
+	 * @param   string|null  $ordering   Column for ordering
+	 * @param   string|null  $direction  Direction of ordering
 	 *
 	 * @return  void
 	 *
@@ -41,9 +44,13 @@ class ExternalloginModelLogin extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Adjust the context to support modal layouts.
-		if ($layout = JFactory::getApplication()->input->get('layout')) {
-			$this->context .= '.'.$layout;
+		if ($layout = JFactory::getApplication()->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
 		}
+
+		$redirect = JFactory::getApplication()->input->get('redirect');
+		$this->setState('server.redirect', $redirect);
 
 		// List state information.
 		parent::populateState('a.ordering', 'asc');
@@ -58,18 +65,18 @@ class ExternalloginModelLogin extends JModelList
 	 *
 	 * @since  2.0.0 
 	 */
-	protected function getListQuery() 
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		
+
 		// Select some fields
 		$query->select('a.*');
 
 		// From the externallogin_servers table
 		$query->from($db->quoteName('#__externallogin_servers') . ' as a');
-		
+
 		// Join over the users for the enabled plugins.
 		$query->join('LEFT', '#__extensions AS e ON ' .
 			$db->quoteName('e.type') . '=' . $db->quote('plugin') . ' AND ' .
@@ -83,7 +90,7 @@ class ExternalloginModelLogin extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
@@ -97,31 +104,23 @@ class ExternalloginModelLogin extends JModelList
 	 */
 	public function getItems()
 	{
-		$app = JFactory::getApplication();
-		$url = $app->input->server->getString('HTTP_REFERER');
-		if (!empty($url) && JURI::isInternal($url))
-		{
-			$uri = JFactory::getURI($url);
-		}
-		else
-		{
-			$uri = JFactory::getURI();
-		}
 		$items = parent::getItems();
+		$app = JFactory::getApplication();
+		$redirect = $this->getState('server.redirect', $app->getParams('com_externallogin')->get('redirect'));
+
 		foreach ($items as $i => $item)
 		{
 			$item->params = new JRegistry($item->params);
-			$uri->setVar('server', $item->id);
-			$results = $app->triggerEvent('onGetLoginUrl', array($item, JRoute::_($uri, true)));
-			if (!empty($results))
+			$url = 'index.php?option=com_externallogin&view=server&server=' . $item->id;
+
+			if (!empty($redirect))
 			{
-				$item->url = $results[0];
+				$url .= '&redirect=' . $redirect;
 			}
-			else
-			{
-				unset($items[$i]);
-			}
+
+			$item->url = $url;
 		}
+
 		return $items;
 	}
 }

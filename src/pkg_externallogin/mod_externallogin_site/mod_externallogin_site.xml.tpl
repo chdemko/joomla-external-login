@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5" client="site" method="upgrade">
+<extension type="module" version="3" client="site" method="upgrade">
 
 	<name>MOD_EXTERNALLOGIN_SITE</name>
 
@@ -69,6 +69,14 @@
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+				 <field
+					name="redirect"
+					type="menuitem"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_REDIRECT_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_REDIRECT_DESC"
+				>
+					<option value="">JDEFAULT</option>
 				</field>
 			</fieldset>
 		</fields>

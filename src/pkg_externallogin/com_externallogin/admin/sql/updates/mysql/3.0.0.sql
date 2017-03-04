@@ -7,7 +7,4 @@
 -- @link        http://www.chdemko.com
 -- @license     http://www.gnu.org/licenses/gpl-2.0.html
 
-DROP TABLE IF EXISTS `#__externallogin_servers`;
-DROP TABLE IF EXISTS `#__externallogin_users`;
-DROP TABLE IF EXISTS `#__externallogin_logs`;
-ALTER TABLE `#__users` DROP INDEX `idx_externallogin`;
+ALTER TABLE `#__externallogin_users` DROP INDEX `user_id`, ADD UNIQUE `user_id` (`user_id`);

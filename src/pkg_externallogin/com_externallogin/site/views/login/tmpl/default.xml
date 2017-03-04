@@ -67,6 +67,16 @@
 				label="JFIELD_LOGOUT_IMAGE_LABEL"
 				description="JFIELD_LOGOUT_IMAGE_DESC"
 			/>
+
+			<field
+				name="redirect"
+				type="menuitem"
+				label="COM_EXTERNALLOGIN_SITE_FIELD_REDIRECT_LABEL"
+				description="COM_EXTERNALLOGIN_SITE_FIELD_REDIRECT_DESC"
+			>
+				<option value="">JDEFAULT</option>
+			</field>
+
 		</fieldset>
 	</fields>
 </metadata>

@@ -15,7 +15,7 @@
 defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="external-login">
-<?php require JModuleHelper::getLayoutPath('mod_externallogin_admin', 'title');?>
+<?php require JModuleHelper::getLayoutPath('mod_externallogin_admin', 'title'); ?>
 	<fieldset class="loginform">
 <?php
 if ($enabled):
@@ -35,6 +35,6 @@ else:
 endif;
 ?>
 	</fieldset>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>
-

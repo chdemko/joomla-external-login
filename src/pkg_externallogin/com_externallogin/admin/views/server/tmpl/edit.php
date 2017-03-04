@@ -29,68 +29,47 @@ $fieldSets = $this->form->getFieldsets();
 		}
 	}
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_externallogin&id=' . $this->item->id); ?>" method="post" name="adminForm" id="server-form" class="form-validate">
-	<div class="width-50 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_($fieldSets['details']->label); ?></legend>
-			<?php if (isset($fieldSets['details']->description) && $desc = trim(JText::_($fieldSets['details']->description))) :?>
-				<p class="tip"><?php echo $desc;?></p>
-			<?php endif;?>
-			<ul class="adminformlist">
-<?php
-foreach ($this->form->getFieldset('details') as $field):
-	if ($field->hidden):
-				echo $field->input;
-	else:
-?>
-				<li><?php echo $field->label . $field->input; ?></li>
-<?php
-	endif;
-endforeach;
-?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_externallogin&id=' . $this->item->id); ?>" method="post" name="adminForm" id="server-form" class="form-validate form-horizontal">
+	<div class="row-fluid">
+		<div class="span10">
+			<ul class="nav nav-tabs" id="configTabs">
+				<?php $fieldSets = $this->form->getFieldsets(); ?>
+				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
+					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
+				<?php endforeach; ?>
 			</ul>
-		</fieldset>
-	</div>
-	
-	<div class="width-50 fltrt">
-<?php
-		echo JHtml::_('sliders.start','externallogin-sliders-server-'.$this->item->id, array('useCookie'=>1));
-?>
-<?php
-foreach ($fieldSets as $name => $fieldSet):
-	if ($name != 'details'):
-		echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options');
-		if (isset($fieldSet->description) && trim($desc = JText::_($fieldSet->description))):
-?>
-		<p class="tip"><?php echo $desc;?></p>
-<?php
-		endif;
-?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-<?php
-foreach ($this->form->getFieldset($name) as $field):
-	if ($field->hidden):
-				echo $field->input;
-	else:
-?>
-				<li><?php echo $field->label . $field->input; ?></li>
-<?php
-	endif;
-endforeach;
-?>
-			</ul>
-		</fieldset>
-<?php
-	endif;
-endforeach;
-		echo JHtml::_('sliders.end');
-?>
+			<div class="tab-content">
+				<?php $fieldSets = $this->form->getFieldsets(); ?>
+				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+					<div class="tab-pane" id="<?php echo $name; ?>">
+						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
+							<p class="tab-description"><?php echo JText::_($fieldSet->description); ?></p>
+						<?php endif; ?>
+						<?php foreach ($this->form->getFieldset($name) as $field): ?>
+							<div class="control-group">
+								<?php if (!$field->hidden && $name != "permissions") : ?>
+									<div class="control-label">
+										<?php echo $field->label; ?>
+									</div>
+								<?php endif; ?>
+								<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
+									<?php echo $field->input; ?>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
 	</div>
 	<div>
-		<input type="hidden" name="plugin" value="<?php echo htmlspecialchars($this->item->plugin, ENT_COMPAT , 'UTF-8');?>" />
+		<input type="hidden" name="plugin" value="<?php echo htmlspecialchars($this->item->plugin, ENT_COMPAT , 'UTF-8'); ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
-
+<script type="text/javascript">
+	jQuery('#configTabs').find('a:first').tab('show'); // Select first tab
+</script>

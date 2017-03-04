@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5" client="administrator" method="upgrade">
+<extension type="module" version="3" client="administrator" method="upgrade">
 
 	<name>MOD_EXTERNALLOGIN_ADMIN</name>
 

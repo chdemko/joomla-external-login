@@ -1,31 +1,31 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
 defined('_JEXEC') or die;
 
-// import Joomla view library
+// Import Joomla view library
 jimport('joomla.application.component.view');
 
 /**
  * Server View of External Login component
  * 
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since  2.0.0
+ * @since       2.0.0
  */
-class ExternalloginViewServer extends JView
+class ExternalloginViewServer extends JViewLegacy
 {
 	/**
 	 * Execute and display a layout script.
@@ -38,21 +38,20 @@ class ExternalloginViewServer extends JView
 	 *
 	 * @since   2.0.0
 	 */
-	function display($tpl = null) 
+	public function display($tpl = null)
 	{
-
 		// Get data from the model
 		$item = $this->get('Item');
 		$state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) 
+		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
+
 			return false;
 		}
 
 		JFactory::getApplication()->redirect($item);
 	}
 }
-

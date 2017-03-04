@@ -1,26 +1,27 @@
 External Login
 ===============
 
-The *External Login* project is the continuation of the [Authentication Manager project](http://joomlacode.org/gf/project/auth_manager/) developped for Joomla!1.5.
+The *External Login* project is the continuation of the [Authentication Manager project](http://joomlacode.org/gf/project/auth_manager/), originally developed for Joomla! 1.5, and now compatible with Joomla! 3.x.
 
 Downloads
 ---------
 
-* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-2.2.0.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/External_Login_package-2.2.0-User_Guide-en-GB.pdf))
-* [Admin template](http://download.chdemko.com/joomla/extensions/external-login/tpl_externallogin-2.2.0.zip)
+* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.0.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/External_Login_package-3.0.0-rc1-User_Guide-en-GB.pdf))
 
 External Login Plugins
 ----------------------
 
-* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-2.2.0.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/CAS_Plugin-2.2.0-User_Guide-en-GB.pdf))
+* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.0.0-rc1.zip) ([documentation](http://download.chdemko.com/joomla/extensions/external-login/CAS_Plugin-3.0.0-rc1-User_Guide-en-GB.pdf))
 
 Community Builder
 -----------------
 
-* [Community Builder External Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_user_cbexternallogin-2.2.0.zip)
+* [Community Builder External Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_user_cbexternallogin-3.0.0-rc1.zip)
 
 Requirements
 ------------
 
-* Joomla!2.5
+* Joomla! 3.x
+
+You can find the version for Joomla! 2.5 [here](https://github.com/chdemko/joomla-external-login/tree/2.x).
 

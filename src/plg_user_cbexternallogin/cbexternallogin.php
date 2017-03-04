@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @package     External Login
- * @subpackage  Community Builder External Login Plugin
+ * @package     External_Login
+ * @subpackage  CAS Plugin
+ * @author      Christophe Demko <chdemko@gmail.com>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko. All rights reserved.
- * @author      Christophe Demko
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access to this file
@@ -15,12 +15,12 @@ defined('_JEXEC') or die;
 /**
  * External Login - Community Builder External Login Plugin.
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Community Builder External Login Plugin
  *
- * @since  2.0.0
+ * @since       2.0.0
  */
-class plgUserCbexternallogin extends JPlugin
+class PlgUserCbexternallogin extends JPlugin
 {
 	/**
 	 * Constructor.
@@ -39,8 +39,8 @@ class plgUserCbexternallogin extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data
-	 * @param	array	$options	Array holding options (remember, autoregister, group)
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
 	 *
 	 * @return	boolean	True on success
 	 *
@@ -77,10 +77,12 @@ class plgUserCbexternallogin extends JPlugin
 				{
 					$query->values((int) $user['id'] . ',' . (int) $user['id'] . ', 0, 0');
 				}
+
 				$dbo->setQuery($query);
 				$dbo->execute();
 			}
 		}
+
 		return true;
 	}
 }

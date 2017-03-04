@@ -1,42 +1,42 @@
 <?php
 
 /**
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
+ * @author      Christophe Demko <chdemko@gmail.com>
+ * @author      Ioannis Barounis <contact@johnbarounis.com>
+ * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
  * @copyright   Copyright (C) 2008-2014 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
- * @author      Christophe Demko
- * @author      Ioannis Barounis
- * @author      Alexandre Gandois
+ * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
- * @license     http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // No direct access
 defined('_JEXEC') or die;
 
-// import Joomla table library
+// Import Joomla table library
 jimport('joomla.database.table');
 
 /**
  * Server Table class of External Login component
  *
- * @package     External Login
+ * @package     External_Login
  * @subpackage  Component
  *
- * @since	0.0.1 
+ * @since       0.0.1 
  */
 class ExternalloginTableServer extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param  object  Database connector object
+	 * @param   object  &$db  Database connector object
 	 *
-	 * @see    JTable::__construct
+	 * @see     JTable::__construct
 	 *
-	 * @since  2.0.0
+	 * @since   2.0.0
 	 */
-	public function __construct(&$db) 
+	public function __construct(&$db)
 	{
 		parent::__construct('#__externallogin_servers', 'id', $db);
 	}
@@ -66,6 +66,7 @@ class ExternalloginTableServer extends JTable
 			{
 				$this->params = new JRegistry;
 			}
+
 			return true;
 		}
 		else
@@ -94,10 +95,12 @@ class ExternalloginTableServer extends JTable
 			$this->_db->setQuery($query);
 			$this->ordering = $this->_db->loadResult() + 1;
 		}
+
 		if (is_array($this->params))
 		{
 			$this->params = (string) new JRegistry($this->params);
 		}
+
 		if (parent::store($updateNulls))
 		{
 			return $this->reorder();
