@@ -14,10 +14,19 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-$html = JHtml::_('icons.buttons', $this->items);
+//$html = JHtml::_('icons.buttons', $this->items);
+//var_dump(JHtml::_('icons.buttons', $this->items));
 ?>
-<?php if (!empty($html)): ?>
-	<div class="cpanel"><?php echo $html; ?></div>
-<?php else : ?>
-    <div class="cpanel"><?php echo JText::_('COM_EXTERNALLOGIN_NO_PLUGINS'); ?></div>
+<div class="cpanel">
+<?php if (empty($this->items)): ?>
+	<?php echo JText::_('COM_EXTERNALLOGIN_NO_PLUGINS'); ?>
+<?php else: ?>
+	<?php foreach ($this->items as $item): ?>
+		<a class="btn" href="<?php echo $item['link']?>" target="<?php echo $item['target']; ?>">
+			<span class="<?php echo $item['image'];?>" title="<?php echo htmlspecialchars($item['alt'], ENT_COMPAT, 'UTF-8'); ?>"></span>
+			<br />
+			<span><?php echo $item['text']; ?></span>
+		</a>
+	<?php endforeach; ?>
 <?php endif; ?>
+</div>

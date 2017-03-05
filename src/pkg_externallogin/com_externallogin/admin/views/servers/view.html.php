@@ -82,7 +82,7 @@ class ExternalloginViewServers extends JViewLegacy
 		// Set the toolbar
 		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_SERVERS'), 'database');
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_externallogin&amp;view=plugins&amp;tmpl=component', 875, 550, 0, 0, '');
+		$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_externallogin&amp;view=plugins&amp;tmpl=component', 800, 400);
 		JToolBarHelper::editList('server.edit');
 		JToolBarHelper::publishList('servers.publish');
 		JToolBarHelper::unpublishList('servers.unpublish');

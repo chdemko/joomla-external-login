@@ -91,9 +91,18 @@ class PlgSystemCaslogin extends JPlugin
 	{
 		if ($context == 'com_externallogin')
 		{
+			JFactory::getDocument()->addStyleDeclaration(
+				'.icon-caslogin {'
+					. 'width: 48px;'
+					. 'height: 48px;'
+					. 'background-image: url(../media/plg_system_caslogin/images/administrator/icon-48-caslogin.png);'
+					. 'background-position: center center;'
+				. '}'
+			);
+
 			return array(
 				array(
-					'image' => 'plg_system_caslogin/administrator/icon-48-caslogin.png',
+					'image' => 'icon-caslogin',
 					'link' => JRoute::_('index.php?option=com_externallogin&task=server.add&plugin=system.caslogin'),
 					'alt' => JText::_('PLG_SYSTEM_CASLOGIN_ALT'),
 					'text' => JText::_('PLG_SYSTEM_CASLOGIN_TEXT'),
@@ -507,7 +516,15 @@ class PlgSystemCaslogin extends JPlugin
 		if ($server->plugin == 'system.caslogin')
 		{
 			// Return the login URL
-			return $this->getUrl($server->params) . '/login?service=' . urlencode($service);
+			$url = $this->getUrl($server->params) . '/login?service=' . urlencode($service);
+
+			if ($server->params->get('locale'))
+			{
+				list($locale, $country) = explode('-', JFactory::getLanguage());
+				$url .= '&locale=' . $locale;
+			}
+
+			return $url;
 		}
 	}
 
@@ -762,17 +779,27 @@ class PlgSystemCaslogin extends JPlugin
 					);
 				}
 
-				if ($params->get('logouturl'))
+				if ($params->get('locale'))
 				{
-					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($params->get('logouturl'));
-				}
-				elseif ($app->input->get('return'))
-				{
-					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($app->input->getString('return'));
+					list($locale, $country) = explode('-', JFactory::getLanguage());
+					$locale .= '&locale=' . $locale;
 				}
 				else
 				{
-					$redirect = $this->getUrl($params) . '/logout';
+					$locale = '';
+				}
+
+				if ($params->get('logouturl'))
+				{
+					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($params->get('logouturl')) . $locale;
+				}
+				elseif ($app->input->get('return'))
+				{
+					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($app->input->getString('return')) . $locale;
+				}
+				else
+				{
+					$redirect = $this->getUrl($params) . '/logout?' . $locale;
 				}
 
 				$app->redirect($redirect);

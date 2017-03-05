@@ -111,8 +111,8 @@ class ExternalloginViewUsers extends JViewLegacy
 			'publish',
 			'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_EXTERNALLOGIN',
 			'index.php?option=com_externallogin&amp;view=servers&amp;layout=modal&amp;tmpl=component',
-			875,
-			550,
+			800,
+			400,
 			0,
 			0,
 			''
