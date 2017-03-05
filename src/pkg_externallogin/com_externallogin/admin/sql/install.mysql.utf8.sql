@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_servers` (
 	`params` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__externallogin_users` (
 	`server_id` INT(11) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_users` (
 	INDEX (`server_id`),
 	UNIQUE (`user_id`),
 	UNIQUE (`server_id`, `user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__externallogin_logs` (
 	`priority` INT(11) NOT NULL DEFAULT 0,
@@ -37,6 +37,6 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_logs` (
 	INDEX (`category`),
 	INDEX (`date`),
 	INDEX (`message`(255))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;
 
 ALTER TABLE `#__users` ADD INDEX `idx_externallogin` (`password`);
