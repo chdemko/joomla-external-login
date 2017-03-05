@@ -23,9 +23,7 @@
 	</files>
 
 	<media destination="plg_system_caslogin" folder="media">
-		<folder>css</folder>
 		<folder>images</folder>
-		<folder>js</folder>
 	</media>
 
 	<languages>
