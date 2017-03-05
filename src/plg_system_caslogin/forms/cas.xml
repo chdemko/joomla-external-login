@@ -223,13 +223,13 @@
 			</field>
 
 			<field
-				name="logouturl"
-				type="text"
-				size="30"
-				default=""
-				label="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_LABEL"
-				description="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUTURL_DESC"
-			/>
+				name="logout"
+				type="menuitem"
+				label="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUT_LABEL"
+				description="PLG_SYSTEM_CASLOGIN_FIELD_LOGOUT_DESC"
+			>
+				<option value="">JDEFAULT</option>
+			</field>
 
 			<field
 				name="timeout"

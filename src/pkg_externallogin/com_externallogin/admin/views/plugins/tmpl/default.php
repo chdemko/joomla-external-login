@@ -13,9 +13,6 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
-
-//$html = JHtml::_('icons.buttons', $this->items);
-//var_dump(JHtml::_('icons.buttons', $this->items));
 ?>
 <div class="cpanel">
 <?php if (empty($this->items)): ?>

@@ -520,7 +520,7 @@ class PlgSystemCaslogin extends JPlugin
 
 			if ($server->params->get('locale'))
 			{
-				list($locale, $country) = explode('-', JFactory::getLanguage());
+				list($locale, $country) = explode('-', JFactory::getLanguage()->getTag());
 				$url .= '&locale=' . $locale;
 			}
 
@@ -781,7 +781,7 @@ class PlgSystemCaslogin extends JPlugin
 
 				if ($params->get('locale'))
 				{
-					list($locale, $country) = explode('-', JFactory::getLanguage());
+					list($locale, $country) = explode('-', JFactory::getLanguage()->getTag());
 					$locale .= '&locale=' . $locale;
 				}
 				else
@@ -789,17 +789,17 @@ class PlgSystemCaslogin extends JPlugin
 					$locale = '';
 				}
 
-				if ($params->get('logouturl'))
+				$logout = $params->get('logout');
+
+				if ($logout)
 				{
-					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($params->get('logouturl')) . $locale;
-				}
-				elseif ($app->input->get('return'))
-				{
-					$redirect = $this->getUrl($params) . '/logout?url=' . urlencode($app->input->getString('return')) . $locale;
+					$baseUrl = JURI::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+					$url = $baseUrl . JRoute::_('index.php?Itemid=' . $logout, true);
+					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($url) . $locale;
 				}
 				else
 				{
-					$redirect = $this->getUrl($params) . '/logout?' . $locale;
+					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode(JURI::base()) . $locale;
 				}
 
 				$app->redirect($redirect);
