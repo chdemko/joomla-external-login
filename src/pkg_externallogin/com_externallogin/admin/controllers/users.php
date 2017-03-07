@@ -62,7 +62,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'));
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -75,7 +75,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->enableJoomla($cid))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError(), 'warning');
 			}
 			else
 			{
@@ -103,7 +103,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'));
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -116,7 +116,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->disableJoomla($cid))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError(), 'warning');
 			}
 			else
 			{
@@ -144,7 +144,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'));
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -157,7 +157,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->disableExternallogin($cid))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError(), 'warning');
 			}
 			else
 			{
@@ -186,7 +186,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'));
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -199,7 +199,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->enableExternallogin($cid, $sid))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError(), 'warning');
 			}
 			else
 			{

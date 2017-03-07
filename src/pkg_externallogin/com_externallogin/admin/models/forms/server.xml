@@ -89,8 +89,8 @@
 			<field
 				name="redirect"
 				type="menuitem"
-				label="COM_EXTERNALLOGIN_ADMIN_FIELD_REDIRECT_LABEL"
-				description="COM_EXTERNALLOGIN_ADMIN_FIELD_REDIRECT_DESC"
+				label="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGIN_REDIRECTURL_LABEL"
+				description="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGIN_REDIRECTURL_DESC"
 			>
 				<option value="">JDEFAULT</option>
 			</field>

@@ -61,7 +61,8 @@ class ExternalloginControllerServer extends JController
 
 		if (empty($uri))
 		{
-			JError::raiseWarning(500, $model->getError());
+			$this->setMessage($model->getError(), 'warning');
+			$this->setRedirect('index.php', false);
 		}
 		else
 		{

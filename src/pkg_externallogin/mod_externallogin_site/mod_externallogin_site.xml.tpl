@@ -59,6 +59,41 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field
+					name="greeting"
+					type="radio"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_GREETING_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_GREETING_DESC"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="name"
+					type="list"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_NAME_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_NAME_DESC"
+					default="0"
+					showon="greeting:1"
+					>
+					<option value="0">MOD_EXTERNALLOGIN_SITE_VALUE_NAME</option>
+					<option value="1">MOD_EXTERNALLOGIN_SITE_VALUE_USERNAME</option>
+				</field>
+
+				<field
+					name="usesecure"
+					type="radio"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_USESECURE_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_USESECURE_DESC"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field
 					name="show_title"
 					type="radio"
@@ -69,14 +104,25 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				 <field
-					name="redirect"
+
+				<field
+					name="logout_redirect_menuitem"
 					type="menuitem"
-					label="MOD_EXTERNALLOGIN_SITE_FIELD_REDIRECT_LABEL"
-					description="MOD_EXTERNALLOGIN_SITE_FIELD_REDIRECT_DESC"
-				>
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_LOGOUT_REDIRECTURL_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_LOGOUT_REDIRECTURL_DESC"
+					>
 					<option value="">JDEFAULT</option>
 				</field>
+
+				<field
+					name="redirect"
+					type="menuitem"
+					label="MOD_EXTERNALLOGIN_SITE_FIELD_LOGIN_REDIRECTURL_LABEL"
+					description="MOD_EXTERNALLOGIN_SITE_FIELD_LOGIN_REDIRECTURL_DESC"
+					>
+					<option value="">JDEFAULT</option>
+				</field>
+
 			</fieldset>
 		</fields>
 	</config>

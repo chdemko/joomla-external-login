@@ -65,4 +65,40 @@ abstract class ModExternalloginsiteHelper
 
 		return $items;
 	}
+
+	/**
+	 * Retrieve the url where the user should be returned after logging out
+	 *
+	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 *
+	 * @return string
+	 */
+	public static function getLogoutUrl($params)
+	{
+		$app  = JFactory::getApplication();
+		$item = $app->getMenu()->getItem(
+			$params->get(
+				'logout_redirect_menuitem',
+				JComponentHelper::getComponent('com_externallogin', true)->params->get('logout_redirect_menuitem')
+			)
+		);
+
+		// Stay on the same page
+		$url = JUri::getInstance()->toString();
+
+		if ($item)
+		{
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled() && $item->language !== '*')
+			{
+				$lang = '&lang=' . $item->language;
+			}
+
+			$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $item->id . $lang);
+		}
+
+		// We are forced to encode the url in base64 as com_users uses this encoding
+		return base64_encode($url);
+	}
 }

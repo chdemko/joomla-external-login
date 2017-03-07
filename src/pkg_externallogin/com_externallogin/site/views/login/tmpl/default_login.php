@@ -18,12 +18,14 @@ JHtml::_('behavior.keepalive');
 ?>
 <div class="login<?php echo htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 	<?php if ($this->params->get('show_page_heading')): ?>
-	<h1>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	</h1>
+	<div class="page-header">
+		<h1>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		</h1>
+	</div>
 	<?php endif; ?>
 
-	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
+	<?php if (($this->params->get('logindescription_show') == 1 && trim($this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	<div class="login-description">
 	<?php endif; ?>
 
@@ -35,7 +37,7 @@ JHtml::_('behavior.keepalive');
 			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JTEXT::_('COM_EXTERNALLOGIN_LOGIN_IMAGE_ALT')?>"/>
 		<?php endif; ?>
 
-	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
+	<?php if (($this->params->get('logindescription_show') == 1 && trim($this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	</div>
 	<?php endif; ?>
 

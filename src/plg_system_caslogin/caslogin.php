@@ -337,6 +337,8 @@ class PlgSystemCaslogin extends JPlugin
 									$input->set('option', 'com_login');
 									$input->set('task', 'login');
 									$input->set(JSession::getFormToken(), 1);
+
+									// We are forced to encode the url in base64 as com_login uses this encoding
 									$input->set('return', base64_encode($return));
 								}
 								else
@@ -345,6 +347,8 @@ class PlgSystemCaslogin extends JPlugin
 									$input->set('task', 'user.login');
 									$input->set('Itemid', 0);
 									$input->post->set(JSession::getFormToken(), 1);
+
+									// We are forced to encode the url in base64 as com_users uses this encoding
 									$input->post->set('return', base64_encode($return));
 								}
 							}
@@ -782,24 +786,32 @@ class PlgSystemCaslogin extends JPlugin
 				if ($params->get('locale'))
 				{
 					list($locale, $country) = explode('-', JFactory::getLanguage()->getTag());
-					$locale .= '&locale=' . $locale;
+					$locale = '&locale=' . $locale;
 				}
 				else
 				{
 					$locale = '';
 				}
 
-				$logout = $params->get('logout');
-
-				if ($logout)
+				if ($params->get('logouturl'))
 				{
-					$baseUrl = JURI::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-					$url = $baseUrl . JRoute::_('index.php?Itemid=' . $logout, true);
-					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($url) . $locale;
+					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($params->get('logouturl')) . $locale;
+				}
+				elseif ($app->input->get('return'))
+				{
+					$return = base64_decode($app->input->get('return', '', 'base64'));
+
+					if (is_numeric($return))
+					{
+						$baseUrl = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+						$return = $baseUrl . JRoute::_('index.php?Itemid=' . $return, true);
+					}
+
+					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($return) . '&url=' . urlencode($return) . $locale;
 				}
 				else
 				{
-					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode(JURI::base()) . $locale;
+					$redirect = $this->getUrl($params) . '/logout' . $locale;
 				}
 
 				$app->redirect($redirect);

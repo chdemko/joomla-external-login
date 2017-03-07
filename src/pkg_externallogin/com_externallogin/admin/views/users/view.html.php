@@ -48,7 +48,9 @@ class ExternalloginViewUsers extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(implode('<br />', $errors), 'error');
+			$app->redirect('index.php');
 
 			return false;
 		}
