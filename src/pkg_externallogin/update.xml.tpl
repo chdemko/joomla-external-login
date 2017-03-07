@@ -4,7 +4,7 @@
 	<update>
 		<name>External Login</name>
 		<description>External Login Package</description>
-		<element>externallogin</element>
+		<element>pkg_externallogin</element>
 		<type>package</type>
 		<version>@VERSION@</version>
 		<infourl title="Authentication Manager">https://github.com/chdemko/joomla-external-login</infourl>
