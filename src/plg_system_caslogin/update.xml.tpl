@@ -2,9 +2,9 @@
 <updates>
 
 	<update>
-		<name>System - External Login</name>
-		<description>System - External Login</description>
-		<element>externallogin</element>
+		<name>System - CAS Login</name>
+		<description>System - CAS Login</description>
+		<element>caslogin</element>
 		<group>system</group>
 		<type>plugin</type>
 		<version>@VERSION@</version>

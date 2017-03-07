@@ -2,8 +2,8 @@
 <updates>
 
 	<update>
-		<name>Authentication Manager</name>
-		<description>Authentication Manager Package</description>
+		<name>External Login</name>
+		<description>External Login Package</description>
 		<element>externallogin</element>
 		<type>package</type>
 		<version>@VERSION@</version>
