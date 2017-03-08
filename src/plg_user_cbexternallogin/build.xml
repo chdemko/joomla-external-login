@@ -10,6 +10,9 @@
 	<target name="prepare">
 		<copy file="cbexternallogin.xml.tpl" tofile="cbexternallogin.xml" overwrite="true" />
 		<replace file="cbexternallogin.xml" token="@VERSION@" value="${version}"/>
+		<replace file="cbexternallogin.xml" token="@SHORTVERSION@" value="${shortversion}"/>
+		<replace file="cbexternallogin.xml" token="@JOOMLAVERSION@" value="${joomlaversion}"/>
+		<replace file="cbexternallogin.xml" token="@SERVER@" value="${server}"/>
 	</target>
 
 	<target name="finish">

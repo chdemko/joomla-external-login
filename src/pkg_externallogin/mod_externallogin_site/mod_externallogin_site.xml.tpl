@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3" client="site" method="upgrade">
+<extension type="module" version="@JOOMLAVERSION@" client="site" method="upgrade">
 
 	<name>MOD_EXTERNALLOGIN_SITE</name>
 

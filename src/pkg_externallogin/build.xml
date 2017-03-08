@@ -22,6 +22,9 @@
 	<target name="prepare">
 		<copy file="pkg_externallogin.xml.tpl" tofile="pkg_externallogin.xml" overwrite="true" />
 		<replace file="pkg_externallogin.xml" token="@VERSION@" value="${version}"/>
+		<replace file="pkg_externallogin.xml" token="@SHORTVERSION@" value="${shortversion}"/>
+		<replace file="pkg_externallogin.xml" token="@JOOMLAVERSION@" value="${joomlaversion}"/>
+		<replace file="pkg_externallogin.xml" token="@SERVER@" value="${server}"/>
 	</target>
 
 	<target name="finish">
