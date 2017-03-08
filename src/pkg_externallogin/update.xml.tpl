@@ -7,7 +7,7 @@
 		<element>pkg_externallogin</element>
 		<type>package</type>
 		<version>@VERSION@</version>
-		<infourl title="Authentication Manager">https://github.com/chdemko/joomla-external-login</infourl>
+		<infourl title="External Login">https://github.com/chdemko/joomla-external-login</infourl>
 
 		<downloads>
 			<downloadurl type="full" format="zip">@SERVER@/pkg_externallogin-@VERSION@.zip</downloadurl>
