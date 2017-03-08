@@ -194,7 +194,15 @@ class PlgSystemCaslogin extends JPlugin
 
 			// Get the ticket and the server
 			$ticket = $input->get('ticket');
-			$sid = $session->get('com_externallogin.server');
+
+			if ($app->isAdmin())
+			{
+				$sid = $input->get('server');
+			}
+			else
+			{
+				$sid = $session->get('com_externallogin.server');
+			}
 
 			// If ticket and server exist
 			if (!empty($ticket) && !empty($sid))
