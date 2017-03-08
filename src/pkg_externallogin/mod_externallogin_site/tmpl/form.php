@@ -22,5 +22,5 @@ defined('_JEXEC') or die;
 <?php endforeach; ?>
 </select>
 <div class="clr"></div>
-<input type="submit" class="btn btn-primary" onclick="document.location.href=document.id('mod-server-login-<?php echo $module->id; ?>').options[document.id('mod-server-login-<?php echo $module->id; ?>').selectedIndex].value;return false;" class="button" value="<?php echo htmlspecialchars(JText::_('JLOGIN'), ENT_COMPAT, 'UTF-8'); ?>" />
+<input type="submit" class="btn btn-primary" onclick="document.location.href=document.getElementById('mod-server-login-<?php echo $module->id; ?>').options[document.getElementById('mod-server-login-<?php echo $module->id; ?>').selectedIndex].value;return false;" class="button" value="<?php echo htmlspecialchars(JText::_('JLOGIN'), ENT_COMPAT, 'UTF-8'); ?>" />
 
