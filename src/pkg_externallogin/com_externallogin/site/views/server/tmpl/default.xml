@@ -13,8 +13,8 @@
 				type="sql"
 				name="server"
 				query="SELECT id as value, title as server FROM #__externallogin_servers ORDER BY ordering ASC"
-				label="COM_EXTERNALLOGIN_SITE_FIELD_SERVERS_LABEL"
-				description="COM_EXTERNALLOGIN_SITE_FIELD_SERVERS_DESC"
+				label="COM_EXTERNALLOGIN_SITE_FIELD_SERVER_LABEL"
+				description="COM_EXTERNALLOGIN_SITE_FIELD_SERVER_DESC"
 			/>
 
 		</fieldset>

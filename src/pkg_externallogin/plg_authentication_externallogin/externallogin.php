@@ -332,14 +332,14 @@ class PlgAuthenticationExternallogin extends JPlugin
 					// The user is blocked
 					if ($params->get('log_blocked', 0))
 					{
-							// Log autoregister
-							JLog::add(
-									new ExternalloginLogEntry(
-											'User "' . $response->username . '" is trying to register while he is blocked',
-											JLog::ERROR,
-											'authentication-externallogin-blocked'
-									)
-							);
+						// Log autoregister
+						JLog::add(
+							new ExternalloginLogEntry(
+								'User "' . $response->username . '" is trying to register while he is blocked',
+								JLog::ERROR,
+								'authentication-externallogin-blocked'
+							)
+						);
 					}
 
 					$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;

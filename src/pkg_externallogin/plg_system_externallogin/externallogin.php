@@ -80,12 +80,23 @@ class PlgSystemExternallogin extends JPlugin
 	 */
 	public function buildRule(&$router, &$uri)
 	{
-		if (JFactory::getApplication()->isSite()
+		$app = JFactory::getApplication();
+
+		if ($app->isSite()
 			&& $uri->getVar('option') == 'com_users'
 			&& $uri->getVar('view') == 'login'
 			&& JPluginHelper::isEnabled('authentication', 'externallogin'))
 		{
-			$uri->setVar('option', 'com_externallogin');
+			$redirect = JFactory::getSession()->get('com_externallogin.redirect');
+
+			if ($redirect)
+			{
+				$app->redirect(JRoute::_('index.php?Itemid=' . $redirect, true));
+			}
+			else
+			{
+				$uri->setVar('option', 'com_externallogin');
+			}
 		}
 	}
 
