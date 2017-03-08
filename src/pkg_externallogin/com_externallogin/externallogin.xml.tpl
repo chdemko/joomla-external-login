@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3" method="upgrade">
+<extension type="component" version="@JOOMLAVERSION@" method="upgrade">
 
 	<name>COM_EXTERNALLOGIN</name>
 

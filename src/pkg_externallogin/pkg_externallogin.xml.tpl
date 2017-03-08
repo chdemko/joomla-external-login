@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="package" version="3" method="upgrade">
+<extension type="package" version="@JOOMLAVERSION@" method="upgrade">
 
 	<name>pkg_externallogin</name>
 
@@ -38,7 +38,7 @@
 	<!-- UPDATESERVER DEFINITION -->
 	<updateservers>
 		<!-- Note: No spaces or linebreaks allowed between the server tags -->
-		<server type="collection" priority="1" name="External Login Update Site">http://download.chdemko.com/joomla/extensions/external-login/server-3.xml</server>
+		<server type="collection" priority="1" name="External Login Update Site">@SERVER@/server-@SHORTVERSION@.xml</server>
 	</updateservers>
 
 </extension>

@@ -10,6 +10,7 @@
 	<target name="prepare">
 		<copy file="mod_externallogin_site.xml.tpl" tofile="mod_externallogin_site.xml" overwrite="true" />
 		<replace file="mod_externallogin_site.xml" token="@VERSION@" value="${version}"/>
+		<replace file="mod_externallogin_site.xml" token="@JOOMLAVERSION@" value="${joomlaversion}"/>
 	</target>
 
 	<target name="finish">

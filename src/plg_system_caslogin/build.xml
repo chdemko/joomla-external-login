@@ -10,6 +10,9 @@
 	<target name="prepare">
 		<copy file="caslogin.xml.tpl" tofile="caslogin.xml" overwrite="true" />
 		<replace file="caslogin.xml" token="@VERSION@" value="${version}"/>
+		<replace file="caslogin.xml" token="@SHORTVERSION@" value="${shortversion}"/>
+		<replace file="caslogin.xml" token="@JOOMLAVERSION@" value="${joomlaversion}"/>
+		<replace file="caslogin.xml" token="@SERVER@" value="${server}"/>
 	</target>
 
 	<target name="finish">

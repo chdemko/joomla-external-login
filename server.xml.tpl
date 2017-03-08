@@ -6,7 +6,7 @@
 		element="pkg_externallogin"
 		type="package"
 		version="@VERSION@"
-		detailsurl="@SERVER@/update-pkg_externallogin-3.xml"
+		detailsurl="@SERVER@/update-pkg_externallogin-@SHORTVERSION@.xml"
 	/>
 
 	<extension
@@ -15,7 +15,7 @@
 		folder="system"
 		type="plugin"
 		version="@VERSION@"
-		detailsurl="@SERVER@/update-plg_system_caslogin-3.xml"
+		detailsurl="@SERVER@/update-plg_system_caslogin-@SHORTVERSION@.xml"
 	/>
 
 	<extension
@@ -24,7 +24,7 @@
 		folder="user"
 		type="plugin"
 		version="@VERSION@"
-		detailsurl="@SERVER@/update-plg_user_cbexternallogin-3.xml"
+		detailsurl="@SERVER@/update-plg_user_cbexternallogin-@SHORTVERSION@.xml"
 	/>
 
 </extensionset>

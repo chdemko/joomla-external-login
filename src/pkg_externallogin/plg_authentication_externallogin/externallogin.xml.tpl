@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3" type="plugin" group="authentication" method="upgrade">
+<extension version="@JOOMLAVERSION@" type="plugin" group="authentication" method="upgrade">
 
 	<name>PLG_AUTHENTICATION_EXTERNALLOGIN</name>
 

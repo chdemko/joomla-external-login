@@ -2,6 +2,8 @@
 <project name="external-login" default="build" basedir=".">
 	<property name="server" value="http://download.chdemko.com/joomla/extensions/external-login" />
 	<property name="version" value="3.1.0.0-rc4" />
+	<property name="shortversion" value="3.1" />
+	<property name="joomlaversion" value="3" />
 	<property name="dist" value="build" />
 
 	<target name="build" depends="phpcs, clean, src, readme, server "/>
@@ -9,22 +11,26 @@
 	<target name="readme">
 		<copy file="README.markdown.tpl" tofile="README.markdown" overwrite="true" />
 		<replace file="README.markdown" token="@VERSION@" value="${version}"/>
+		<replace file="README.markdown" token="@JOOMLAVERSION@" value="${joomlaversion}"/>
 		<replace file="README.markdown" token="@SERVER@" value="${server}"/>
 	</target>
 
 	<target name="server" description="Generate Server file">
-		<copy file="server.xml.tpl" tofile="server-3.xml" overwrite="true" />
-		<replace file="server-3.xml" token="@VERSION@" value="${version}"/>
-		<replace file="server-3.xml" token="@SERVER@" value="${server}"/>
-		<copy file="server-3.xml" tofile="${dist}/server-3.xml" />
-		<delete file="server-3.xml" />
+		<copy file="server.xml.tpl" tofile="server-${shortversion}.xml" overwrite="true" />
+		<replace file="server-${shortversion}.xml" token="@VERSION@" value="${version}"/>
+		<replace file="server-${shortversion}.xml" token="@SERVER@" value="${server}"/>
+		<replace file="server-${shortversion}.xml" token="@SHORTVERSION@" value="${shortversion}"/>
+		<copy file="server-${shortversion}.xml" tofile="${dist}/server-${shortversion}.xml" />
+		<delete file="server-${shortversion}.xml" />
 	</target>
 
 	<target name="update" description="Generate Update file">
 		<copy file="update.xml.tpl" tofile="update.xml" overwrite="true" />
 		<replace file="update.xml" token="@VERSION@" value="${version}"/>
 		<replace file="update.xml" token="@SERVER@" value="${server}"/>
-		<copy file="update.xml" tofile="${dist}/update-${project-name}-3.xml" />
+		<replace file="update.xml" token="@SHORTVERSION@" value="${shortversion}"/>
+		<replace file="update.xml" token="@JOOMLAVERSION@" value="${joomlaversion}"/>
+		<copy file="update.xml" tofile="${dist}/update-${project-name}-${shortversion}.xml" />
 		<delete file="update.xml" />
 	</target>
 

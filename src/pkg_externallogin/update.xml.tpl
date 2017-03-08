@@ -19,7 +19,7 @@
 
 		<maintainer>Christophe Demko</maintainer>
 		<maintainerurl>http://www.chdemko.com</maintainerurl>
-		<targetplatform name="joomla" version="3"/>
+		<targetplatform name="joomla" version="@JOOMLAVERSION@"/>
 	</update>
 
 </updates>
