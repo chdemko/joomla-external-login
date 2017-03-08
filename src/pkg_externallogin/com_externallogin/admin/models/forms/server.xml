@@ -87,10 +87,20 @@
 			</field>
 
 			<field
-				name="regex"
+				name="regex_user"
 				type="text"
-				label="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_LABEL"
-				description="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_DESC"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_USER_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_USER_DESC"
+				size="40"
+				class="inputbox"
+				default=""
+			/>
+
+			<field
+				name="regex_email"
+				type="text"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_EMAIL_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_EMAIL_DESC"
 				size="40"
 				class="inputbox"
 				default=""

@@ -87,7 +87,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 			if ($id = intval(JUserHelper::getUserId($response->username)))
 			{
 				// Is the user unblocked?
-				if (preg_match(chr(1) . $params->get('regex') . chr(1), $response->username))
+				if (preg_match(chr(1) . $params->get('regex_user') . chr(1), $response->username)
+					&& preg_match(chr(1) . $params->get('regex_email') . chr(1), $response->email))
 				{
 					if ($params->get('autoupdate', 0))
 					{
@@ -230,7 +231,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 			elseif ($params->get('autoregister', 0))
 			{
 				// User is not found. Is the user unblocked?
-				if (preg_match(chr(1) . $params->get('regex') . chr(1), $response->username))
+				if (preg_match(chr(1) . $params->get('regex_user') . chr(1), $response->username)
+					&& preg_match(chr(1) . $params->get('regex_email') . chr(1), $response->email))
 				{
 					$user->set('id', 0);
 					$user->set('name', $response->fullname);
