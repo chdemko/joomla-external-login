@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields>
-        <fieldset name="details"
-            label="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_LABEL"
-            description="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_DESC"
-        >
-            <field
-                name="id"
-                type="hidden"
-            />
+	<fields>
+		<fieldset name="details"
+			label="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_LABEL"
+			description="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_DESC"
+		>
+			<field
+				name="id"
+				type="hidden"
+			/>
 
-            <field
-                name="plugin"
-                type="hidden"
-                readonly="true"
-            />
+			<field
+				name="plugin"
+				type="hidden"
+				readonly="true"
+			/>
 
-            <field
-                name="title"
-                type="text"
-                label="COM_EXTERNALLOGIN_FIELD_SERVER_TITLE_LABEL"
-                description="COM_EXTERNALLOGIN_FIELD_SERVER_TITLE_DESC"
-                required="true"
-                size="40"
-                class="inputbox"
-                default=""
-            />
+			<field
+				name="title"
+				type="text"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_TITLE_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_TITLE_DESC"
+				required="true"
+				size="40"
+				class="inputbox"
+				default=""
+			/>
 
-            <field name="published" type="list" label="JSTATUS"
-                description="JFIELD_PUBLISHED_DESC" class="inputbox"
-                filter="intval" size="1" default="1"
-            >
-                <option value="1">JPUBLISHED</option>
-                <option value="0">JUNPUBLISHED</option>
-                <option value="2">JARCHIVED</option>
-                <option value="-2">JTRASHED</option>
-            </field>
-        </fieldset>
-    </fields>
-    <fields name="params">
-        <fieldset name="details"
-                  label="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_LABEL"
-                  description="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_DESC"
-                >
+			<field name="published" type="list" label="JSTATUS"
+				description="JFIELD_PUBLISHED_DESC" class="inputbox"
+				filter="intval" size="1" default="1"
+			>
+				<option value="1">JPUBLISHED</option>
+				<option value="0">JUNPUBLISHED</option>
+				<option value="2">JARCHIVED</option>
+				<option value="-2">JTRASHED</option>
+			</field>
+		</fieldset>
+	</fields>
+	<fields name="params">
+		<fieldset name="details"
+					label="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_LABEL"
+					description="COM_EXTERNALLOGIN_FIELDSET_SERVER_DETAILS_DESC"
+				>
 			<field name="autoregister" type="radio"
 				label="COM_EXTERNALLOGIN_FIELD_SERVER_AUTOREGISTER_LABEL"
 				description="COM_EXTERNALLOGIN_FIELD_SERVER_AUTOREGISTER_DESC"
@@ -87,13 +87,51 @@
 			</field>
 
 			<field
+				name="regex"
+				type="text"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_REGEX_DESC"
+				size="40"
+				class="inputbox"
+				default=""
+			/>
+
+			<field
 				name="redirect"
 				type="menuitem"
-				label="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGIN_REDIRECTURL_LABEL"
-				description="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGIN_REDIRECTURL_DESC"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOGIN_REDIRECTURL_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOGIN_REDIRECTURL_DESC"
 			>
 				<option value="">JDEFAULT</option>
 			</field>
+
+			<field
+				name="blocked_redirect_menuitem"
+				type="menuitem"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_BLOCKED_REDIRECTURL_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_BLOCKED_REDIRECTURL_DESC"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+
+			<field
+				name="incorrect_redirect_menuitem"
+				type="menuitem"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_INCORRECT_REDIRECTURL_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_INCORRECT_REDIRECTURL_DESC"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+
+			<field
+				name="unknown_redirect_menuitem"
+				type="menuitem"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_UNKNOWN_REDIRECTURL_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_UNKNOWN_REDIRECTURL_DESC"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+
 	    </fieldset>
     </fields>
 	<fields name="params">
@@ -131,6 +169,16 @@
 				default="0"
 				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_AUTOREGISTER_LABEL"
 				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_AUTOREGISTER_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+				name="log_blocked"
+				type="radio"
+				default="0"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_BLOCKED_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_LOG_BLOCKED_DESC"
 			>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

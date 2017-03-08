@@ -5,8 +5,8 @@
 		<field
 			name="logout_redirect_menuitem"
 			type="menuitem"
-			label="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
-			description="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGOUT_REDIRECTURL_DESC"
+			label="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGOUT_REDIRECTURL_LABEL"
+			description="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGOUT_REDIRECTURL_DESC"
 			>
 			<option value="">JDEFAULT</option>
 		</field>
@@ -14,8 +14,8 @@
 		<field
 			name="redirect"
 			type="menuitem"
-			label="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGIN_REDIRECTURL_LABEL"
-			description="COM_EXTERNALLOGIN_ADMIN_FIELD_LOGIN_REDIRECTURL_DESC"
+			label="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGIN_REDIRECTURL_LABEL"
+			description="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGIN_REDIRECTURL_DESC"
 		>
 			<option value="">JDEFAULT</option>
 		</field>

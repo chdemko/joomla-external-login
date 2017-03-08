@@ -42,25 +42,27 @@ class PlgAuthenticationExternallogin extends JPlugin
 		JLog::addLogger(
 			array('logger' => 'externallogin', 'db_table' => '#__externallogin_logs', 'plugin' => 'authentication-externallogin'),
 			JLog::ALL,
-			array('authentication-externallogin-autoregister', 'authentication-externallogin-autoupdate')
+			array('authentication-externallogin-autoregister', 'authentication-externallogin-autoupdate', 'authentication-externallogin-blocked')
 		);
 	}
 
 	/**
-	 * This method should handle any authentication and report back to the subject
+	 * This method should handle any authorisation and report back to the subject
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
-	 * @param   object  &$response    Authentication response object
+	 * @param   JAuthentication  $response  Authentication response object
+	 * @param   array            $options   Array of extra options
 	 *
-	 * @return	boolean
+	 * @return  JAuthentication  The response
+	 *
+	 * @since   3.1.1.0
 	 */
-	public function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthorisation($response, $options)
 	{
-		$results = JFactory::getApplication()->triggerEvent('onExternalLogin', array(&$response));
-
-		if (count($results) > 0)
+		if ($response->type == 'externallogin')
 		{
+			// Clone the response
+			$response = clone $response;
+
 			// Get the DB driver
 			$db = JFactory::getDbo();
 
@@ -79,40 +81,177 @@ class PlgAuthenticationExternallogin extends JPlugin
 			// Get a user
 			$user = JUser::getInstance();
 
+			// Get the session
+			$session = JFactory::getSession();
+
 			if ($id = intval(JUserHelper::getUserId($response->username)))
 			{
-				if ($params->get('autoupdate', 0))
+				// Is the user unblocked?
+				if (preg_match(chr(1) . $params->get('regex') . chr(1), $response->username))
 				{
-					// User is found
-					$user->load($id);
+					if ($params->get('autoupdate', 0))
+					{
+						// User is found
+						$user->load($id);
 
-					// Update it on auto-update
+						// Update it on auto-update
+						$user->set('name', $response->fullname);
+						$user->set('email', $response->email);
+
+						// Get the old groups
+						$query = $db->getQuery(true);
+						$query->select('group_id')->from('#__user_usergroup_map')->where('user_id = ' . (int) $id);
+						$db->setQuery($query);
+						$oldgroups = $db->loadColumn();
+
+						// Delete the old groups
+						$query = $db->getQuery(true);
+						$query->delete('#__user_usergroup_map')->where('user_id = ' . (int) $id);
+						$db->setQuery($query);
+						$db->execute();
+
+						$user->groups = null;
+
+						// Attempt to save the user
+						if ($user->save())
+						{
+							if ($params->get('log_autoupdate', 0))
+							{
+								// Log autoupdate
+								JLog::add(
+									new ExternalloginLogEntry(
+										'Auto-update of user "'
+											. $user->username
+											. '" with fullname "'
+											. $response->fullname
+											. '" and email "'
+											. $response->email
+											. '" on server '
+											. $response->server->id,
+										JLog::INFO,
+										'authentication-externallogin-autoupdate'
+									)
+								);
+							}
+
+							$groups = empty($response->groups) ? $oldgroups : $response->groups;
+
+							// Add the groups
+							$query = $db->getQuery(true);
+							$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
+
+							foreach ($groups as $group)
+							{
+								$query->values((int) $id . ',' . (int) $group);
+							}
+
+							$db->setQuery($query);
+							$db->execute();
+
+							if (!empty($response->groups) && $params->get('log_autoupdate', 0))
+							{
+								// Log autoupdate
+								JLog::add(
+									new ExternalloginLogEntry(
+										'Auto-update new groups of user "' . $user->username . '" with groups (' . implode(',', $groups) . ') on server ' . $response->server->id,
+										JLog::INFO,
+										'authentication-externallogin-autoupdate'
+									)
+								);
+							}
+
+							// Check for an existing externallogin_users record. If none, create one.
+							$query = $db->getQuery(true);
+							$query->select('*')->from('#__externallogin_users')->where('user_id = ' . $id);
+							$db->setQuery($query);
+							$results = $db->loadObject();
+
+							if (!$results)
+							{
+								$query = $db->getQuery(true);
+								$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $id);
+								$db->setQuery($query);
+								$db->execute();
+							}
+						}
+						else
+						{
+							// Add the old groups
+							$query = $db->getQuery(true);
+							$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
+
+							foreach ($oldgroups as $group)
+							{
+								$query->values((int) $id . ',' . (int) $group);
+							}
+
+							$db->setQuery($query);
+							$db->execute();
+
+							if ($params->get('log_autoupdate', 0))
+							{
+								// Log autoupdate
+								JLog::add(
+									new ExternalloginLogEntry(
+										$user->getError(),
+										JLog::ERROR,
+										'authentication-externallogin-autoupdate'
+									)
+								);
+							}
+
+							$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
+							$session->set('com_externallogin.redirect', $params->get('incorrect_redirect_menuitem'));
+						}
+
+						JAccess::clearStatics();
+					}
+				}
+				else
+				{
+					// The user is blocked
+					if ($params->get('log_blocked', 0))
+					{
+							// Log blocked user
+							JLog::add(
+									new ExternalloginLogEntry(
+											'User "' . $response->username . '" is trying to login while he is blocked',
+											JLog::ERROR,
+											'authentication-externallogin-blocked'
+									)
+							);
+					}
+
+					// The user is blocked
+					$response->status = JAuthentication::STATUS_DENIED;
+					$session->set('com_externallogin.redirect', $params->get('blocked_redirect_menuitem'));
+				}
+			}
+			elseif ($params->get('autoregister', 0))
+			{
+				// User is not found. Is the user unblocked?
+				if (preg_match(chr(1) . $params->get('regex') . chr(1), $response->username))
+				{
+					$user->set('id', 0);
 					$user->set('name', $response->fullname);
+					$user->set('username', $response->username);
 					$user->set('email', $response->email);
+					$user->set('usertype', 'deprecated');
 
-					// Get the old groups
-					$query = $db->getQuery(true);
-					$query->select('group_id')->from('#__user_usergroup_map')->where('user_id = ' . (int) $id);
-					$db->setQuery($query);
-					$oldgroups = $db->loadColumn();
-
-					// Delete the old groups
-					$query = $db->getQuery(true);
-					$query->delete('#__user_usergroup_map')->where('user_id = ' . (int) $id);
-					$db->setQuery($query);
-					$db->execute();
-
-					$user->groups = null;
-
-					// Attempt to save the user
+					// Create new user
 					if ($user->save())
 					{
-						if ($params->get('log_autoupdate', 0))
+						$query = $db->getQuery(true);
+						$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $user->id);
+						$db->setQuery($query);
+						$db->execute();
+
+						if ($params->get('log_autoregister', 0))
 						{
-							// Log autoupdate
+							// Log autoregister
 							JLog::add(
 								new ExternalloginLogEntry(
-									'Auto-update of user "'
+									'Auto-register of user "'
 										. $user->username
 										. '" with fullname "'
 										. $response->fullname
@@ -121,196 +260,125 @@ class PlgAuthenticationExternallogin extends JPlugin
 										. '" on server '
 										. $response->server->id,
 									JLog::INFO,
-									'authentication-externallogin-autoupdate'
+									'authentication-externallogin-autoregister'
 								)
 							);
 						}
 
-						$response->status = JAuthentication::STATUS_SUCCESS;
-						$response->id = $id;
-						$groups = empty($response->groups) ? $oldgroups : $response->groups;
-
-						// Add the groups
+						// Add the new groups
+						$groups = empty($response->groups) ? array($defaultUserGroup) : $response->groups;
 						$query = $db->getQuery(true);
 						$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
 
 						foreach ($groups as $group)
 						{
-							$query->values((int) $id . ',' . (int) $group);
+							$query->values((int) $user->id . ',' . (int) $group);
 						}
 
 						$db->setQuery($query);
 						$db->execute();
 
-						if (!empty($response->groups) && $params->get('log_autoupdate', 0))
+						if ($params->get('log_autoregister', 0))
 						{
-							// Log autoupdate
-							JLog::add(
-								new ExternalloginLogEntry(
-									'Auto-update new groups of user "' . $user->username . '" with groups (' . implode(',', $groups) . ') on server ' . $response->server->id,
-									JLog::INFO,
-									'authentication-externallogin-autoupdate'
-								)
-							);
-						}
-
-						// Check for an existing externallogin_users record. If none, create one.
-						$query = $db->getQuery(true);
-						$query->select('*')->from('#__externallogin_users')->where('user_id = ' . $id);
-						$db->setQuery($query);
-						$results = $db->loadObject();
-
-						if (!$results)
-						{
-							$query = $db->getQuery(true);
-							$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $id);
-							$db->setQuery($query);
-							$db->execute();
+							if (empty($response->groups))
+							{
+								// Log autoregister
+								JLog::add(
+									new ExternalloginLogEntry(
+										'Auto-register default group "' . $defaultUserGroup . '" for user "' . $user->username . '" on server ' . $response->server->id,
+										JLog::INFO,
+										'authentication-externallogin-autoregister'
+									)
+								);
+							}
+							else
+							{
+								// Log autoregister
+								JLog::add(
+									new ExternalloginLogEntry(
+										'Auto-register new groups for user "'
+											. $user->username
+											. '" with groups (' . implode(',', $groups) . ') on server '
+											. $response->server->id,
+										JLog::INFO,
+										'authentication-externallogin-autoregister'
+									)
+								);
+							}
 						}
 					}
 					else
 					{
-						// Add the old groups
-						$query = $db->getQuery(true);
-						$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
-
-						foreach ($oldgroups as $group)
+						if ($params->get('log_autoregister', 0))
 						{
-							$query->values((int) $id . ',' . (int) $group);
-						}
-
-						$db->setQuery($query);
-						$db->execute();
-
-						if ($params->get('log_autoupdate', 0))
-						{
-							// Log autoupdate
+							// Log autoregister
 							JLog::add(
 								new ExternalloginLogEntry(
 									$user->getError(),
 									JLog::ERROR,
-									'authentication-externallogin-autoupdate'
-								)
-							);
-						}
-
-						$response->status = JAuthentication::STATUS_UNKNOWN;
-					}
-
-					JAccess::clearStatics();
-				}
-				else
-				{
-					$response->status = JAuthentication::STATUS_SUCCESS;
-					$response->id = $id;
-				}
-			}
-			elseif ($params->get('autoregister', 0))
-			{
-				// User is not found
-				$user->set('id', 0);
-				$user->set('name', $response->fullname);
-				$user->set('username', $response->username);
-				$user->set('email', $response->email);
-				$user->set('usertype', 'deprecated');
-
-				// Create new user
-				if ($user->save())
-				{
-					$response->status = JAuthentication::STATUS_SUCCESS;
-					$response->id = $user->id;
-
-					$query = $db->getQuery(true);
-					$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $user->id);
-					$db->setQuery($query);
-					$db->execute();
-
-					if ($params->get('log_autoregister', 0))
-					{
-						// Log autoregister
-						JLog::add(
-							new ExternalloginLogEntry(
-								'Auto-register of user "'
-									. $user->username
-									. '" with fullname "'
-									. $response->fullname
-									. '" and email "'
-									. $response->email
-									. '" on server '
-									. $response->server->id,
-								JLog::INFO,
-								'authentication-externallogin-autoregister'
-							)
-						);
-					}
-
-					// Add the new groups
-					$groups = empty($response->groups) ? array($defaultUserGroup) : $response->groups;
-					$query = $db->getQuery(true);
-					$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
-
-					foreach ($groups as $group)
-					{
-						$query->values((int) $user->id . ',' . (int) $group);
-					}
-
-					$db->setQuery($query);
-					$db->execute();
-
-					if ($params->get('log_autoregister', 0))
-					{
-						if (empty($response->groups))
-						{
-							// Log autoregister
-							JLog::add(
-								new ExternalloginLogEntry(
-									'Auto-register default group "' . $defaultUserGroup . '" for user "' . $user->username . '" on server ' . $response->server->id,
-									JLog::INFO,
 									'authentication-externallogin-autoregister'
 								)
 							);
 						}
-						else
-						{
-							// Log autoregister
-							JLog::add(
-								new ExternalloginLogEntry(
-									'Auto-register new groups for user "' . $user->username . '" with groups (' . implode(',', $groups) . ') on server ' . $response->server->id,
-									JLog::INFO,
-									'authentication-externallogin-autoregister'
-								)
-							);
-						}
+
+						$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
+						$session->set('com_externallogin.redirect', $params->get('incorrect_redirect_menuitem'));
 					}
 				}
 				else
 				{
-					if ($params->get('log_autoregister', 0))
+					// The user is blocked
+					if ($params->get('log_blocked', 0))
 					{
-						// Log autoregister
-						JLog::add(
-							new ExternalloginLogEntry(
-								$user->getError(),
-								JLog::ERROR,
-								'authentication-externallogin-autoregister'
-							)
-						);
+							// Log autoregister
+							JLog::add(
+									new ExternalloginLogEntry(
+											'User "' . $response->username . '" is trying to register while he is blocked',
+											JLog::ERROR,
+											'authentication-externallogin-blocked'
+									)
+							);
 					}
 
-					$response->status = JAuthentication::STATUS_UNKNOWN;
+					$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
+					$session->set('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
 				}
 			}
 			else
 			{
 				JLog::add(
 					new ExternalloginLogEntry(
-						'User "' . $user->username . '" is trying to register while auto-register is disabled',
+						'User "' . $response->username . '" is trying to register while auto-register is disabled',
 						JLog::WARNING,
 						'authentication-externallogin-autoregister'
 					)
 				);
-				$response->status = JAuthentication::STATUS_UNKNOWN;
+
+				$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
+				$session->set('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
 			}
+		}
+
+		return $response;
+	}
+
+	/**
+	 * This method should handle any authentication and report back to the subject
+	 *
+	 * @param   array            $credentials  Array holding the user credentials
+	 * @param   array            $options      Array of extra options
+	 * @param   JAuthentication  &$response    Authentication response object
+	 *
+	 * @return	boolean
+	 */
+	public function onUserAuthenticate($credentials, $options, &$response)
+	{
+		$results = JFactory::getApplication()->triggerEvent('onExternalLogin', array(&$response));
+
+		if (count($results) > 0)
+		{
+			$response->subtype = $response->type;
+			$response->type = 'externallogin';
 
 			return true;
 		}
