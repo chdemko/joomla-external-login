@@ -91,28 +91,23 @@ class ExternalloginViewUsers extends JViewLegacy
 		// Set the toolbar
 		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_USERS'), 'users');
 
-		if (JFactory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			// Add a standard button.
-			$bar->appendButton(
-				'Confirm',
-				'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_JOOMLA_MSG',
-				'publish',
-				'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_JOOMLA',
-				'users.enableJoomla',
-				true
-			);
-
-			$bar->appendButton(
-				'Confirm',
-				'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_JOOMLA_MSG',
-				'unpublish',
-				'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_JOOMLA',
-				'users.disableJoomla',
-				true
-			);
-		}
-
+		// Add a standard button.
+		$bar->appendButton(
+			'Confirm',
+			'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_JOOMLA_MSG',
+			'publish',
+			'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_JOOMLA',
+			'users.enableJoomla',
+			true
+		);
+		$bar->appendButton(
+			'Confirm',
+			'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_JOOMLA_MSG',
+			'unpublish',
+			'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_JOOMLA',
+			'users.disableJoomla',
+			true
+		);
 		$bar->appendButton(
 			'Popup',
 			'publish',
