@@ -75,7 +75,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->enableJoomla($cid))
 			{
-				$this->setMessage($model->getError(), 'warning');
+				$this->setMessage($model->getError(), 'error');
 			}
 			else
 			{
@@ -116,7 +116,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->disableJoomla($cid))
 			{
-				$this->setMessage($model->getError(), 'warning');
+				$this->setMessage($model->getError(), 'error');
 			}
 			else
 			{
@@ -157,7 +157,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->disableExternallogin($cid))
 			{
-				$this->setMessage($model->getError(), 'warning');
+				$this->setMessage($model->getError(), 'error');
 			}
 			else
 			{
@@ -199,7 +199,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			// Publish the items.
 			if (!$model->enableExternallogin($cid, $sid))
 			{
-				$this->setMessage($model->getError(), 'warning');
+				$this->setMessage($model->getError(), 'error');
 			}
 			else
 			{

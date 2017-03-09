@@ -77,7 +77,7 @@ class ExternalloginControllerLogs extends JControllerAdmin
 		}
 		else
 		{
-			$this->setMessage($model->getError());
+			$this->setMessage($model->getError(), 'error');
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=logs', false));
