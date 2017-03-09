@@ -44,7 +44,7 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 			<?php echo $this->escape($item->title); ?>
 		</td>
 		<td class="center">
-			<?php echo JHtml::_('ExternalloginHtml.Users.joomla', $item->joomla, $i, isset($item->plugin)); ?>
+			<?php echo JHtml::_('ExternalloginHtml.Users.joomla', $item->joomla, $i, JFactory::getUser()->authorise('core.manage', 'com_users') && isset($item->plugin)); ?>
 		</td>
 		<td class="center">
 			<?php if (isset($item->plugin)):?>

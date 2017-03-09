@@ -42,21 +42,30 @@ class ExternalloginModelUser extends JModelLegacy
 		$table = JTable::getInstance('User');
 		$pks = (array) $pks;
 
-		// Attempt to change the state of the records.
-		foreach ($pks as $i => $pk)
+		if (JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			if ($table->load($pk) && $table->password === '')
+			// Attempt to change the state of the records.
+			foreach ($pks as $i => $pk)
 			{
-				$table->password = 'empty';
-				$table->store();
+				if ($table->load($pk) && $table->password === '')
+				{
+					$table->password = 'empty';
+					$table->store();
+				}
+				else
+				{
+					unset($pks[$i]);
+				}
 			}
-			else
-			{
-				unset($pks[$i]);
-			}
-		}
 
-		return true;
+			return true;
+		}
+		else
+		{
+			$this->setError(JText::_('COM_EXTERNALLOGIN_MSG_USERS_PRIVILEGES'));
+
+			return false;
+		}
 	}
 
 	/**
@@ -74,34 +83,43 @@ class ExternalloginModelUser extends JModelLegacy
 		$table = JTable::getInstance('User');
 		$pks = (array) $pks;
 
-		// Attempt to change the state of the records.
-		foreach ($pks as $i => $pk)
+		if (JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			if ($table->load($pk) && $table->password !== '')
+			// Attempt to change the state of the records.
+			foreach ($pks as $i => $pk)
 			{
-				$query = $this->_db->getQuery(true);
-				$query->select('user_id');
-				$query->from('#__externallogin_users');
-				$query->where('user_id = ' . (int) $pk);
-				$this->_db->setQuery($query);
-
-				if ($this->_db->loadResult())
+				if ($table->load($pk) && $table->password !== '')
 				{
-					$table->password = '';
-					$table->store();
+					$query = $this->_db->getQuery(true);
+					$query->select('user_id');
+					$query->from('#__externallogin_users');
+					$query->where('user_id = ' . (int) $pk);
+					$this->_db->setQuery($query);
+
+					if ($this->_db->loadResult())
+					{
+						$table->password = '';
+						$table->store();
+					}
+					else
+					{
+						unset($pks[$i]);
+					}
 				}
 				else
 				{
 					unset($pks[$i]);
 				}
 			}
-			else
-			{
-				unset($pks[$i]);
-			}
-		}
 
-		return true;
+			return true;
+		}
+		else
+		{
+			$this->setError(JText::_('COM_EXTERNALLOGIN_MSG_USERS_PRIVILEGES'));
+
+			return false;
+		}
 	}
 
 	/**
