@@ -3,6 +3,15 @@ External Login
 
 The *External Login* project is the continuation of the [Authentication Manager project](http://joomlacode.org/gf/project/auth_manager/), originally developed for Joomla! 1.5, and now compatible with Joomla! 3.x. Documentation can be found in the [wiki pages](https://github.com/chdemko/joomla-external-login/wiki).
 
+Build
+-----
+
+Simply execute `ant` on the command line and get the built packages in the `build` directory.
+
+~~~
+$ ant
+~~~
+
 Downloads
 ---------
 
