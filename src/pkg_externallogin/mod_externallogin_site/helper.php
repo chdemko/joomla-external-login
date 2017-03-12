@@ -95,7 +95,7 @@ abstract class ModExternalloginsiteHelper
 				$lang = '&lang=' . $item->language;
 			}
 
-			$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $item->id . $lang);
+			$url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $item->id . $lang);
 		}
 
 		// We are forced to encode the url in base64 as com_users uses this encoding

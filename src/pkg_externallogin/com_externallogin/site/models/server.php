@@ -87,7 +87,7 @@ class ExternalloginModelServer extends JModelItem
 
 		// Compute the url
 		$app = JFactory::getApplication();
-		$baseUrl = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 		$redirect = $this->getState('server.redirect', $item->params->get('redirect', $app->getParams('com_externallogin')->get('redirect')));
 
 		if (!empty($redirect))
