@@ -21,15 +21,6 @@ require_once dirname(__FILE__) . '/helper.php';
 
 $enabled = JComponentHelper::getComponent('com_externallogin', true)->enabled && JPluginHelper::isEnabled('authentication', 'externallogin');
 $servers = modExternalloginsiteHelper::getListServersURL($params);
-
-if ($params->get('redirect'))
-{
-	foreach ($servers as $server)
-	{
-		$server->url .= '&redirect=' . $params->get('redirect');
-	}
-}
-
 $count = count($servers);
 $user = JFactory::getUser();
 $return = modExternalloginsiteHelper::getLogoutUrl($params);
