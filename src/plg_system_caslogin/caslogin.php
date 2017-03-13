@@ -814,7 +814,7 @@ class PlgSystemCaslogin extends JPlugin
 
 					if (is_numeric($return))
 					{
-						$baseUrl = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+						$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 						$return = $baseUrl . JRoute::_('index.php?Itemid=' . $return, true);
 					}
 

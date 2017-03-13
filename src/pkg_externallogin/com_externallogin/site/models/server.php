@@ -44,6 +44,8 @@ class ExternalloginModelServer extends JModelItem
 		$this->setState('server.id', $id);
 		$redirect = JFactory::getApplication()->input->get('redirect');
 		$this->setState('server.redirect', $redirect);
+		$noredirect = JFactory::getApplication()->input->get('noredirect');
+		$this->setState('server.noredirect', $noredirect);
 		parent::populateState();
 	}
 
@@ -85,12 +87,42 @@ class ExternalloginModelServer extends JModelItem
 			return false;
 		}
 
-		// Compute the url
 		$app = JFactory::getApplication();
-		$baseUrl = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$redirect = $this->getState('server.redirect', $item->params->get('redirect', $app->getParams('com_externallogin')->get('redirect')));
+		$menu = $app->getMenu()->getActive();
 
-		if (!empty($redirect))
+		if ($menu)
+		{
+			$params = $menu->params;
+		}
+		else
+		{
+			$params = new JRegistry;
+		}
+
+		// Compute the url
+		$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+		$redirect = $this->getState(
+			'server.redirect',
+			$params->get(
+				'redirect',
+				$item->params->get(
+					'redirect',
+					JComponentHelper::getParams('com_externallogin')->get('redirect')
+				)
+			)
+		);
+		$noredirect = $this->getState(
+			'server.noredirect',
+			$params->get(
+				'noredirect',
+				$item->params->get(
+					'noredirect',
+					JComponentHelper::getParams('com_externallogin')->get('noredirect')
+				)
+			)
+		);
+
+		if (!empty($redirect) && !$noredirect)
 		{
 			$url = $baseUrl . JRoute::_('index.php?Itemid=' . $redirect, true);
 		}

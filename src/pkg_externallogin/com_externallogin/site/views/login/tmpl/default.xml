@@ -69,12 +69,14 @@
 			/>
 
 			<field
-				name="logout_redirect_menuitem"
-				type="menuitem"
-				label="COM_EXTERNALLOGIN_SITE_FIELD_LOGOUT_REDIRECTURL_LABEL"
-				description="COM_EXTERNALLOGIN_SITE_FIELD_LOGOUT_REDIRECTURL_DESC"
+				name="noredirect"
+				type="list"
+				label="COM_EXTERNALLOGIN_SITE_FIELD_NOREDIRECT_LABEL"
+				description="COM_EXTERNALLOGIN_SITE_FIELD_NOREDIRECT_DESC"
 				>
 				<option value="">JDEFAULT</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -83,6 +85,15 @@
 				label="COM_EXTERNALLOGIN_SITE_FIELD_LOGIN_REDIRECTURL_LABEL"
 				description="COM_EXTERNALLOGIN_SITE_FIELD_LOGIN_REDIRECTURL_DESC"
 			>
+				<option value="">JDEFAULT</option>
+			</field>
+
+			<field
+				name="logout_redirect_menuitem"
+				type="menuitem"
+				label="COM_EXTERNALLOGIN_SITE_FIELD_LOGOUT_REDIRECTURL_LABEL"
+				description="COM_EXTERNALLOGIN_SITE_FIELD_LOGOUT_REDIRECTURL_DESC"
+				>
 				<option value="">JDEFAULT</option>
 			</field>
 

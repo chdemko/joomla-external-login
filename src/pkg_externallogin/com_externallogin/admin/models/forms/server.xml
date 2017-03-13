@@ -107,6 +107,17 @@
 			/>
 
 			<field
+				name="noredirect"
+				type="list"
+				label="COM_EXTERNALLOGIN_FIELD_SERVER_NOREDIRECT_LABEL"
+				description="COM_EXTERNALLOGIN_FIELD_SERVER_NOREDIRECT_DESC"
+				>
+				<option value="">JDEFAULT</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
 				name="redirect"
 				type="menuitem"
 				label="COM_EXTERNALLOGIN_FIELD_SERVER_LOGIN_REDIRECTURL_LABEL"

@@ -38,6 +38,8 @@ abstract class ModExternalloginsiteHelper
 		$app = JFactory::getApplication();
 
 		$redirect = $params->get('redirect');
+		$ishome = in_array(substr(JFactory::getUri()->toString(), strlen(JUri::base())), array('', 'index.php'));
+		$noredirect = $params->get('noredirect');
 
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));
@@ -55,7 +57,11 @@ abstract class ModExternalloginsiteHelper
 			$item->params = new JRegistry($item->params);
 			$url = 'index.php?option=com_externallogin&view=server&server=' . $item->id;
 
-			if (!empty($redirect))
+			if ($noredirect && !$ishome)
+			{
+				$url .= '&noredirect=1';
+			}
+			elseif (!empty($redirect))
 			{
 				$url .= '&redirect=' . $redirect;
 			}
@@ -95,7 +101,7 @@ abstract class ModExternalloginsiteHelper
 				$lang = '&lang=' . $item->language;
 			}
 
-			$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $item->id . $lang);
+			$url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $item->id . $lang);
 		}
 
 		// We are forced to encode the url in base64 as com_users uses this encoding

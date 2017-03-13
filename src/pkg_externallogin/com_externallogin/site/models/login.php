@@ -51,6 +51,8 @@ class ExternalloginModelLogin extends JModelList
 
 		$redirect = JFactory::getApplication()->input->get('redirect');
 		$this->setState('server.redirect', $redirect);
+		$noredirect = JFactory::getApplication()->input->get('noredirect');
+		$this->setState('server.noredirect', $noredirect);
 
 		// List state information.
 		parent::populateState('a.ordering', 'asc');
@@ -106,14 +108,48 @@ class ExternalloginModelLogin extends JModelList
 	{
 		$items = parent::getItems();
 		$app = JFactory::getApplication();
-		$redirect = $this->getState('server.redirect', $app->getParams('com_externallogin')->get('redirect'));
+		$menu = $app->getMenu()->getActive();
+
+		if ($menu)
+		{
+			$params = $menu->params;
+		}
+		else
+		{
+			$params = new JRegistry;
+		}
 
 		foreach ($items as $i => $item)
 		{
 			$item->params = new JRegistry($item->params);
+			$redirect = $this->getState(
+				'server.redirect',
+				$params->get(
+					'redirect',
+					$item->params->get(
+						'redirect',
+						JComponentHelper::getParams('com_externallogin')->get('redirect')
+					)
+				)
+			);
+			$noredirect = $this->getState(
+				'server.noredirect',
+				$params->get(
+					'noredirect',
+					$item->params->get(
+						'noredirect',
+						JComponentHelper::getParams('com_externallogin')->get('noredirect')
+					)
+				)
+			);
+
 			$url = 'index.php?option=com_externallogin&view=server&server=' . $item->id;
 
-			if (!empty($redirect))
+			if ($noredirect)
+			{
+				$url .= '&noredirect=1';
+			}
+			elseif (!empty($redirect))
 			{
 				$url .= '&redirect=' . $redirect;
 			}

@@ -2,13 +2,16 @@
 <config>
 
 	<fieldset name="redirect" label="COM_EXTERNALLOGIN_CONFIG_BASIC_LABEL" description="COM_EXTERNALLOGIN_CONFIG_BASIC_DESC">
+
 		<field
-			name="logout_redirect_menuitem"
-			type="menuitem"
-			label="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGOUT_REDIRECTURL_LABEL"
-			description="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGOUT_REDIRECTURL_DESC"
+			name="noredirect"
+			type="radio"
+			label="COM_EXTERNALLOGIN_CONFIG_FIELD_NOREDIRECT_LABEL"
+			description="COM_EXTERNALLOGIN_CONFIG_FIELD_NOREDIRECT_DESC"
+			default="0"
 			>
-			<option value="">JDEFAULT</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -19,6 +22,16 @@
 		>
 			<option value="">JDEFAULT</option>
 		</field>
+
+		<field
+			name="logout_redirect_menuitem"
+			type="menuitem"
+			label="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGOUT_REDIRECTURL_LABEL"
+			description="COM_EXTERNALLOGIN_CONFIG_FIELD_LOGOUT_REDIRECTURL_DESC"
+			>
+			<option value="">JDEFAULT</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
