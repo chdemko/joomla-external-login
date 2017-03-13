@@ -106,11 +106,30 @@ class ExternalloginModelLogin extends JModelList
 	{
 		$items = parent::getItems();
 		$app = JFactory::getApplication();
-		$redirect = $this->getState('server.redirect', $app->getParams('com_externallogin')->get('redirect'));
+		$menu = $app->getMenu()->getActive();
+
+		if ($menu)
+		{
+			$params = $menu->params;
+		}
+		else
+		{
+			$params = new JRegistry;
+		}
 
 		foreach ($items as $i => $item)
 		{
 			$item->params = new JRegistry($item->params);
+			$redirect = $this->getState(
+				'server.redirect',
+				$params->get(
+					'redirect',
+					$item->params->get(
+						'redirect',
+						JComponentHelper::getParams('com_externallogin')->get('redirect')
+					)
+				)
+			);
 			$url = 'index.php?option=com_externallogin&view=server&server=' . $item->id;
 
 			if (!empty($redirect))

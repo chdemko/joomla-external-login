@@ -85,11 +85,31 @@ class ExternalloginModelServer extends JModelItem
 			return false;
 		}
 
-		// Compute the url
 		$app = JFactory::getApplication();
-		$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-		$redirect = $this->getState('server.redirect', $item->params->get('redirect', $app->getParams('com_externallogin')->get('redirect')));
+		$menu = $app->getMenu()->getActive();
 
+		if ($menu)
+		{
+			$params = $menu->params;
+		}
+		else
+		{
+			$params = new JRegistry;
+		}
+
+		$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+		$redirect = $this->getState(
+			'server.redirect',
+			$params->get(
+				'redirect',
+				$item->params->get(
+					'redirect',
+					JComponentHelper::getParams('com_externallogin')->get('redirect')
+				)
+			)
+		);
+
+		// Compute the url
 		if (!empty($redirect))
 		{
 			$url = $baseUrl . JRoute::_('index.php?Itemid=' . $redirect, true);
