@@ -43,17 +43,17 @@ class ExternalloginViewServer extends JViewLegacy
 		// Get data from the model
 		$item = $this->get('Item');
 		$state = $this->get('State');
+		$app = JFactory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			$app = JFactory::getApplication();
 			$app->enqueueMessage(implode('<br />', $errors), 'error');
 			$app->redirect('index.php');
 
 			return false;
 		}
 
-		JFactory::getApplication()->redirect($item);
+		$app->redirect($item);
 	}
 }

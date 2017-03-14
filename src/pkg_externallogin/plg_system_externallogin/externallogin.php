@@ -87,7 +87,7 @@ class PlgSystemExternallogin extends JPlugin
 			&& $uri->getVar('view') == 'login'
 			&& JPluginHelper::isEnabled('authentication', 'externallogin'))
 		{
-			$redirect = JFactory::getSession()->get('com_externallogin.redirect');
+			$redirect = $app->getUserState('com_externallogin.redirect');
 
 			if ($redirect)
 			{

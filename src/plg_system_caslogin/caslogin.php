@@ -183,9 +183,6 @@ class PlgSystemCaslogin extends JPlugin
 			// Get the dbo
 			$db = JFactory::getDbo();
 
-			// Get the session
-			$session = JFactory::getSession();
-
 			// Get the input
 			$input = $app->input;
 
@@ -201,7 +198,7 @@ class PlgSystemCaslogin extends JPlugin
 			}
 			else
 			{
-				$sid = $session->get('com_externallogin.server');
+				$sid = $app->getUserState('com_externallogin.server');
 			}
 
 			// If ticket and server exist
@@ -418,14 +415,12 @@ class PlgSystemCaslogin extends JPlugin
 				$servers = $model->getItems();
 
 				// Try to autologin for some servers
-				$session = JFactory::getSession();
-
 				foreach ($servers as $server)
 				{
 					$params = new JRegistry($server->params);
 					$sid = $server->id;
 
-					if ($params->get('autologin') == 1 && !$session->get('system.caslogin.autologin.' . $server->id))
+					if ($params->get('autologin') == 1 && !$app->getUserState('system.caslogin.autologin.' . $server->id))
 					{
 						// Get the certificate information
 						$certificateFile = $params->get('certificate_file', '');
@@ -470,8 +465,8 @@ class PlgSystemCaslogin extends JPlugin
 								);
 							}
 
-							$session->set('com_externallogin.server', $server->id);
-							$session->set('system.caslogin.autologin.' . $server->id, 1);
+							$app->setUserState('com_externallogin.server', $server->id);
+							$app->setUserState('system.caslogin.autologin.' . $server->id, 1);
 							$app->redirect($this->getUrl($params) . '/login?service=' . urlencode($uri) . '&gateway=true');
 						}
 						else

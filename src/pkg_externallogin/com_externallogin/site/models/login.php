@@ -49,7 +49,9 @@ class ExternalloginModelLogin extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
-		$redirect = JFactory::getApplication()->input->get('redirect');
+		$app = JFactory::getApplication();
+		$redirect = $app->input->get('redirect', $app->getUserState('users.login.form.data.return'));
+		$app->setUserState('users.login.form.data.return', '');
 		$this->setState('server.redirect', $redirect);
 		$noredirect = JFactory::getApplication()->input->get('noredirect');
 		$this->setState('server.noredirect', $noredirect);
@@ -148,7 +150,14 @@ class ExternalloginModelLogin extends JModelList
 			}
 			elseif (!empty($redirect))
 			{
-				$url .= '&redirect=' . $redirect;
+				if (is_numeric($redirect))
+				{
+					$url .= '&redirect=' . $redirect;
+				}
+				else
+				{
+					$url .= '&redirect=' . urlencode($redirect);
+				}
 			}
 
 			$item->url = $url;

@@ -81,8 +81,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 			// Get a user
 			$user = JUser::getInstance();
 
-			// Get the session
-			$session = JFactory::getSession();
+			// Get the Application
+			$app = JFactory::getApplication();
 
 			if ($id = intval(JUserHelper::getUserId($response->username)))
 			{
@@ -202,7 +202,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 							}
 
 							$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
-							$session->set('com_externallogin.redirect', $params->get('incorrect_redirect_menuitem'));
+							$app->setUserState('com_externallogin.redirect', $params->get('incorrect_redirect_menuitem'));
 						}
 
 						JAccess::clearStatics();
@@ -225,7 +225,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 
 					// The user is blocked
 					$response->status = JAuthentication::STATUS_DENIED;
-					$session->set('com_externallogin.redirect', $params->get('blocked_redirect_menuitem'));
+					$app->setUserState('com_externallogin.redirect', $params->get('blocked_redirect_menuitem'));
 				}
 			}
 			elseif ($params->get('autoregister', 0))
@@ -324,7 +324,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 						}
 
 						$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
-						$session->set('com_externallogin.redirect', $params->get('incorrect_redirect_menuitem'));
+						$app->setUserState('com_externallogin.redirect', $params->get('incorrect_redirect_menuitem'));
 					}
 				}
 				else
@@ -343,7 +343,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 					}
 
 					$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
-					$session->set('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
+					$app->setUserState('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
 				}
 			}
 			else
@@ -357,7 +357,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 				);
 
 				$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
-				$session->set('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
+				$app->setUserStates('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
 			}
 		}
 

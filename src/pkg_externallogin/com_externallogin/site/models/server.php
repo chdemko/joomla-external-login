@@ -42,7 +42,7 @@ class ExternalloginModelServer extends JModelItem
 	{
 		$id = JFactory::getApplication()->input->get('server', 0, 'uint');
 		$this->setState('server.id', $id);
-		$redirect = JFactory::getApplication()->input->get('redirect');
+		$redirect = JFactory::getApplication()->input->get('redirect', '', 'RAW');
 		$this->setState('server.redirect', $redirect);
 		$noredirect = JFactory::getApplication()->input->get('noredirect');
 		$this->setState('server.noredirect', $noredirect);
@@ -121,7 +121,14 @@ class ExternalloginModelServer extends JModelItem
 
 		if (!empty($redirect) && !$noredirect)
 		{
-			$url = $baseUrl . JRoute::_('index.php?Itemid=' . $redirect, true);
+			if (is_numeric($redirect))
+			{
+				$url = $baseUrl . JRoute::_('index.php?Itemid=' . $redirect, true);
+			}
+			else
+			{
+				$url = urldecode($redirect);
+			}
 		}
 		else
 		{
@@ -139,8 +146,7 @@ class ExternalloginModelServer extends JModelItem
 		// Return the service/URL
 		if (JFactory::getUser()->guest)
 		{
-			$session = JFactory::getSession();
-			$session->set('com_externallogin.server', $item->id);
+			$app->setUserState('com_externallogin.server', $item->id);
 
 			$results = $app->triggerEvent('onGetLoginUrl', array($item, $uri));
 
