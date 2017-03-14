@@ -134,12 +134,9 @@ class ExternalloginModelLogin extends JModelList
 			);
 			$noredirect = $this->getState(
 				'server.noredirect',
-				$params->get(
+				$item->params->get(
 					'noredirect',
-					$item->params->get(
-						'noredirect',
-						JComponentHelper::getParams('com_externallogin')->get('noredirect')
-					)
+					JComponentHelper::getParams('com_externallogin')->get('noredirect')
 				)
 			);
 
