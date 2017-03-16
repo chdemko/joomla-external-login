@@ -100,7 +100,6 @@ class ExternalloginModelServer extends JModelItem
 		}
 
 		// Compute the url
-		$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 		$redirect = $this->getState(
 			'server.redirect',
 			$params->get(
@@ -121,14 +120,7 @@ class ExternalloginModelServer extends JModelItem
 
 		if (!empty($redirect) && !$noredirect)
 		{
-			if (is_numeric($redirect))
-			{
-				$url = $baseUrl . JRoute::_('index.php?Itemid=' . $redirect, true);
-			}
-			else
-			{
-				$url = urldecode($redirect);
-			}
+			$url = ExternalloginHelper::url($redirect);
 		}
 		else
 		{
@@ -136,7 +128,7 @@ class ExternalloginModelServer extends JModelItem
 
 			if (empty($url) || !JUri::isInternal($url))
 			{
-				$url = $baseUrl . JRoute::_('index.php', true);
+				$url = JRoute::_('index.php', true, $app->get('force_ssl') == 2);
 			}
 		}
 

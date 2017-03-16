@@ -32,6 +32,16 @@
 			<option value="">JDEFAULT</option>
 		</field>
 
+		<field
+			name="unauthorized_redirect_menuitem"
+			type="menuitem"
+			label="COM_EXTERNALLOGIN_CONFIG_FIELD_UNAUTHORIZED_REDIRECTURL_LABEL"
+			description="COM_EXTERNALLOGIN_CONFIG_FIELD_UNAUTHORIZED_REDIRECTURL_DESC"
+			>
+			<option value="">JDEFAULT</option>
+			<option value="-1">COM_EXTERNALLOGIN_CONFIG_OPTION_EXTERNALLOGIN</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">

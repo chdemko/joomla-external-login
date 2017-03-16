@@ -809,8 +809,7 @@ class PlgSystemCaslogin extends JPlugin
 
 					if (is_numeric($return))
 					{
-						$baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-						$return = $baseUrl . JRoute::_('index.php?Itemid=' . $return, true);
+						$return = ExternalloginHelper::url($return);
 					}
 
 					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($return) . '&url=' . urlencode($return) . $locale;

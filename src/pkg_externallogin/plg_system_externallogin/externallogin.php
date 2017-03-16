@@ -69,6 +69,18 @@ class PlgSystemExternallogin extends JPlugin
 	}
 
 	/**
+	 * After render event
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.0
+	 */
+	public function onAfterRender()
+	{
+		JFactory::getApplication()->setUserState('users.login.form.data.return', null);
+	}
+
+	/**
 	 * Redirect to com_externallogin in case of login view
 	 *
 	 * @param   JRouter  &$router  Router
@@ -95,7 +107,16 @@ class PlgSystemExternallogin extends JPlugin
 			}
 			else
 			{
-				$uri->setVar('option', 'com_externallogin');
+				$item = JComponentHelper::getParams('com_externallogin')->get('unauthorized_redirect_menuitem');
+
+				if ($item == -1)
+				{
+					$uri->setVar('option', 'com_externallogin');
+				}
+				elseif ($item)
+				{
+					$app->redirect(JRoute::_('index.php?Itemid=' . $item, true));
+				}
 			}
 		}
 	}

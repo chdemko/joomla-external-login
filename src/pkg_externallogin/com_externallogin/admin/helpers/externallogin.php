@@ -213,4 +213,60 @@ abstract class ExternalloginHelper
 			return null;
 		}
 	}
+
+	/**
+	 * Compute a redirect URL.
+	 *
+	 * @param   string|integer  $redirect  An menu item id or an urlencoded url.
+	 *
+	 * @return  string  The url from the $redirect parameter
+	 *
+	 * @since  3.1.0
+	 */
+	public static function url($redirect)
+	{
+		if (is_numeric($redirect))
+		{
+			$app = JFactory::getApplication();
+			$item = $app->getMenu()->getItem($redirect);
+
+			if ($item)
+			{
+				switch ($item->type)
+				{
+					case 'url':
+						if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false))
+						{
+							// If this is an internal Joomla link, ensure the Itemid is set.
+							$link = $item->link . '&Itemid=' . $item->id;
+						}
+						else
+						{
+							$link = $item->link;
+						}
+						break;
+
+					case 'alias':
+						$link = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+						break;
+
+					default:
+						$link = 'index.php?Itemid=' . $item->id;
+						break;
+				}
+			}
+			else
+			{
+				$link = 'index.php';
+			}
+
+			$url = JRoute::_($link, true, $item->params->get('secure', ($app->get('force_ssl', 0) === 2) ? 1 : - 1) === 1 ? 1 : 2);
+		}
+		else
+		{
+			$url = urldecode($redirect);
+		}
+
+		return $url;
+	}
 }

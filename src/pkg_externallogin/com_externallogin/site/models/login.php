@@ -51,7 +51,6 @@ class ExternalloginModelLogin extends JModelList
 
 		$app = JFactory::getApplication();
 		$redirect = $app->input->get('redirect', $app->getUserState('users.login.form.data.return'));
-		$app->setUserState('users.login.form.data.return', '');
 		$this->setState('server.redirect', $redirect);
 		$noredirect = JFactory::getApplication()->input->get('noredirect');
 		$this->setState('server.noredirect', $noredirect);

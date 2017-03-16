@@ -36,8 +36,17 @@ abstract class ModExternalloginsiteHelper
 	public static function getListServersURL($params)
 	{
 		$app = JFactory::getApplication();
+		$redirect = $app->input->get('redirect', $app->getUserState('users.login.form.data.return'));
 
-		$redirect = $params->get('redirect');
+		if ($redirect)
+		{
+			$redirect = urlencode($redirect);
+		}
+		else
+		{
+			$redirect = $params->get('redirect');
+		}
+
 		$ishome = in_array(substr(JFactory::getUri()->toString(), strlen(JUri::base())), array('', 'index.php'));
 		$noredirect = $params->get('noredirect');
 
@@ -81,7 +90,7 @@ abstract class ModExternalloginsiteHelper
 	 */
 	public static function getLogoutUrl($params)
 	{
-		$app  = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$item = $app->getMenu()->getItem(
 			$params->get(
 				'logout_redirect_menuitem',
@@ -101,7 +110,7 @@ abstract class ModExternalloginsiteHelper
 				$lang = '&lang=' . $item->language;
 			}
 
-			$url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('index.php?Itemid=' . $item->id . $lang);
+			$url = JRoute::_('index.php?Itemid=' . $item->id . $lang, $app->get('force_ssl') === 2 ? 1 : 2);
 		}
 
 		// We are forced to encode the url in base64 as com_users uses this encoding
