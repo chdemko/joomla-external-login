@@ -207,6 +207,59 @@ class ExternalloginModelUser extends JModelLegacy
 	}
 
 	/**
+	 * Method to disable the external login for a set of user.
+	 *
+	 * @param   array    $sid   Server id.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.1.0
+	 */
+	public function disableExternalloginGlobal($sid)
+	{
+
+		// Attempt to change the state of the records.
+		$query = $this->_db->getQuery(true);
+		$query->select("user_id");
+		$query->from("#__externallogin_users");
+		$query->where("server_id = '$sid'");
+		$this->_db->setQuery($query);
+
+		// Get application
+		$app = JFactory::getApplication();
+
+		try
+		{
+			$userID = $this->_db->loadResult();
+		}
+		catch(Exception $exc)
+		{
+			$app->enqueueMessage($exc->getMessage(), 'error');
+		}
+
+		if(!empty($userID))
+		{
+			$query = $this->_db->getQuery(true);
+			$query->delete();
+			$query->from("#__externallogin_users");
+			$query->where("server_id = '$sid'");
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch(Exception $exc)
+			{
+				$app->enqueueMessage($exc->getMessage(), 'error');
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to enable the external login for a set of user.
 	 *
 	 * @param   array    &$pks  A list of the primary keys to change.
@@ -254,6 +307,85 @@ class ExternalloginModelUser extends JModelLegacy
 			{
 				unset($pks[$i]);
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to enable the external login for all users.
+	 *
+     * @throws  Exception
+	 * @param   integer  $sid    The server id
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.1.1
+	 */
+	public function enableExternalloginGlobal($sid)
+	{
+		// Get application
+		$app = JFactory::getApplication();
+
+		// Get all user id's
+		$query = $this->_db->getQuery(true);
+		$query->select('id');
+		$query->from('#__users');
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$column = $this->_db->loadColumn();
+		}
+		catch(Exception $exc)
+		{
+			$app->enqueueMessage($exc->getMessage(), 'error');
+		}
+
+        // Check if user is already activated and update/insert value
+		foreach ($column as $userID) {
+			$query = $this->_db->getQuery(true);
+			$query->select("user_id");
+			$query->from("#__externallogin_users");
+			$query->where("user_id = '$userID'");
+			$this->_db->setQuery($query);
+
+			// Get result if user is already activated
+			try
+			{
+				$success = $this->_db->loadResult();
+			}
+			catch (Exception $exc)
+			{
+				$app->enqueueMessage($exc->getMessage(), 'error');
+			}
+
+			$query = $this->_db->getQuery(true);
+			$query->set("server_id = '$sid'");
+
+			// Update if already activated/insert if not
+			if($success)
+			{
+				$query->update("#__externallogin_users");
+				$query->where("user_id = '$userID'");
+			}
+			else
+			{
+				$query->insert("#__externallogin_users");
+				$query->set("user_id = '$userID'");
+			}
+
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch (Exception $exc)
+			{
+				$app->enqueueMessage($exc->getMessage(), 'error');
+			}
+
 		}
 
 		return true;
