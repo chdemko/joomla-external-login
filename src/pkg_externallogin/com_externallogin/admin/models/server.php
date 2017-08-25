@@ -109,6 +109,12 @@ class ExternalloginModelServer extends JModelAdmin
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			// TODO: this is only a quick fix to populate server form
+			if (is_array($data->params) && array_key_exists('data',$data->params))
+			{
+				$data->params = $data->params['data'];
+			}
 		}
 
 		if (is_object($data) && empty($data->plugin))

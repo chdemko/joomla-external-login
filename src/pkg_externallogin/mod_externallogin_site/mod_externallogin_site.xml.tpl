@@ -49,6 +49,12 @@
 				/>
 			</fieldset>
 			<fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+                />
 				<field
 					name="show_logout"
 					type="radio"

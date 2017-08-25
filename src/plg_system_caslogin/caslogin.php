@@ -414,7 +414,7 @@ class PlgSystemCaslogin extends JPlugin
 
 									if (!empty($query) && sizeof($query) === 1 && array_key_exists('Itemid', $query))
 									{
-										$menu = $app->getMenu();
+										$menu      = $app->getMenu();
 										$menuEntry = $menu->getItem($query['Itemid']);
 
 										if (!empty($menuEntry))
@@ -434,25 +434,26 @@ class PlgSystemCaslogin extends JPlugin
 										$return = 'index.php';
 									}
 
-								// Prepare the connection process
-								if ($app->isAdmin())
-								{
-									$input->set('option', 'com_login');
-									$input->set('task', 'login');
-									$input->set(JSession::getFormToken(), 1);
+									// Prepare the connection process
+									if ($app->isAdmin())
+									{
+										$input->set('option', 'com_login');
+										$input->set('task', 'login');
+										$input->set(JSession::getFormToken(), 1);
 
-									// We are forced to encode the url in base64 as com_login uses this encoding
-									$input->set('return', base64_encode($return));
-								}
-								else
-								{
-									$input->set('option', 'com_users');
-									$input->set('task', 'user.login');
-									$input->set('Itemid', 0);
-									$input->post->set(JSession::getFormToken(), 1);
+										// We are forced to encode the url in base64 as com_login uses this encoding
+										$input->set('return', base64_encode($return));
+									}
+									else
+									{
+										$input->set('option', 'com_users');
+										$input->set('task', 'user.login');
+										$input->set('Itemid', 0);
+										$input->post->set(JSession::getFormToken(), 1);
 
-									// We are forced to encode the url in base64 as com_users uses this encoding
-									$input->post->set('return', base64_encode($return));
+										// We are forced to encode the url in base64 as com_users uses this encoding
+										$input->post->set('return', base64_encode($return));
+									}
 								}
 							}
 							else
