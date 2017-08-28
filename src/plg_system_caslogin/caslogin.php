@@ -93,10 +93,10 @@ class PlgSystemCaslogin extends JPlugin
 		{
 			JFactory::getDocument()->addStyleDeclaration(
 				'.icon-caslogin {'
-				. 'width: 48px;'
-				. 'height: 48px;'
-				. 'background-image: url(../media/plg_system_caslogin/images/administrator/icon-48-caslogin.png);'
-				. 'background-position: center center;'
+					. 'width: 48px;'
+					. 'height: 48px;'
+					. 'background-image: url(../media/plg_system_caslogin/images/administrator/icon-48-caslogin.png);'
+					. 'background-position: center center;'
 				. '}'
 			);
 
