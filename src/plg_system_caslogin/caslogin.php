@@ -93,10 +93,10 @@ class PlgSystemCaslogin extends JPlugin
 		{
 			JFactory::getDocument()->addStyleDeclaration(
 				'.icon-caslogin {'
-					. 'width: 48px;'
-					. 'height: 48px;'
-					. 'background-image: url(../media/plg_system_caslogin/images/administrator/icon-48-caslogin.png);'
-					. 'background-position: center center;'
+				. 'width: 48px;'
+				. 'height: 48px;'
+				. 'background-image: url(../media/plg_system_caslogin/images/administrator/icon-48-caslogin.png);'
+				. 'background-position: center center;'
 				. '}'
 			);
 
@@ -196,7 +196,7 @@ class PlgSystemCaslogin extends JPlugin
 			$ticket = $input->get('ticket');
 
 			$inputSid = $input->getInt('server');
-			
+
 			if ($app->isAdmin())
 			{
 				$sid = $input->get('server');
@@ -206,13 +206,11 @@ class PlgSystemCaslogin extends JPlugin
 				$sid = $session->get('com_externallogin.server', $inputSid);
 			}
 
-			//todo check this peter
 			// Check if server was in session, else try get it from input
 			if ($sid == null)
 			{
 				$sid = $input->getInt('server');
 			}
-			//todo check this peter end
 
 			// If ticket and server exist
 			if (!empty($ticket) && !empty($sid))
@@ -317,11 +315,13 @@ class PlgSystemCaslogin extends JPlugin
 								// Log message
 								if ($params->get('log_xml', 0))
 								{
-									JLog::add(new ExternalloginLogEntry(
-										'Successful login on server ' . $sid . ' for CAS user "' . $userName .'"',
-										JLog::INFO,
-										'system-caslogin-xml'
-									));
+									JLog::add(
+										new ExternalloginLogEntry(
+											'Successful login on server ' . $sid . ' for CAS user "' . $this->xpath->evaluate('string(cas:user)', $this->success) . '"',
+											JLog::INFO,
+											'system-caslogin-xml'
+										)
+									);
 								}
 
 								// check if user is enabled for cas login. Deny if not
