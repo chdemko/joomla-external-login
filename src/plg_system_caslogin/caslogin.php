@@ -19,7 +19,10 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tabl
 
 jimport('joomla.application.component.model');
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
-
+if (version_compare( JVERSION, '3.8.0', '>=' ))
+{
+	JLoader::registerAlias('JLogLoggerExternallogin','\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');	
+}
 JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
 JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');

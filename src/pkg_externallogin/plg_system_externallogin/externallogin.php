@@ -16,7 +16,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.database.table');
 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tables');
-
+if (version_compare( JVERSION, '3.8.0', '>=' ))
+{
+	JLoader::registerAlias('JLogLoggerExternallogin','\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');	
+}
 JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
