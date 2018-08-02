@@ -42,40 +42,6 @@ class ExternalloginTableServer extends JTable
 	}
 
 	/**
-	 * Overloaded load function.
-	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
-	 * set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     JTable::load
-	 *
-	 * @since   2.0.0
-	 */
-	public function load($keys = null, $reset = true)
-	{
-		if (parent::load($keys, $reset))
-		{
-			if (isset($this->params))
-			{
-				$this->params = new JRegistry($this->params);
-			}
-			else
-			{
-				$this->params = new JRegistry;
-			}
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
 	 * Overloaded store function.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
