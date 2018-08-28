@@ -30,7 +30,7 @@ class ExternalloginModelUser extends JModelLegacy
 	/**
 	 * Method to enable the Joomla login for a set of user.
 	 *
-	 * @param   array  &$pks  A list of the primary keys to change.
+	 * @param   array  $pks  A list of the primary keys to change.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -62,7 +62,7 @@ class ExternalloginModelUser extends JModelLegacy
 	/**
 	 * Method to disable the Joomla login for a set of user.
 	 *
-	 * @param   array  &$pks  A list of the primary keys to change.
+	 * @param   array  $pks  A list of the primary keys to change.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -107,7 +107,7 @@ class ExternalloginModelUser extends JModelLegacy
 	/**
 	 * Method to disable the external login for a set of user.
 	 *
-	 * @param   array  &$pks  A list of the primary keys to change.
+	 * @param   array  $pks  A list of the primary keys to change.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -179,12 +179,12 @@ class ExternalloginModelUser extends JModelLegacy
 		{
 			$userID = $this->_db->loadResult();
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			$app->enqueueMessage($exc->getMessage(), 'error');
 		}
 
-		if(!empty($userID))
+		if (!empty($userID))
 		{
 			$query = $this->_db->getQuery(true);
 			$query->delete();
@@ -196,11 +196,10 @@ class ExternalloginModelUser extends JModelLegacy
 			{
 				$this->_db->execute();
 			}
-			catch(Exception $exc)
+			catch (Exception $exc)
 			{
 				$app->enqueueMessage($exc->getMessage(), 'error');
 			}
-
 		}
 
 		return true;
@@ -209,8 +208,8 @@ class ExternalloginModelUser extends JModelLegacy
 	/**
 	 * Method to enable the external login for a set of user.
 	 *
-	 * @param   array    &$pks  A list of the primary keys to change.
-	 * @param   integer  $sid   The server id
+	 * @param   array    $pks  A list of the primary keys to change.
+	 * @param   integer  $sid  The server id
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -262,7 +261,7 @@ class ExternalloginModelUser extends JModelLegacy
 	/**
 	 * Method to enable the external login for all users.
 	 *
-     * @throws  Exception
+	 * @throws  Exception
 	 * @param   integer  $sid    The server id
 	 *
 	 * @return  boolean  True on success.
@@ -284,13 +283,14 @@ class ExternalloginModelUser extends JModelLegacy
 		{
 			$column = $this->_db->loadColumn();
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			$app->enqueueMessage($exc->getMessage(), 'error');
 		}
 
-        // Check if user is already activated and update/insert value
-		foreach ($column as $userID) {
+		// Check if user is already activated and update/insert value
+		foreach ($column as $userID)
+		{
 			$query = $this->_db->getQuery(true);
 			$query->select("user_id");
 			$query->from("#__externallogin_users");
@@ -311,7 +311,7 @@ class ExternalloginModelUser extends JModelLegacy
 			$query->set("server_id = '$sid'");
 
 			// Update if already activated/insert if not
-			if($success)
+			if ($success)
 			{
 				$query->update("#__externallogin_users");
 				$query->where("user_id = '$userID'");
@@ -332,7 +332,6 @@ class ExternalloginModelUser extends JModelLegacy
 			{
 				$app->enqueueMessage($exc->getMessage(), 'error');
 			}
-
 		}
 
 		return true;

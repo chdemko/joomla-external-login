@@ -86,7 +86,7 @@ class ExternalloginModelLogs extends JModelList
 	 *
 	 * @see  JModelList::getListQuery
 	 *
-	 * @since  2.1.0 
+	 * @since  2.1.0
 	 */
 	protected function getListQuery()
 	{
@@ -166,7 +166,7 @@ class ExternalloginModelLogs extends JModelList
 	/**
 	 * Get the content
 	 *
-	 * @return	string	The content.
+	 * @return	void
 	 *
 	 * @since	2.1.0
 	 */

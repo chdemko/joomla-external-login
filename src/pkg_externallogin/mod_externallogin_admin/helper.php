@@ -29,7 +29,7 @@ abstract class ModExternalloginadminHelper
 	/**
 	 * Get the URLs of servers
 	 *
-	 * @param   JRegistry  $params  Module parameters 
+	 * @param   JRegistry  $params  Module parameters
 	 *
 	 * @return  array  Array of URL
 	 */

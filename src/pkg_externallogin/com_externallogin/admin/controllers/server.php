@@ -19,10 +19,10 @@ jimport('joomla.application.component.controllerform');
 
 /**
  * Server Controller of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
- *             
+ *
  * @since       2.0.0
  */
 class ExternalloginControllerServer extends JControllerForm
@@ -95,7 +95,11 @@ class ExternalloginControllerServer extends JControllerForm
 		}
 		else
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=upload&tmpl=component&id=' . $id, false), $model->getError(), 'error');
+			$this->setRedirect(
+				JRoute::_('index.php?option=com_externallogin&view=upload&tmpl=component&id=' . $id, false),
+				$model->getError(),
+				'error'
+			);
 		}
 	}
 }

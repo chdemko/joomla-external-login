@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 
 /**
  * Server Controller of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
  *

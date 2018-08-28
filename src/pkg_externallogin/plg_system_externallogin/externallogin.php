@@ -17,8 +17,9 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tables');
 
-JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
+
+require_once JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php';
 
 /**
  * External Login - External Login plugin.
@@ -33,8 +34,8 @@ class PlgSystemExternallogin extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 *
 	 * @since   2.0.0
 	 */
@@ -71,8 +72,8 @@ class PlgSystemExternallogin extends JPlugin
 	/**
 	 * Redirect to com_externallogin in case of login view
 	 *
-	 * @param   JRouter  &$router  Router
-	 * @param   JURI     &$uri     URI
+	 * @param   JRouter  $router  Router
+	 * @param   JURI     $uri     URI
 	 *
 	 * @return  void
 	 *
@@ -117,7 +118,8 @@ class PlgSystemExternallogin extends JPlugin
 				{
 					JLog::add(
 						new ExternalloginLogEntry(
-							'Unsuccessful deletion of user "' . $user['username'] . '" by user "' . JFactory::getUser()->username . '" on server ' . $sid,
+							'Unsuccessful deletion of user "' . $user['username'] . '" by user "' .
+							JFactory::getUser()->username . '" on server ' . $sid,
 							JLog::WARNING,
 							'system-externallogin-deletion'
 						)
@@ -138,7 +140,8 @@ class PlgSystemExternallogin extends JPlugin
 				{
 					JLog::add(
 						new ExternalloginLogEntry(
-							'Successful deletion of user "' . $user['username'] . '" by user "' . JFactory::getUser()->username . '" on server ' . $sid,
+							'Successful deletion of user "' . $user['username'] . '" by user "' .
+							JFactory::getUser()->username . '" on server ' . $sid,
 							JLog::INFO,
 							'system-externallogin-deletion'
 						)

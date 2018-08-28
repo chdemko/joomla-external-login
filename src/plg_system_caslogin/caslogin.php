@@ -21,8 +21,9 @@ jimport('joomla.application.component.model');
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
 JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
-JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
+
+require_once JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php';
 
 /**
  * External Login - CAS plugin.
@@ -55,8 +56,8 @@ class PlgSystemCaslogin extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 *
 	 * @since   2.0.0
 	 */
@@ -317,14 +318,15 @@ class PlgSystemCaslogin extends JPlugin
 								{
 									JLog::add(
 										new ExternalloginLogEntry(
-											'Successful login on server ' . $sid . ' for CAS user "' . $this->xpath->evaluate('string(cas:user)', $this->success) . '"',
+											'Successful login on server ' . $sid . ' for CAS user "' .
+											$this->xpath->evaluate('string(cas:user)', $this->success) . '"',
 											JLog::INFO,
 											'system-caslogin-xml'
 										)
 									);
 								}
 
-								// check if user is enabled for cas login. Deny if not
+								// Check if user is enabled for cas login. Deny if not
 								$query = $db->getQuery(true);
 								$query->select("id");
 								$query->from("#__users");
@@ -375,7 +377,6 @@ class PlgSystemCaslogin extends JPlugin
 											{
 												$app->enqueueMessage(JText::_('PLG_SYSTEM_CASLOGIN_NO_ACTIVATED_SERVER'), 'error');
 											}
-
 										}
 										else
 										{
@@ -388,7 +389,6 @@ class PlgSystemCaslogin extends JPlugin
 									{
 										$app->enqueueMessage($exc->getMessage(), 'error');
 									}
-
 								}
 								else
 								{
@@ -399,20 +399,21 @@ class PlgSystemCaslogin extends JPlugin
 								// Log that access was denied
 								if (!$access)
 								{
-									JLog::add(new ExternalloginLogEntry(
-										'Unsuccessful login on server ' . $sid . ', user not activated for this server',
-										JLog::INFO,
-										'system-caslogin-xml'
-									));
+									JLog::add(
+										new ExternalloginLogEntry(
+											'Unsuccessful login on server ' . $sid . ', user not activated for this server',
+											JLog::INFO,
+											'system-caslogin-xml'
+										)
+									);
 								}
 								else
 								{
-
 									// If the return url is for an Itemid, we look it up in the menu
 									// in case it is a redirect to an external source
 									$query = $uri->getQuery(true);
 
-									if (!empty($query) && sizeof($query) === 1 && array_key_exists('Itemid', $query))
+									if (!empty($query) && count($query) === 1 && array_key_exists('Itemid', $query))
 									{
 										$menu      = $app->getMenu();
 										$menuEntry = $menu->getItem($query['Itemid']);
@@ -639,7 +640,7 @@ class PlgSystemCaslogin extends JPlugin
 	/**
 	 * External Login event
 	 *
-	 * @param   JAuthenticationResponse  &$response  Response to the login process
+	 * @param   JAuthenticationResponse  $response  Response to the login process
 	 *
 	 * @return	void|true
 	 *
@@ -765,7 +766,8 @@ class PlgSystemCaslogin extends JPlugin
 								{
 									JLog::add(
 										new ExternalloginLogEntry(
-											'Added groups (' . implode(',', $newgroups) . ') for user "' . $response->username . '" on server ' . $sid,
+											'Added groups (' . implode(',', $newgroups) . ') for user "' .
+											$response->username . '" on server ' . $sid,
 											JLog::INFO,
 											'system-caslogin-groups'
 										)
@@ -875,7 +877,7 @@ class PlgSystemCaslogin extends JPlugin
 			$local = $app->input->get('local');
 
 			// Local logout only?
-			if(isset($local))
+			if (isset($local))
 			{
 				return true;
 			}

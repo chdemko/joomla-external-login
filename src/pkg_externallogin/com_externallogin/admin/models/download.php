@@ -89,7 +89,7 @@ class ExternalloginModelDownload extends JModelLegacy
 	/**
 	 * Get the content
 	 *
-	 * @return	string	The content.
+	 * @return	void
 	 *
 	 * @since	1.6
 	 */

@@ -19,10 +19,10 @@ jimport('joomla.application.component.view');
 
 /**
  * Logs View of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
- *             
+ *
  * @since       2.1.0
  */
 class ExternalloginViewLogs extends JViewLegacy

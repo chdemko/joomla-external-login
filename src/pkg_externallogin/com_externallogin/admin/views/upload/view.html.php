@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
 
 /**
  * Upload View of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
  *

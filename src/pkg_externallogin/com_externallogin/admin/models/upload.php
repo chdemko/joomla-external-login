@@ -55,7 +55,7 @@ class ExternalloginModelUpload extends JModelAdmin
 	 *
 	 * @see    JModelForm::getForm
 	 *
-	 * @since  2.0.0 
+	 * @since  2.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

@@ -14,8 +14,9 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
+
+require_once JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php';
 
 /**
  * External Login - External Login plugin.
@@ -30,8 +31,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 *
 	 * @since   2.0.0
 	 */
@@ -51,7 +52,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 	 *
 	 * @param   array   $credentials  Array holding the user credentials
 	 * @param   array   $options      Array of extra options
-	 * @param   object  &$response    Authentication response object
+	 * @param   object  $response     Authentication response object
 	 *
 	 * @return	boolean
 	 */
@@ -147,7 +148,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 							// Log autoupdate
 							JLog::add(
 								new ExternalloginLogEntry(
-									'Auto-update new groups of user "' . $user->username . '" with groups (' . implode(',', $groups) . ') on server ' . $response->server->id,
+									'Auto-update new groups of user "' . $user->username . '" with groups (' .
+									implode(',', $groups) . ') on server ' . $response->server->id,
 									JLog::INFO,
 									'authentication-externallogin-autoupdate'
 								)
@@ -163,7 +165,13 @@ class PlgAuthenticationExternallogin extends JPlugin
 						if (!$results)
 						{
 							$query = $db->getQuery(true);
-							$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $id);
+							$query->insert(
+								'#__externallogin_users'
+							)->columns(
+								'server_id, user_id'
+							)->values(
+								(int) $response->server->id . ',' . (int) $id
+							);
 							$db->setQuery($query);
 							$db->execute();
 						}
@@ -221,7 +229,14 @@ class PlgAuthenticationExternallogin extends JPlugin
 					$response->id = $user->id;
 
 					$query = $db->getQuery(true);
-					$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $user->id);
+					$query->insert(
+						'#__externallogin_users'
+					)->columns(
+						'server_id,
+						user_id'
+					)->values(
+						(int) $response->server->id . ',' . (int) $user->id
+					);
 					$db->setQuery($query);
 					$db->execute();
 
@@ -264,7 +279,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 							// Log autoregister
 							JLog::add(
 								new ExternalloginLogEntry(
-									'Auto-register default group "' . $defaultUserGroup . '" for user "' . $user->username . '" on server ' . $response->server->id,
+									'Auto-register default group "' . $defaultUserGroup . '" for user "' .
+									$user->username . '" on server ' . $response->server->id,
 									JLog::INFO,
 									'authentication-externallogin-autoregister'
 								)
@@ -275,7 +291,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 							// Log autoregister
 							JLog::add(
 								new ExternalloginLogEntry(
-									'Auto-register new groups for user "' . $user->username . '" with groups (' . implode(',', $groups) . ') on server ' . $response->server->id,
+									'Auto-register new groups for user "' . $user->username . '" with groups (' .
+									implode(',', $groups) . ') on server ' . $response->server->id,
 									JLog::INFO,
 									'authentication-externallogin-autoregister'
 								)

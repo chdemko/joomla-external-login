@@ -111,7 +111,7 @@ class ExternalloginModelServer extends JModelAdmin
 			$data = $this->getItem();
 
 			// TODO: this is only a quick fix to populate server form
-			if (is_array($data->params) && array_key_exists('data',$data->params))
+			if (is_array($data->params) && array_key_exists('data', $data->params))
 			{
 				$data->params = $data->params['data'];
 			}
@@ -132,7 +132,7 @@ class ExternalloginModelServer extends JModelAdmin
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *

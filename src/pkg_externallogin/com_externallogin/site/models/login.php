@@ -63,7 +63,7 @@ class ExternalloginModelLogin extends JModelList
 	 *
 	 * @see  JModelList::getListQuery
 	 *
-	 * @since  2.0.0 
+	 * @since  2.0.0
 	 */
 	protected function getListQuery()
 	{
@@ -100,7 +100,7 @@ class ExternalloginModelLogin extends JModelList
 	 *
 	 * @return  array  A list of servers.
 	 *
-	 * @since  2.0.0 
+	 * @since  2.0.0
 	 */
 	public function getItems()
 	{

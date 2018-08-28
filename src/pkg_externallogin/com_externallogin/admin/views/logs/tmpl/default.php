@@ -43,11 +43,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
+		<div class="filter-select hidden-phone">
 		<label class="filter-hide-lbl" for="filter_begin"><?php echo JText::_('COM_EXTERNALLOGIN_LABEL_BEGIN'); ?></label>
-		<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin', 'filter_begin', '%Y-%m-%d' , array('size'=>8,'style'=>'width:146px' , 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
+		<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin', 'filter_begin', '%Y-%m-%d' , array('class'=>'input-medium', 'size'=>8,'style'=>'width:146px' , 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
 
 		<label class="filter-hide-lbl" for="filter_end"><?php echo JText::_('COM_EXTERNALLOGIN_LABEL_END'); ?></label>
-		<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end', '%Y-%m-%d' , array('size'=>8,'style'=>'width:146px', 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
+		<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end', '%Y-%m-%d' , array('class'=>'input-medium', 'size'=>8,'style'=>'width:146px', 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
+		</div>
 	</div>
 	<div id="j-main-container" class="span10">
 	<?php else : ?>

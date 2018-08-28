@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
 
 /**
  * Users Controller of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
  *
@@ -171,6 +171,8 @@ class ExternalloginControllerUsers extends JControllerLegacy
 	/**
 	 * Disable all Joomla! users to login using external login method for the selected server
 	 *
+	 * @return  void
+	 *
 	 * @since   2.1.0
 	 */
 	public function disableExternalloginGlobal()
@@ -242,6 +244,8 @@ class ExternalloginControllerUsers extends JControllerLegacy
 
 	/**
 	 * Enable all Joomla! users to login using selected external login method
+	 *
+	 * @return  void
 	 *
 	 * @since   2.1.1
 	 */

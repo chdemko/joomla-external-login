@@ -11,6 +11,8 @@
  * @link        http://www.chdemko.com
  */
 
+namespace Joomla\CMS\Log\Logger;
+
 // No direct access to this file
 defined('_JEXEC') or die;
 
@@ -22,7 +24,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.1.0
  */
-class JLogLoggerExternallogin extends JLogLoggerDatabase
+class ExternalloginLogger extends \JLogLoggerDatabase
 {
 	/**
 	 * Method to add an entry to the log.
@@ -33,9 +35,9 @@ class JLogLoggerExternallogin extends JLogLoggerDatabase
 	 *
 	 * @since   2.1.0
 	 */
-	public function addEntry(JLogEntry $entry)
+	public function addEntry(\JLogEntry $entry)
 	{
-		if ($entry instanceof ExternalloginLogEntry)
+		if ($entry instanceof \ExternalloginLogEntry)
 		{
 			// Connect to the database if not connected.
 			if (empty($this->db))
