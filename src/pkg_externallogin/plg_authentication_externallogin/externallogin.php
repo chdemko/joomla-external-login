@@ -14,9 +14,13 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
+if (version_compare(JVERSION, '3.8.0', '>='))
+{
+	JLoader::registerAlias('JLogLoggerExternallogin', '\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');
+}
 
-require_once JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php';
+JLoader::register('ExternalloginLogger', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
 /**
  * External Login - External Login plugin.
@@ -316,6 +320,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 
 					$response->status = JAuthentication::STATUS_UNKNOWN;
 				}
+
+				JAccess::clearStatics();
 			}
 			else
 			{

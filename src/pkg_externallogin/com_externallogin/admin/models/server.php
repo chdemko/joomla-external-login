@@ -110,10 +110,12 @@ class ExternalloginModelServer extends JModelAdmin
 		{
 			$data = $this->getItem();
 
-			// TODO: this is only a quick fix to populate server form
-			if (is_array($data->params) && array_key_exists('data', $data->params))
+			if (version_compare(JVERSION, '3.7.0', '>=')
+				&& property_exists($data, 'params')
+				&& isset($data->params['data']))
 			{
-				$data->params = $data->params['data'];
+				$registry = new JRegistry($data->params['data']);
+				$data->params = $registry->toArray();
 			}
 		}
 
