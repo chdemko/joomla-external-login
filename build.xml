@@ -34,13 +34,13 @@
 		<delete file="update.xml" />
 	</target>
 
-	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
-		<exec executable="phpcs">
+	<target name="phpcs" description="Generate codestyle report using PHP_CodeSniffer">
+		<exec executable="vendor/bin/phpcs">
+			<arg value="--report=full" />
 			<arg value="--extensions=php" />
-			<arg value="-p" />
-			<arg value="--standard=Joomla" />
+			<arg value="--standard=ruleset.xml" />
+			<arg path="src" />
 			<arg value="--ignore=tmpl" />
-			<arg path="." />
 		</exec>
 	</target>
 
