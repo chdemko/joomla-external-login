@@ -109,6 +109,13 @@ class ExternalloginModelServer extends JModelAdmin
 		if (empty($data))
 		{
 			$data = $this->getItem();
+			if (version_compare( JVERSION, '3.7.0', '>=' )
+				&& property_exists($data, 'params')
+				&& isset($data->params['data']))
+			{
+				$registry = new JRegistry($data->params['data']);
+				$data->params = $registry->toArray();
+			}
 		}
 
 		if (is_object($data) && empty($data->plugin))
