@@ -302,6 +302,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 
 					$response->status = JAuthentication::STATUS_UNKNOWN;
 				}
+				JAccess::clearStatics();
 			}
 			else
 			{
