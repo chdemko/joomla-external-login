@@ -52,7 +52,7 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 			<?php else: ?>
 				<button
 					value="<?php echo JRoute::_('index.php?option=com_externallogin&amp;view=servers&amp;layout=modal&amp;tmpl=component', true);?>"
-					class="btn btn-small modal"
+					class="btn btn-micro modal"
 					onclick="document.getElementById('cb<?php echo $i;?>').checked = true; return true;"
                     title="<?php echo addslashes(htmlspecialchars(JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_ENABLE'), ENT_COMPAT, 'UTF-8')); ?>"
 					data-toggle="modal"

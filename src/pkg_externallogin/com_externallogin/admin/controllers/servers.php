@@ -19,7 +19,7 @@ jimport('joomla.application.component.controlleradmin');
 
 /**
  * Servers Controller of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
  *

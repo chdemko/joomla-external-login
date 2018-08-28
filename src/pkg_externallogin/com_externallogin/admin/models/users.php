@@ -86,7 +86,7 @@ class ExternalloginModelUsers extends JModelList
 	 *
 	 * @see  JModelList::getListQuery
 	 *
-	 * @since  2.1.0 
+	 * @since  2.1.0
 	 */
 	protected function getListQuery()
 	{

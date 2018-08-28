@@ -23,14 +23,14 @@ jimport('joomla.database.table');
  * @package     External_Login
  * @subpackage  Component
  *
- * @since       0.0.1 
+ * @since       0.0.1
  */
 class ExternalloginTableServer extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$db  Database connector object
+	 * @param   object  $db  Database connector object
 	 *
 	 * @see     JTable::__construct
 	 *

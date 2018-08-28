@@ -114,15 +114,31 @@ class ExternalloginViewUsers extends JViewLegacy
 			'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_EXTERNALLOGIN',
 			'index.php?option=com_externallogin&amp;view=servers&amp;layout=modal&amp;tmpl=component',
 			800,
-			400,
+			300,
 			0,
 			0,
 			''
 		);
-		JToolBarHelper::custom('users.disableExternallogin', 'unpublish', 'users-disable-externallogin', 'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_EXTERNALLOGIN');
+		JToolBarHelper::custom(
+			'users.disableExternallogin',
+			'unpublish',
+			'users-disable-externallogin',
+			'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_EXTERNALLOGIN'
+		);
 		JToolBarHelper::preferences('com_externallogin');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_USERS');
+		$bar->appendButton(
+			'Popup',
+			'edit',
+			'COM_EXTERNALLOGIN_TOOLBAR_ENABLE_DISABLE_GLOBAL',
+			'index.php?option=com_externallogin&amp;view=servers&amp;layout=modal&amp;tmpl=component&globalS=1',
+			875,
+			300,
+			0,
+			0,
+			''
+		);
 
 		JHtml::_('sidebar.setaction', 'index.php?option=com_externallogin&view=users');
 

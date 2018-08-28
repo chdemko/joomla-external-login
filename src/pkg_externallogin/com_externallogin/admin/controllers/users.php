@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
 
 /**
  * Users Controller of External Login component
- * 
+ *
  * @package     External_Login
  * @subpackage  Component
  *
@@ -70,7 +70,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			Joomla\Utilities\ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->enableJoomla($cid))
@@ -169,6 +169,37 @@ class ExternalloginControllerUsers extends JControllerLegacy
 	}
 
 	/**
+	 * Disable all Joomla! users to login using external login method for the selected server
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public function disableExternalloginGlobal()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		// Get server id.
+		$sid = JFactory::getApplication()->input->getInt('server');
+
+		// Get the model.
+		$model = $this->getModel();
+
+		// Publish the items.
+		$success = $model->disableExternalloginGlobal($sid);
+
+		// Check if disable was successful
+		if ($success)
+		{
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_ALL_USERS_EXTERNALLOGIN_DISABLED'));
+		}
+
+		// Go back to user overview
+		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
+	}
+
+	/**
 	 * Enable Joomla! users to login using external login method
 	 *
 	 * @return  void
@@ -179,10 +210,11 @@ class ExternalloginControllerUsers extends JControllerLegacy
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$input = JFactory::getApplication()->input;
 
 		// Get items to publish from the request.
-		$cid  = $this->input->get('cid', array(), 'array');
-		$sid  = $this->input->get('server', 0, 'uint');
+		$cid  = $input->get('cid', array(), 'array');
+		$sid  = $input->get('server', 0, 'uint');
 
 		if (empty($cid))
 		{
@@ -194,7 +226,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			Joomla\Utilities\ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->enableExternallogin($cid, $sid))
@@ -207,6 +239,41 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			}
 		}
 
+		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
+	}
+
+	/**
+	 * Enable all Joomla! users to login using selected external login method
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.1
+	 */
+	public function enableExternalloginGlobal()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		// Get server id.
+		$sid = JFactory::getApplication()->input->getInt('server');
+
+		// Get the model.
+		$model = $this->getModel();
+
+		// Publish the items.
+		$success = $model->enableExternalloginGlobal($sid);
+
+		// Check if enable was successful
+		if (!$success)
+		{
+			$app->enqueueMessage($model->getError(), 'error');
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_EXTERNALLOGIN_USERS_ALL_USERS_JOOMLA_ENABLED'));
+		}
+
+		// Go back to user overview
 		$this->setRedirect(JRoute::_('index.php?option=com_externallogin&view=users', false));
 	}
 }

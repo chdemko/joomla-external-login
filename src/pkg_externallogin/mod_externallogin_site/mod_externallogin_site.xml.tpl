@@ -49,6 +49,12 @@
 				/>
 			</fieldset>
 			<fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+                />
 				<field
 					name="show_logout"
 					type="radio"
@@ -94,6 +100,16 @@
 					<option value="0">JNO</option>
 				</field>
 
+				<field
+						name="show_logout_local"
+						type="radio"
+						label="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_LOGOUT_LOCAL_LABEL"
+						description="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_LOGOUT_LOCAL__DESC"
+						default="0"
+						>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 				<field
 					name="show_title"
 					type="radio"

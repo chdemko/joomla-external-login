@@ -80,7 +80,7 @@ class ExternalloginModelServers extends JModelList
 	 *
 	 * @see  JModelList::getListQuery
 	 *
-	 * @since  2.0.0 
+	 * @since  2.0.0
 	 */
 	protected function getListQuery()
 	{

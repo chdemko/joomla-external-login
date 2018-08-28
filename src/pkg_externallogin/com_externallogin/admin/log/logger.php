@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.1.0
  */
-class JLogLoggerExternallogin extends JLogLoggerDatabase
+class ExternalloginLogger extends JLogLoggerDatabase
 {
 	/**
 	 * Method to add an entry to the log.
