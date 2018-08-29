@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
 	<property name="server" value="http://download.chdemko.com/joomla/extensions/external-login" />
-	<property name="version" value="3.1.2.0" />
+	<property name="version" value="3.1.1.1" />
 	<property name="shortversion" value="3.1" />
 	<property name="joomlaversion" value="3" />
 	<property name="dist" value="build" />
