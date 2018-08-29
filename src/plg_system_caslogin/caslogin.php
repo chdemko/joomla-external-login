@@ -239,7 +239,8 @@ class PlgSystemCaslogin extends JPlugin
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 					curl_setopt(
 						$curl, CURLOPT_URL,
-						$this->getUrl($params) . ($params->get('cas_v3') ? '/p3' : '' ) . '/serviceValidate?ticket=' . $ticket . '&service=' . urlencode($uri)
+						$this->getUrl($params) . ($params->get('cas_v3') ? '/p3' : '' ) .
+							'/serviceValidate?ticket=' . $ticket . '&service=' . urlencode($uri)
 					);
 					curl_setopt($curl, CURLOPT_TIMEOUT, $params->get('timeout'));
 					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $certificateFile || $certificatePath);

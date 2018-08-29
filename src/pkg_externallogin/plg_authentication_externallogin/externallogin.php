@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 
 if (version_compare(JVERSION, '3.8.0', '>='))
 {
-	JLoader::registerAlias('JLogLoggerExternallogin', '\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');
+	JLoader::registerAlias('ExternalloginLogger', '\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');
 }
 
 JLoader::register('ExternalloginLogger', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
@@ -162,7 +162,9 @@ class PlgAuthenticationExternallogin extends JPlugin
 								// Log autoupdate
 								JLog::add(
 									new ExternalloginLogEntry(
-										'Auto-update new groups of user "' . $user->username . '" with groups (' . implode(',', $groups) . ') on server ' . $response->server->id,
+										'Auto-update new groups of user "' . $user->username .
+											'" with groups (' . implode(',', $groups) . ') on server ' .
+											$response->server->id,
 										JLog::INFO,
 										'authentication-externallogin-autoupdate'
 									)
@@ -178,7 +180,13 @@ class PlgAuthenticationExternallogin extends JPlugin
 							if (!$results)
 							{
 								$query = $db->getQuery(true);
-								$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $id);
+								$query->insert(
+									'#__externallogin_users'
+								)->columns(
+									'server_id, user_id'
+								)->values(
+									(int) $response->server->id . ',' . (int) $id
+								);
 								$db->setQuery($query);
 								$db->execute();
 							}
@@ -223,11 +231,11 @@ class PlgAuthenticationExternallogin extends JPlugin
 					{
 							// Log blocked user
 							JLog::add(
-									new ExternalloginLogEntry(
-											'User "' . $response->username . '" is trying to login while he is blocked',
-											JLog::ERROR,
-											'authentication-externallogin-blocked'
-									)
+								new ExternalloginLogEntry(
+									'User "' . $response->username . '" is trying to login while he is blocked',
+									JLog::ERROR,
+									'authentication-externallogin-blocked'
+								)
 							);
 					}
 
@@ -252,7 +260,13 @@ class PlgAuthenticationExternallogin extends JPlugin
 					if ($user->save())
 					{
 						$query = $db->getQuery(true);
-						$query->insert('#__externallogin_users')->columns('server_id, user_id')->values((int) $response->server->id . ',' . (int) $user->id);
+						$query->insert(
+							'#__externallogin_users'
+						)->columns(
+							'server_id, user_id'
+						)->values(
+							(int) $response->server->id . ',' . (int) $user->id
+						);
 						$db->setQuery($query);
 						$db->execute();
 
@@ -295,7 +309,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 								// Log autoregister
 								JLog::add(
 									new ExternalloginLogEntry(
-										'Auto-register default group "' . $defaultUserGroup . '" for user "' . $user->username . '" on server ' . $response->server->id,
+										'Auto-register default group "' . $defaultUserGroup . '" for user "' .
+											$user->username . '" on server ' . $response->server->id,
 										JLog::INFO,
 										'authentication-externallogin-autoregister'
 									)
@@ -379,7 +394,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 	 *
 	 * @param   array            $credentials  Array holding the user credentials
 	 * @param   array            $options      Array of extra options
-	 * @param   JAuthentication  &$response    Authentication response object
+	 * @param   JAuthentication  $response     Authentication response object
 	 *
 	 * @return	boolean
 	 */
