@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -663,11 +663,19 @@ class PlgSystemCaslogin extends JPlugin
 			$response->type = 'system.caslogin';
 			$response->message = '';
 
-			// Compute username
-			$response->username = $this->xpath->evaluate($params->get('username_xpath'), $this->success);
+			// Compute sanitized username. See libraries/src/Table/User.php (check function)
+			$response->username = str_replace(
+				array('<', '>', '"', "'", '%', ';', '(', ')', '&', '\\'),
+				'',
+				$this->xpath->evaluate($params->get('username_xpath'), $this->success)
+			);
 
-			// Compute email
-			$response->email = $this->xpath->evaluate($params->get('email_xpath'), $this->success);
+			// Compute sanitized email. See libraries/src/Table/User.php (check function)
+			$response->email = str_replace(
+				array('<', '>', '"', "'", '%', ';', '(', ')', '&', '\\'),
+				'',
+				$this->xpath->evaluate($params->get('email_xpath'), $this->success)
+			);
 
 			// Compute name
 			$response->fullname = $this->xpath->evaluate($params->get('name_xpath'), $this->success);
