@@ -8,7 +8,7 @@
 	<author>Christophe Demko, Ioannis Barounis, Alexandre Gandois</author>
 	<authorEmail>external-login@chdemko.com</authorEmail>
 	<authorUrl>http://www.chdemko.com</authorUrl>
-	<copyright>Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois.</copyright>
+	<copyright>Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 
 	<!--  The version string is recorded in the extension table -->
@@ -49,6 +49,12 @@
 				/>
 			</fieldset>
 			<fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+                />
 				<field
 					name="show_logout"
 					type="radio"
@@ -94,6 +100,16 @@
 					<option value="0">JNO</option>
 				</field>
 
+				<field
+						name="show_logout_local"
+						type="radio"
+						label="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_LOGOUT_LOCAL_LABEL"
+						description="MOD_EXTERNALLOGIN_SITE_FIELD_SHOW_LOGOUT_LOCAL__DESC"
+						default="0"
+						>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 				<field
 					name="show_title"
 					type="radio"

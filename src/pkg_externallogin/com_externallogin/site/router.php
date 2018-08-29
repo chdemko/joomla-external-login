@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 /**
  * Function to build a External Login URL route.
  *
- * @param   array  &$query  The array of query string values for which to build a route.
+ * @param   array  $query  The array of query string values for which to build a route.
  *
  * @return  array  The URL route with segments represented as an array.
  *
@@ -69,7 +69,7 @@ function externalloginBuildRoute(&$query)
 				break;
 		}
 
-		unset ($query['view']);
+		unset($query['view']);
 	}
 
 	return $segments;
@@ -80,7 +80,7 @@ function externalloginBuildRoute(&$query)
  *
  * @param   array  $segments  The URL route with segments represented as an array.
  *
- * @return  array  The array of variables to set in the request.
+ * @return  array|void  The array of variables to set in the request.
  *
  * @since	2.0.0
  */

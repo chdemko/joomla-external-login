@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -16,8 +16,19 @@ defined('_JEXEC') or die;
 
 // load tooltip behavior
 JHtml::_('behavior.tooltip');
+
+// Set url for form action
+if (!isset($this->globalS))
+{
+	$frmAct = JRoute::_('index.php?option=com_externallogin&view=servers&tmpl=component&layout=modal');
+}
+else
+{
+	$frmAct = JRoute::_('index.php?option=com_externallogin&view=servers&tmpl=component&layout=modal&globalS=1');
+}
+
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_externallogin&view=servers&tmpl=component&layout=modal'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo $frmAct; ?>" method="post" name="adminForm" id="adminForm">
 	<?php echo $this->loadTemplate('filter'); ?>
 	<table class="table table-striped">
 		<thead><?php echo $this->loadTemplate('head'); ?></thead>

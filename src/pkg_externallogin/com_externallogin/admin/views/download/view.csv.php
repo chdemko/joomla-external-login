@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -56,7 +56,7 @@ class ExternalloginViewDownload extends JViewLegacy
 		$document->setMimeEncoding('text/csv');
 		JResponse::setHeader(
 			'Content-disposition',
-			'attachment; filename="' . $basename . '.csv' . '"; creation-date="' . JFactory::getDate()->toRFC822() . '"',
+			'attachment; filename="' . $basename . '.csv"; creation-date="' . JFactory::getDate()->toRFC822() . '"',
 			true
 		);
 		$this->get('Content');

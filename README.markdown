@@ -6,26 +6,27 @@ The *External Login* project is the continuation of the [Authentication Manager 
 Build
 -----
 
-Simply execute `ant` on the command line and get the built packages in the `build` directory.
+Simply execute `composer install` and `ant` on the command line and get the built packages in the `build` directory.
 
-~~~
+~~~bash
+$ composer install
 $ ant
 ~~~
 
 Downloads
 ---------
 
-* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.1.1.0-rc3.zip)
+* [External Login Package](http://download.chdemko.com/joomla/extensions/external-login/pkg_externallogin-3.1.2.0.zip)
 
 External Login Plugins
 ----------------------
 
-* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.1.1.0-rc3.zip)
+* [CAS Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_system_caslogin-3.1.2.0.zip)
 
 Community Builder
 -----------------
 
-* [Community Builder External Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_user_cbexternallogin-3.1.1.0-rc3.zip)
+* [Community Builder External Login Plugin](http://download.chdemko.com/joomla/extensions/external-login/plg_user_cbexternallogin-3.1.2.0.zip)
 
 Requirements
 ------------

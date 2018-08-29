@@ -1,0 +1,25 @@
+{
+	"name": "chdemko/joomla-external-login",
+	"type": "project",
+	"description": "External Login for Joomla!",
+	"keywords": ["external","login","Joomla!"],
+	"homepage": "http://github.com/chdemko/joomla-external-login",
+	"license": "GNU General Public License, version 2",
+	"authors": [
+		{
+			"name": "Christophe Demko",
+			"email": "chdemko@gmail.com",
+			"homepage": "http://chdemko.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.5.0"
+	},
+	"require-dev": {
+		"phpdocumentor/phpdocumentor": "2.9.*",
+		"php-coveralls/php-coveralls": "^2.0",
+		"joomla/coding-standards": "~2.0@alpha",
+		"phpunit/phpunit": "^7.0"
+	}
+}

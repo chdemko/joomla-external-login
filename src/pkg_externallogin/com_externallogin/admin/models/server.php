@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -109,6 +109,14 @@ class ExternalloginModelServer extends JModelAdmin
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			if (version_compare(JVERSION, '3.7.0', '>=')
+				&& property_exists($data, 'params')
+				&& isset($data->params['data']))
+			{
+				$registry = new JRegistry($data->params['data']);
+				$data->params = $registry->toArray();
+			}
 		}
 
 		if (is_object($data) && empty($data->plugin))
@@ -126,7 +134,7 @@ class ExternalloginModelServer extends JModelAdmin
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *

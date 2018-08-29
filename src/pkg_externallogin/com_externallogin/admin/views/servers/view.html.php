@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -45,6 +45,9 @@ class ExternalloginViewServers extends JViewLegacy
 		$pagination = $this->get('Pagination');
 		$state = $this->get('State');
 
+		// Get global var if set
+		$global = JFactory::getApplication()->input->getInt('globalS');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -59,6 +62,12 @@ class ExternalloginViewServers extends JViewLegacy
 		$this->items = $items;
 		$this->pagination = $pagination;
 		$this->state = $state;
+
+		// Check if a server should be set global
+		if ($global === 1)
+		{
+			$this->globalS = true;
+		}
 
 		// Set the toolbar
 		$this->addToolBar();

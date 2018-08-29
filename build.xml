@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
 	<property name="server" value="http://download.chdemko.com/joomla/extensions/external-login" />
-	<property name="version" value="3.1.1.0-rc3" />
-	<property name="shortversion" value="3.1.1" />
+	<property name="version" value="3.1.2.0" />
+	<property name="shortversion" value="3.1" />
 	<property name="joomlaversion" value="3" />
 	<property name="dist" value="build" />
 
@@ -34,13 +34,13 @@
 		<delete file="update.xml" />
 	</target>
 
-	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
-		<exec executable="phpcs">
+	<target name="phpcs" description="Generate codestyle report using PHP_CodeSniffer">
+		<exec executable="vendor/bin/phpcs">
+			<arg value="--report=full" />
 			<arg value="--extensions=php" />
-			<arg value="-p" />
-			<arg value="--standard=Joomla" />
+			<arg value="--standard=ruleset.xml" />
+			<arg path="src" />
 			<arg value="--ignore=tmpl" />
-			<arg path="." />
 		</exec>
 	</target>
 

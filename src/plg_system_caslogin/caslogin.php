@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -20,9 +20,14 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/tabl
 jimport('joomla.application.component.model');
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
-JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
-JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+if (version_compare(JVERSION, '3.8.0', '>='))
+{
+	JLoader::registerAlias('ExternalloginLogger', '\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');
+}
+
+JLoader::register('ExternalloginLogger', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
+JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
 
 /**
  * External Login - CAS plugin.
@@ -55,8 +60,8 @@ class PlgSystemCaslogin extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 *
 	 * @since   2.0.0
 	 */
@@ -301,63 +306,151 @@ class PlgSystemCaslogin extends JPlugin
 								// Store the server
 								$this->server = $server;
 
+								// Get username
+								$userName = $this->xpath->evaluate('string(cas:user)', $this->success);
+
 								// Log message
 								if ($params->get('log_xml', 0))
 								{
 									JLog::add(
 										new ExternalloginLogEntry(
-											'Successful login on server ' . $sid . ' for CAS user "' . $this->xpath->evaluate('string(cas:user)', $this->success) . '"',
+											'Successful login on server ' . $sid . ' for CAS user "' .
+											$this->xpath->evaluate('string(cas:user)', $this->success) . '"',
 											JLog::INFO,
 											'system-caslogin-xml'
 										)
 									);
 								}
 
-								// If the return url is for an Itemid, we look it up in the menu
-								// in case it is a redirect to an external source
-								$query = $uri->getQuery(true);
+								// Check if user is enabled for cas login. Deny if not
+								$query = $db->getQuery(true);
+								$query->select("id");
+								$query->from("#__users");
+								$query->where($db->quoteName("username") . ' = ' . $db->quote($userName));
+								$db->setQuery($query);
 
-								if (!empty($query) && sizeof($query) === 1 && array_key_exists('Itemid', $query))
+								try
 								{
-									$menu = $app->getMenu();
-									$menuEntry = $menu->getItem($query['Itemid']);
+									$uID = $db->loadResult();
+								}
+								catch (Exception $exc)
+								{
+									$app->enqueueMessage($exc->getMessage(), 'error');
+								}
 
-									if (!empty($menuEntry))
+								// After check: true if user is activated for current server, else false
+								$access = null;
+
+								// Check if server is active for registered user, unregistered users should pass for reg.
+								if (!empty($uID))
+								{
+									$query = $db->getQuery(true);
+									$query->select("server_id");
+									$query->from("#__externallogin_users");
+									$query->where("user_id = '$uID'");
+									$db->setQuery($query);
+
+									// Load the servers assigned to the user
+									try
 									{
-										$return = $menuEntry->link;
+										$servers = $db->loadColumn();
+
+										// Check if current server is activated for the user
+										if (!empty($servers))
+										{
+											foreach ($servers as $server)
+											{
+												if ($server == $sid)
+												{
+													// Server is activated for this user - access granted
+													$access = true;
+													break;
+												}
+											}
+
+											// Current server is not activated for this user - no access
+											if (!$access)
+											{
+												$app->enqueueMessage(JText::_('PLG_SYSTEM_CASLOGIN_NO_ACTIVATED_SERVER'), 'error');
+											}
+										}
+										else
+										{
+											// No server is activated for this user - no access
+											$app->enqueueMessage(JText::_('PLG_SYSTEM_CASLOGIN_NO_ACTIVATED_SERVER'), 'error');
+											$access = false;
+										}
 									}
-								}
-
-								if (empty($return))
-								{
-									// Original way of determining the return url
-									$return = 'index.php' . $uri->toString(array('query'));
-								}
-
-								if ($return == 'index.php?option=com_login')
-								{
-									$return = 'index.php';
-								}
-
-								// Prepare the connection process
-								if ($app->isAdmin())
-								{
-									$input->set('option', 'com_login');
-									$input->set('task', 'login');
-									$input->set(JSession::getFormToken(), 1);
-
-									// We are forced to encode the url in base64 as com_login uses this encoding
-									$input->set('return', base64_encode($return));
+									catch (Exception $exc)
+									{
+										$app->enqueueMessage($exc->getMessage(), 'error');
+									}
 								}
 								else
 								{
-									$input->set('option', 'com_users');
-									$input->set('task', 'user.login');
-									$input->set('Itemid', 0);
-									$input->post->set(JSession::getFormToken(), 1);
+									// User from CAS is a new user on this Joomla! instance
+									$access = true;
+								}
 
-									// We are forced to encode the url in base64 as com_users uses this encoding
-									$input->post->set('return', base64_encode($return));
+								// Log that access was denied
+								if (!$access)
+								{
+									JLog::add(
+										new ExternalloginLogEntry(
+											'Unsuccessful login on server ' . $sid . ', user not activated for this server',
+											JLog::INFO,
+											'system-caslogin-xml'
+										)
+									);
+								}
+								else
+								{
+									// If the return url is for an Itemid, we look it up in the menu
+									// in case it is a redirect to an external source
+									$query = $uri->getQuery(true);
+
+									if (!empty($query) && count($query) === 1 && array_key_exists('Itemid', $query))
+									{
+										$menu      = $app->getMenu();
+										$menuEntry = $menu->getItem($query['Itemid']);
+
+										if (!empty($menuEntry))
+										{
+											$return = $menuEntry->link;
+										}
+									}
+
+									if (empty($return))
+									{
+										// Original way of determining the return url
+										$return = 'index.php' . $uri->toString(array('query'));
+									}
+
+									if ($return == 'index.php?option=com_login')
+									{
+										$return = 'index.php';
+									}
+
+									// Prepare the connection process
+									if ($app->isAdmin())
+									{
+										$input->set('option', 'com_login');
+										$input->set('task', 'login');
+										$input->set(JSession::getFormToken(), 1);
+
+										// We are forced to encode the url in base64 as com_login uses this encoding
+										$input->set('return', base64_encode($return));
+									}
+									else
+									{
+										$input->set('option', 'com_users');
+										$input->set('task', 'user.login');
+										$input->set('Itemid', 0);
+										$input->post->set(JSession::getFormToken(), 1);
+
+										// We are forced to encode the url in base64 as com_users uses this encoding
+										$input->post->set('return', base64_encode($return));
+									}
 								}
 							}
 							else
@@ -541,7 +634,7 @@ class PlgSystemCaslogin extends JPlugin
 	/**
 	 * External Login event
 	 *
-	 * @param   JAuthenticationResponse  &$response  Response to the login process
+	 * @param   JAuthenticationResponse  $response  Response to the login process
 	 *
 	 * @return	void|true
 	 *
@@ -560,11 +653,19 @@ class PlgSystemCaslogin extends JPlugin
 			$response->type = 'system.caslogin';
 			$response->message = '';
 
-			// Compute username
-			$response->username = $this->xpath->evaluate($params->get('username_xpath'), $this->success);
+			// Compute sanitized username. See libraries/src/Table/User.php (check function)
+			$response->username = str_replace(
+				array('<', '>', '"', "'", '%', ';', '(', ')', '&', '\\'),
+				'',
+				$this->xpath->evaluate($params->get('username_xpath'), $this->success)
+			);
 
-			// Compute email
-			$response->email = $this->xpath->evaluate($params->get('email_xpath'), $this->success);
+			// Compute sanitized email. See libraries/src/Table/User.php (check function)
+			$response->email = str_replace(
+				array('<', '>', '"', "'", '%', ';', '(', ')', '&', '\\'),
+				'',
+				$this->xpath->evaluate($params->get('email_xpath'), $this->success)
+			);
 
 			// Compute name
 			$response->fullname = $this->xpath->evaluate($params->get('name_xpath'), $this->success);
@@ -667,7 +768,8 @@ class PlgSystemCaslogin extends JPlugin
 								{
 									JLog::add(
 										new ExternalloginLogEntry(
-											'Added groups (' . implode(',', $newgroups) . ') for user "' . $response->username . '" on server ' . $sid,
+											'Added groups (' . implode(',', $newgroups) . ') for user "' .
+											$response->username . '" on server ' . $sid,
 											JLog::INFO,
 											'system-caslogin-groups'
 										)
@@ -774,8 +876,15 @@ class PlgSystemCaslogin extends JPlugin
 
 			$params = new JRegistry($server->params);
 
+			$local = $app->input->get('local');
+
+			// Local logout only?
+			if (isset($local))
+			{
+				return true;
+			}
 			// Logout from CAS
-			if ($params->get('autologout') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
+			elseif ($params->get('autologout') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
 			{
 				// Log message
 				if ($params->get('log_logout', 0))

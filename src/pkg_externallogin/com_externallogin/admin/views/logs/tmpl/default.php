@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -43,11 +43,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
+		<div class="filter-select hidden-phone">
 		<label class="filter-hide-lbl" for="filter_begin"><?php echo JText::_('COM_EXTERNALLOGIN_LABEL_BEGIN'); ?></label>
-		<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin', 'filter_begin', '%Y-%m-%d' , array('size'=>8,'style'=>'width:146px' , 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
+		<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin', 'filter_begin', '%Y-%m-%d' , array('class'=>'input-medium', 'size'=>8,'style'=>'width:146px' , 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
 
 		<label class="filter-hide-lbl" for="filter_end"><?php echo JText::_('COM_EXTERNALLOGIN_LABEL_END'); ?></label>
-		<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end', '%Y-%m-%d' , array('size'=>8,'style'=>'width:146px', 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
+		<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end', '%Y-%m-%d' , array('class'=>'input-medium', 'size'=>8,'style'=>'width:146px', 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
+		</div>
 	</div>
 	<div id="j-main-container" class="span10">
 	<?php else : ?>

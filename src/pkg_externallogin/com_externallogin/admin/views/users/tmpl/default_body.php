@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -52,7 +52,7 @@ $plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 			<?php else: ?>
 				<button
 					value="<?php echo JRoute::_('index.php?option=com_externallogin&amp;view=servers&amp;layout=modal&amp;tmpl=component', true);?>"
-					class="btn btn-small modal"
+					class="btn btn-micro modal"
 					onclick="document.getElementById('cb<?php echo $i;?>').checked = true; return true;"
                     title="<?php echo addslashes(htmlspecialchars(JText::_('COM_EXTERNALLOGIN_GRID_USER_EXTERNALLOGIN_ENABLE'), ENT_COMPAT, 'UTF-8')); ?>"
 					data-toggle="modal"

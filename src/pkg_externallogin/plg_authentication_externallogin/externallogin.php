@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -14,7 +14,12 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-JLoader::register('JLogLoggerExternallogin', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
+if (version_compare(JVERSION, '3.8.0', '>='))
+{
+	JLoader::registerAlias('JLogLoggerExternallogin', '\\Joomla\\CMS\\Log\\Logger\\ExternalloginLogger');
+}
+
+JLoader::register('ExternalloginLogger', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/logger.php');
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 
 /**
@@ -30,8 +35,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
 	 *
 	 * @since   2.0.0
 	 */
@@ -137,17 +142,20 @@ class PlgAuthenticationExternallogin extends JPlugin
 
 							$groups = empty($response->groups) ? $oldgroups : $response->groups;
 
-							// Add the groups
-							$query = $db->getQuery(true);
-							$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
-
-							foreach ($groups as $group)
+							if (!empty($groups))
 							{
-								$query->values((int) $id . ',' . (int) $group);
-							}
+								// Add the groups
+								$query = $db->getQuery(true);
+								$query->insert('#__user_usergroup_map')->columns('user_id, group_id');
 
-							$db->setQuery($query);
-							$db->execute();
+								foreach ($groups as $group)
+								{
+									$query->values((int) $id . ',' . (int) $group);
+								}
+
+								$db->setQuery($query);
+								$db->execute();
+							}
 
 							if (!empty($response->groups) && $params->get('log_autoupdate', 0))
 							{
@@ -345,6 +353,8 @@ class PlgAuthenticationExternallogin extends JPlugin
 					$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
 					$app->setUserState('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
 				}
+
+				JAccess::clearStatics();
 			}
 			else
 			{

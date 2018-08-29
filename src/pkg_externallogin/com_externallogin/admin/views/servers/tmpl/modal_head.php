@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -21,6 +21,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<th>
 		<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 	</th>
+	<?php if(isset($this->globalS)): ?>
+		<th>
+			<?php echo JText::_('COM_EXTERNALLOGIN_TOOLBAR_ENABLE_ACTIVATE_ALL'); ?>
+		</th>
+		<th>
+			<?php echo JText::_('COM_EXTERNALLOGIN_TOOLBAR_DISABLE_ALL'); ?>
+		</th>
+	<?php endif; ?>
 	<th width="20%">
 		<?php echo JHtml::_('grid.sort', 'COM_EXTERNALLOGIN_HEADING_PLUGIN', 'e.ordering', $listDirn, $listOrder); ?>
 	</th>

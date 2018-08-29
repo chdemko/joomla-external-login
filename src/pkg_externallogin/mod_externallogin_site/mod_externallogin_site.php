@@ -6,7 +6,7 @@
  * @author      Christophe Demko <chdemko@gmail.com>
  * @author      Ioannis Barounis <contact@johnbarounis.com>
  * @author      Alexandre Gandois <alexandre.gandois@etudiant.univ-lr.fr>
- * @copyright   Copyright (C) 2008-2017 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
+ * @copyright   Copyright (C) 2008-2018 Christophe Demko, Ioannis Barounis, Alexandre Gandois. All rights reserved.
  * @license     GNU General Public License, version 2. http://www.gnu.org/licenses/gpl-2.0.html
  * @link        http://www.chdemko.com
  */
@@ -21,15 +21,6 @@ require_once dirname(__FILE__) . '/helper.php';
 
 $enabled = JComponentHelper::getComponent('com_externallogin', true)->enabled && JPluginHelper::isEnabled('authentication', 'externallogin');
 $servers = modExternalloginsiteHelper::getListServersURL($params);
-
-if ($params->get('redirect'))
-{
-	foreach ($servers as $server)
-	{
-		$server->url .= '&redirect=' . $params->get('redirect');
-	}
-}
-
 $count = count($servers);
 $user = JFactory::getUser();
 $return = modExternalloginsiteHelper::getLogoutUrl($params);
