@@ -9,9 +9,9 @@
 
 CREATE TABLE IF NOT EXISTS `#__externallogin_servers` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`title` VARCHAR(255) NOT NULL,
+	`title` VARCHAR(128) NOT NULL,
 	`published` TINYINT(3) NOT NULL,
-	`plugin` VARCHAR(255) NOT NULL,
+	`plugin` VARCHAR(128) NOT NULL,
 	`ordering` INT(11) NOT NULL,
 	`checked_out` INT(11) NOT NULL,
 	`checked_out_time` DATETIME NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_users` (
 
 CREATE TABLE IF NOT EXISTS `#__externallogin_logs` (
 	`priority` INT(11) NOT NULL DEFAULT 0,
-	`category` VARCHAR(255) NOT NULL,
+	`category` VARCHAR(128) NOT NULL,
 	`date` DECIMAL(20,6) NOT NULL,
 	`message` VARCHAR(65535) NOT NULL,
 	INDEX (`priority`),
