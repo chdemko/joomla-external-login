@@ -14,6 +14,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 // Import Joomla modeladmin library
 jimport('joomla.application.component.modeladmin');
 
@@ -146,7 +148,7 @@ class ExternalloginModelServer extends JModelAdmin
 		{
 			if (!empty($pks))
 			{
-				JArrayHelper::toInteger($pks);
+				ArrayHelper::toInteger($pks);
 				$query = $this->_db->getQuery(true);
 				$query->delete();
 				$query->from('#__externallogin_users');

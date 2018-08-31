@@ -14,6 +14,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 // Import the Joomla modellist library
 jimport('joomla.application.component.modellist');
 
@@ -151,7 +153,7 @@ class ExternalloginModelServers extends JModelList
 
 		// Filter by servers
 		$servers = $this->getState('filter.servers');
-		JArrayHelper::toInteger($servers);
+		ArrayHelper::toInteger($servers);
 
 		if (!empty($servers))
 		{

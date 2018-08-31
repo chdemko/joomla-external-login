@@ -14,6 +14,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 // Import Joomla controller library
 jimport('joomla.application.component.controller');
 
@@ -111,7 +113,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->disableJoomla($cid))
@@ -152,7 +154,7 @@ class ExternalloginControllerUsers extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->disableExternallogin($cid))

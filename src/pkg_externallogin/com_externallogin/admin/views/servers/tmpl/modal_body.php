@@ -14,12 +14,14 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $user = JFactory::getUser();
 $ordering = $this->state->get('list.ordering') == 'a.ordering';
-$plugins = JArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
+$plugins = ArrayHelper::pivot(ExternalloginHelper::getPlugins(), 'value');
 
 if (!count($this->items)){
 	?>

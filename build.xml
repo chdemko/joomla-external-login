@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="external-login" default="build" basedir=".">
 	<property name="server" value="http://download.chdemko.com/joomla/extensions/external-login" />
-	<property name="version" value="3.1.1.2" />
-	<property name="shortversion" value="3.1" />
-	<property name="joomlaversion" value="3" />
+	<property name="version" value="4.1.0.0" />
+	<property name="shortversion" value="4.1" />
+	<property name="joomlaversion" value="4" />
 	<property name="dist" value="build" />
 
 	<target name="build" depends="phpcs, clean, src, readme, server "/>
