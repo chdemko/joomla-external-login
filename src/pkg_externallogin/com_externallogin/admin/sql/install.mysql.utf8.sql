@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `#__externallogin_logs` (
 	`priority` INT(11) NOT NULL DEFAULT 0,
 	`category` VARCHAR(128) NOT NULL,
 	`date` DECIMAL(20,6) NOT NULL,
-	`message` VARCHAR(65535) NOT NULL,
+	`message` MEDIUMTEXT NOT NULL,
 	INDEX (`priority`),
 	INDEX (`category`),
 	INDEX (`date`),
