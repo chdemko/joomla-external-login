@@ -410,14 +410,6 @@ class PlgSystemCaslogin extends JPlugin
 									// in case it is a redirect to an external source
 									$query = $uri->getQuery(true);
 
-									// Detect redirect menu item from the params
-									$redirect = $params->get('redirect');
-
-									if (!$app->isAdmin() && !empty($redirect))
-									{
-										$return = 'index.php?Itemid=' . $redirect;
-									}
-
 									if (empty($return) && !empty($query) && count($query) === 1 && array_key_exists('Itemid', $query))
 									{
 										$menu      = $app->getMenu();
@@ -454,6 +446,14 @@ class PlgSystemCaslogin extends JPlugin
 									}
 									else
 									{
+										// Detect redirect menu item from the params
+										$redirect = $params->get('redirect');
+
+										if (!empty($redirect) && (!$params->get('noredirect') || $return != 'index.php'))
+										{
+											$return = 'index.php?Itemid=' . $redirect;
+										}
+
 										$input->set('option', 'com_users');
 										$input->set('task', 'user.login');
 										$request->set('Itemid', 0);
