@@ -410,7 +410,7 @@ class PlgSystemCaslogin extends JPlugin
 									// in case it is a redirect to an external source
 									$query = $uri->getQuery(true);
 
-									if (!empty($query) && count($query) === 1 && array_key_exists('Itemid', $query))
+									if (empty($return) && !empty($query) && count($query) === 1 && array_key_exists('Itemid', $query))
 									{
 										$menu      = $app->getMenu();
 										$menuEntry = $menu->getItem($query['Itemid']);
@@ -432,6 +432,8 @@ class PlgSystemCaslogin extends JPlugin
 										$return = 'index.php';
 									}
 
+									$request = JFactory::getApplication()->input->getInputForRequestMethod();
+
 									// Prepare the connection process
 									if ($app->isAdmin())
 									{
@@ -440,17 +442,25 @@ class PlgSystemCaslogin extends JPlugin
 										$input->set(JSession::getFormToken(), 1);
 
 										// We are forced to encode the url in base64 as com_login uses this encoding
-										$input->set('return', base64_encode($return));
+										$request->set('return', base64_encode($return));
 									}
 									else
 									{
+										// Detect redirect menu item from the params
+										$redirect = $params->get('redirect');
+
+										if (!empty($redirect) && (!$params->get('noredirect') || $return != 'index.php'))
+										{
+											$return = 'index.php?Itemid=' . $redirect;
+										}
+
 										$input->set('option', 'com_users');
 										$input->set('task', 'user.login');
-										$input->set('Itemid', 0);
+										$request->set('Itemid', 0);
 										$input->post->set(JSession::getFormToken(), 1);
 
 										// We are forced to encode the url in base64 as com_users uses this encoding
-										$input->post->set('return', base64_encode($return));
+										$request->set('return', base64_encode($return));
 									}
 								}
 							}
