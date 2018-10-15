@@ -14,12 +14,18 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5.0"
+		"php": ">=5.5.0",
 	},
 	"require-dev": {
 		"phpdocumentor/phpdocumentor": "2.9.*",
 		"php-coveralls/php-coveralls": "^2.0",
 		"joomla/coding-standards": "~2.0@alpha",
 		"phpunit/phpunit": "^7.0"
+	},
+	"scripts": {
+		"phpcs": "phpcs --report=full --extensions=php --standard=ruleset.xml src/ --ignore=tmpl",
+		"package": [
+			"echo Hello"
+		]
 	}
 }
