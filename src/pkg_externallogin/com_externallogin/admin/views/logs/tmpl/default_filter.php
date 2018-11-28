@@ -23,7 +23,7 @@ $sortFields = $this->getSortFields();
 <div id="filter-bar" class="btn-toolbar">
 	<div class="filter-search btn-group pull-left">
 		<label class="element-invisible" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-		<input type="text" class="hasTooltip" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_FILTER_LOGS_SEARCH_DESC')); ?>" />
+		<input class="form-control" type="text" class="hasTooltip" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo $this->escape(JText::_('COM_EXTERNALLOGIN_FILTER_LOGS_SEARCH_DESC')); ?>" />
 	</div>
 	<div class="btn-group pull-left">		
 		<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
