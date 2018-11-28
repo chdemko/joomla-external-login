@@ -41,11 +41,11 @@ class ExternalloginViewLogs extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$basename = $this->get('BaseName');
+		$app = JFactory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			$app = JFactory::getApplication();
 			$app->enqueueMessage(implode('<br />', $errors), 'error');
 			$app->redirect('index.php');
 
@@ -54,7 +54,7 @@ class ExternalloginViewLogs extends JViewLegacy
 
 		$document = JFactory::getDocument();
 		$document->setMimeEncoding('text/csv');
-		JResponse::setHeader(
+		$app->setHeader(
 			'Content-disposition',
 			'attachment; filename="' . $basename . '.csv"; creation-date="' . JFactory::getDate()->toRFC822() . '"',
 			true

@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
 
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Module helper class
  *
@@ -36,7 +38,7 @@ abstract class ModExternalloginadminHelper
 	public static function getListServersURL($params)
 	{
 		$app = JFactory::getApplication();
-		$uri = JFactory::getURI();
+		$uri = Uri::getInstance();
 
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Servers', 'ExternalloginModel', array('ignore_request' => true));

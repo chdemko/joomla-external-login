@@ -13,6 +13,8 @@
 
 // No direct access to this file
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Uri\Uri;
 ?>
 <?php if (JFactory::getUser()->guest):?>
 <div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
@@ -48,7 +50,7 @@ defined('_JEXEC') or die;
 			<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 				<div>
 					<input type="submit" class="button" value="<?php echo htmlspecialchars(JText::_('MOD_EXTERNALLOGIN_SITE_LOGOUT_LOCAL'), ENT_COMPAT, 'UTF-8'); ?>" />
-					<input type="hidden" name="return" value="<?php echo base64_encode(JFactory::getURI()); ?>" />
+					<input type="hidden" name="return" value="<?php echo base64_encode(Uri::getInstance()); ?>" />
 					<input type="hidden" name="local" value="1"/>
 					<?php echo JHtml::_('form.token'); ?>
 				</div>

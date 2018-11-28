@@ -40,8 +40,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_externallogin&view=logs'); ?>" method="post" name="adminForm" id="adminForm">
+<div class="row">
 	<?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
+	<div id="j-sidebar-container" class="col-md-2">
 		<?php echo $this->sidebar; ?>
 		<div class="filter-select hidden-phone">
 		<label class="filter-hide-lbl" for="filter_begin"><?php echo JText::_('COM_EXTERNALLOGIN_LABEL_BEGIN'); ?></label>
@@ -51,7 +52,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end', '%Y-%m-%d' , array('class'=>'input-medium', 'size'=>8,'style'=>'width:146px', 'onchange'=>"this.form.fireEvent('submit');this.form.submit()")); ?>
 		</div>
 	</div>
-	<div id="j-main-container" class="span10">
+	<div id="j-main-container" class="col-md-10">
 	<?php else : ?>
 	<div id="j-main-container">
 	<?php endif; ?>
@@ -69,4 +70,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</div>
+</div>
 </form>

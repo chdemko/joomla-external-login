@@ -7,6 +7,7 @@
 			<field
 				type="spacer"
 				label="PLG_SYSTEM_CASLOGIN_FIELD_SPACER_LABEL"
+				class="alert alert-info"
 			/>
 			<field
 				name="log_autologin"
@@ -272,3 +273,4 @@
 		</fieldset>
 	</fields>
 </form>
+

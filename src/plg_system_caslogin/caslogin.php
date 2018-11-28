@@ -29,6 +29,10 @@ JLoader::register('ExternalloginLogger', JPATH_ADMINISTRATOR . '/components/com_
 JLoader::register('ExternalloginLogEntry', JPATH_ADMINISTRATOR . '/components/com_externallogin/log/entry.php');
 JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_externallogin/helpers/externallogin.php');
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+
 /**
  * External Login - CAS plugin.
  *
@@ -37,8 +41,16 @@ JLoader::register('ExternalloginHelper', JPATH_ADMINISTRATOR . '/components/com_
  *
  * @since       2.0.0
  */
-class PlgSystemCaslogin extends JPlugin
+class PlgSystemCaslogin extends CMSPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * @var    ExternalloginTableServer
 	 * @since  2.0.0
@@ -68,7 +80,6 @@ class PlgSystemCaslogin extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage();
 		JLog::addLogger(
 			array('logger' => 'externallogin', 'db_table' => '#__externallogin_logs', 'plugin' => 'system-caslogin'),
 			JLog::ALL,
@@ -94,6 +105,8 @@ class PlgSystemCaslogin extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
+		$this->loadLanguage();
+
 		if ($context == 'com_externallogin')
 		{
 			JFactory::getDocument()->addStyleDeclaration(
@@ -109,8 +122,8 @@ class PlgSystemCaslogin extends JPlugin
 				array(
 					'image' => 'icon-caslogin',
 					'link' => JRoute::_('index.php?option=com_externallogin&task=server.add&plugin=system.caslogin'),
-					'alt' => JText::_('PLG_SYSTEM_CASLOGIN_ALT'),
-					'text' => JText::_('PLG_SYSTEM_CASLOGIN_TEXT'),
+					'alt' => Text::_('PLG_SYSTEM_CASLOGIN_ALT'),
+					'text' => Text::_('PLG_SYSTEM_CASLOGIN_TEXT'),
 					'target' => '_parent'
 				)
 			);
@@ -132,6 +145,8 @@ class PlgSystemCaslogin extends JPlugin
 	 */
 	public function onGetOption($context)
 	{
+		$this->loadLanguage();
+
 		if ($context == 'com_externallogin')
 		{
 			return array('value' => 'system.caslogin', 'text' => 'PLG_SYSTEM_CASLOGIN_OPTION');
@@ -150,6 +165,8 @@ class PlgSystemCaslogin extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
+		$this->loadLanguage();
+
 		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
@@ -192,7 +209,7 @@ class PlgSystemCaslogin extends JPlugin
 			$input = $app->input;
 
 			// Get the service
-			$uri = JFactory::getURI();
+			$uri = Uri::getInstance();
 
 			// Get the ticket and the server
 			$ticket = $input->get('ticket');

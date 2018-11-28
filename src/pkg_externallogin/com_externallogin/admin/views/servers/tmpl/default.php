@@ -66,11 +66,12 @@ Joomla.submitbutton = function(pressbutton)
 ");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_externallogin&view=servers'); ?>" method="post" name="adminForm" id="adminForm">
+<div class="row">
 	<?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
+	<div id="j-sidebar-container" class="col-md-2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
+	<div id="j-main-container" class="col-md-10">
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif; ?>
@@ -88,4 +89,5 @@ Joomla.submitbutton = function(pressbutton)
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</div>
+</div>
 </form>

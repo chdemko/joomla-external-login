@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
 
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_externallogin/models', 'ExternalloginModel');
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Module helper class
  *
@@ -47,7 +49,7 @@ abstract class ModExternalloginsiteHelper
 			$redirect = $params->get('redirect');
 		}
 
-		$ishome = in_array(substr(JFactory::getUri()->toString(), strlen(JUri::base())), array('', 'index.php'));
+		$ishome = in_array(substr(Uri::getInstance()->toString(), strlen(Uri::base())), array('', 'index.php'));
 		$noredirect = $params->get('noredirect');
 
 		// Get an instance of the generic articles model

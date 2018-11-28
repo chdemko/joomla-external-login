@@ -17,6 +17,8 @@ defined('_JEXEC') or die;
 // Import Joomla view library
 jimport('joomla.application.component.view');
 
+use Joomla\CMS\Authentication\AuthenticationResponse;
+
 /**
  * Server View of External Login component
  *
@@ -41,11 +43,11 @@ class ExternalloginViewDownload extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$basename = $this->get('BaseName');
+		$app = JFactory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			$app = JFactory::getApplication();
 			$app->enqueueMessage(implode('<br />', $errors), 'error');
 			$app->redirect('index.php');
 
@@ -54,7 +56,7 @@ class ExternalloginViewDownload extends JViewLegacy
 
 		$document = JFactory::getDocument();
 		$document->setMimeEncoding('text/csv');
-		JResponse::setHeader(
+		$app->setHeader(
 			'Content-disposition',
 			'attachment; filename="' . $basename . '.csv"; creation-date="' . JFactory::getDate()->toRFC822() . '"',
 			true

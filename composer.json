@@ -14,7 +14,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5.0",
+		"php": ">=5.5.0"
 	},
 	"require-dev": {
 		"phpdocumentor/phpdocumentor": "2.9.*",
@@ -23,9 +23,6 @@
 		"phpunit/phpunit": "^7.0"
 	},
 	"scripts": {
-		"phpcs": "phpcs --report=full --extensions=php --standard=ruleset.xml src/ --ignore=tmpl",
-		"package": [
-			"echo Hello"
-		]
+		"phpcs": "phpcs --report=full --extensions=php --standard=ruleset.xml src/ --ignore=tmpl"
 	}
 }

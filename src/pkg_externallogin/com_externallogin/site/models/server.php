@@ -17,6 +17,8 @@ defined('_JEXEC') or die;
 // Import the Joomla modellist library
 jimport('joomla.application.component.modelitem');
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Server Model of External Login component
  *
@@ -133,7 +135,7 @@ class ExternalloginModelServer extends JModelItem
 		}
 
 		// Compute the URI
-		$uri = JFactory::getURI($url);
+		$uri = Uri::getInstance($url);
 
 		// Return the service/URL
 		if (JFactory::getUser()->guest)

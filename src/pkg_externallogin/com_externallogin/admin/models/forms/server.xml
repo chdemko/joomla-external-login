@@ -163,6 +163,7 @@
 			<field
 				type="spacer"
 				label="COM_EXTERNALLOGIN_FIELD_SERVER_SPACER_LABEL"
+				class="alert alert-info"
 			/>
 			<field
 				name="log_user_delete"

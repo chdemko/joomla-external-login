@@ -63,6 +63,9 @@
 		<menu img="../media/com_externallogin/images/administrator/icon-16-externallogin.png">COM_EXTERNALLOGIN_MENU</menu>
 		<submenu>
 			<menu
+				view="servers"
+			>COM_EXTERNALLOGIN_MENU_SERVERS</menu>
+			<menu
 				view="users"
 				img="../media/com_externallogin/images/administrator/icon-16-users.png"
 			>COM_EXTERNALLOGIN_MENU_USERS</menu>
