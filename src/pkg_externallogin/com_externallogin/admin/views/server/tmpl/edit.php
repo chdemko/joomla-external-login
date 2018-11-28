@@ -44,7 +44,7 @@ $fieldSets = $this->form->getFieldsets();
 			<?php if (isset($fieldSet->description) && trim(Text::_($fieldSet->description))): ?>
 				<div class="alert alert-info">
 					<span class="icon-info" aria-hidden="true"></span>
-					<?php echo $this->escape(Text::_($fieldSet->description));?>
+					<?php echo Text::_($fieldSet->description);?>
 				</div>
 			<?php endif;?>
 
