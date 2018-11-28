@@ -78,7 +78,7 @@
 
 			<field
 				name="usergroup"
-				type="usergroup"
+				type="usergrouplist"
 				default=""
 				label="COM_EXTERNALLOGIN_FIELD_SERVER_USERGROUP_LABEL"
 				description="COM_EXTERNALLOGIN_FIELD_SERVER_USERGROUP_DESC"
