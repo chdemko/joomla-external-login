@@ -14,7 +14,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 ?>
-<label for="mod-server-login-<?php echo $module->id; ?>"><?php echo JText::_('MOD_EXTERNALLOGIN_ADMIN_SERVER_LABEL'); ?></label>
+<label for="mod-server-login-<?php echo $module->id; ?>" class="<?php echo htmlspecialchars($params->get('header_class', '')); ?>"><?php echo JText::_('MOD_EXTERNALLOGIN_ADMIN_SERVER_LABEL'); ?></label>
 <select id="mod-server-login-<?php echo $module->id; ?>">
 	<option value=""><?php echo JText::_('MOD_EXTERNALLOGIN_ADMIN_SELECT_OPTION'); ?></option>
 <?php foreach($servers as $server):?>

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
 ?>
-<?php if (JFactory::getUser()->guest):?>
+<?php if ($user->guest):?>
 <div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 	<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="external-login">
 		<fieldset class="loginform">
@@ -24,17 +24,17 @@ use Joomla\CMS\Uri\Uri;
 	if ($enabled):
 		switch ($count):
 			case 0:
-				require JModuleHelper::getLayoutPath('mod_externallogin_site', 'zero');
+				require JModuleHelper::getLayoutPath('mod_externallogin_site', '_zero');
 				break;
 			case 1:
-				require JModuleHelper::getLayoutPath('mod_externallogin_site', 'alone');
+				require JModuleHelper::getLayoutPath('mod_externallogin_site', '_alone');
 				break;
 			default:
-				require JModuleHelper::getLayoutPath('mod_externallogin_site', 'form');
+				require JModuleHelper::getLayoutPath('mod_externallogin_site', '_form');
 				break;
 		endswitch;
 	else:
-		require JModuleHelper::getLayoutPath('mod_externallogin_site', 'disabled');
+		require JModuleHelper::getLayoutPath('mod_externallogin_site', '_disabled');
 	endif;
 	?>
 		</fieldset>
@@ -43,7 +43,7 @@ use Joomla\CMS\Uri\Uri;
 </div>
 <?php elseif ($params->get('show_logout', 0)):?>
 <div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
-	<?php require JModuleHelper::getLayoutPath('mod_externallogin_site', 'logout'); ?>
+	<?php require JModuleHelper::getLayoutPath('mod_externallogin_site', '_logout'); ?>
 </div>
 	<?php if ($params->get('show_logout_local', 0)):?>
 		<div class="externallogin<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
