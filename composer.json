@@ -25,7 +25,10 @@
 		"phpunit/phpunit": "^7.0"
 	},
 	"scripts": {
-		"style": "phpcs --report=full --extensions=php --standard=ruleset.xml src/ bin/ --ignore=tmpl",
+		"style": [
+			"phpcs --report=full --extensions=php --standard=ruleset.xml src/ --ignore=tmpl",
+			"phpcs --report=full --standard=ruleset.xml bin/* bin/*/*"
+		],
 		"build": [
 			"bin/server",
 			"bin/pkg_externallogin/create-archive",
