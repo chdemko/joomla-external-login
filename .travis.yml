@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 7.2
+
+before_install:
+  - composer self-update
+
+before_script:
+  - composer update
+
+script:
+  - composer style
+

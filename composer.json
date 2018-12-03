@@ -14,12 +14,23 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5.0"
+		"php": ">=5.5.0",
+		"alchemy/zippy": "~0.4",
+		"symfony/yaml": "~2.3"
 	},
 	"require-dev": {
 		"phpdocumentor/phpdocumentor": "2.9.*",
 		"php-coveralls/php-coveralls": "^2.0",
 		"joomla/coding-standards": "~2.0@alpha",
 		"phpunit/phpunit": "^7.0"
+	},
+	"scripts": {
+		"style": "phpcs --report=full --extensions=php --standard=ruleset.xml src/ bin/ --ignore=tmpl",
+		"build": [
+			"bin/server",
+			"bin/pkg_externallogin/create-archive",
+			"bin/plg_system_caslogin/create-archive",
+			"bin/plg_user_cbexternallogin/create-archive"
+		]
 	}
 }
