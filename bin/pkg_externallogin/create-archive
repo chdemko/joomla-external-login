@@ -1,0 +1,170 @@
+#!/usr/bin/env php
+<?php
+
+use Alchemy\Zippy\Zippy;
+use Symfony\Component\Yaml\Yaml;
+
+// Require Composer's autoloader
+require __DIR__ . '/../../vendor/autoload.php';
+
+// Load Zippy
+$zippy = Zippy::load();
+
+// Read config
+$config = Yaml::parse(file_get_contents(__DIR__ . '/../../configuration.yaml'));
+
+// Create component xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/com_externallogin/externallogin.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'externallogin');
+file_put_contents($filename, $content);
+
+$component = sys_get_temp_dir() . '/com_externallogin-' . $config['version'] . '.zip';
+
+// Create component archive
+$zippy->create(
+	$component,
+	array(
+		'externallogin.xml' => $filename,
+		'admin' => __DIR__ . '/../../src/pkg_externallogin/com_externallogin/admin',
+		'media' => __DIR__ . '/../../src/pkg_externallogin/com_externallogin/media',
+		'size' => __DIR__ . '/../../src/pkg_externallogin/com_externallogin/site'
+	),
+	true
+);
+
+// Create admin module xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/mod_externallogin_admin/mod_externallogin_admin.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'externallogin');
+file_put_contents($filename, $content);
+
+$module = sys_get_temp_dir() . '/mod_externallogin_admin-' . $config['version'] . '.zip';
+
+// Create admin module archive
+$zippy->create(
+	$module,
+	array(
+		'mod_externallogin_admin.xml' => $filename,
+		'mod_externallogin_admin.php' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_admin/mod_externallogin_admin.php',
+		'helper.php' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_admin/helper.php',
+		'language' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_admin/language',
+		'tmpl' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_admin/tmpl'
+	),
+	true
+);
+
+// Create site module xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/mod_externallogin_site.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'externallogin');
+file_put_contents($filename, $content);
+
+$module = sys_get_temp_dir() . '/mod_externallogin_site-' . $config['version'] . '.zip';
+
+// Create site module archive
+$zippy->create(
+	$module,
+	array(
+		'mod_externallogin_site.xml' => $filename,
+		'mod_externallogin_site.php' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/mod_externallogin_site.php',
+		'helper.php' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/helper.php',
+		'language' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/language',
+		'tmpl' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/tmpl'
+	),
+	true
+);
+
+// Create authentication plugin xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/plg_authentication_externallogin/externallogin.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'externallogin');
+file_put_contents($filename, $content);
+
+$plugin = sys_get_temp_dir() . '/plg_authentication_externallogin-' . $config['version'] . '.zip';
+
+// Create authentication plugin archive
+$zippy->create(
+	$plugin,
+	array(
+		'externallogin.xml' => $filename,
+		'externallogin.php' => __DIR__ . '/../../src/pkg_externallogin/plg_authentication_externallogin/externallogin.php',
+		'language' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/language'
+	),
+	true
+);
+
+// Create system plugin xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/plg_system_externallogin/externallogin.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'externallogin');
+file_put_contents($filename, $content);
+
+$plugin = sys_get_temp_dir() . '/plg_system_externallogin-' . $config['version'] . '.zip';
+
+// Create system plugin archive
+$zippy->create(
+	$plugin,
+	array(
+		'externallogin.xml' => $filename,
+		'externallogin.php' => __DIR__ . '/../../src/pkg_externallogin/plg_system_externallogin/externallogin.php',
+		'language' => __DIR__ . '/../../src/pkg_externallogin/mod_externallogin_site/language'
+	),
+	true
+);
+
+// Create package xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/pkg_externallogin.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'externallogin');
+file_put_contents($filename, $content);
+
+// Create package archive
+$zippy->create(
+	__DIR__ . '/../../build/pkg_externallogin-' . $config['version'] . '.zip',
+	array(
+		'pkg_externallogin.xml' => $filename,
+		'language' => __DIR__ . '/../../src/pkg_externallogin/language',
+		'com_externallogin-' . $config['version'] => sys_get_temp_dir() . '/com_externallogin-' . $config['version'] . '.zip',
+		'mod_externallogin_admin-' . $config['version'] . '.zip' => sys_get_temp_dir() . '/mod_externallogin_admin-' . $config['version'] . '.zip',
+		'mod_externallogin_site-' . $config['version'] . '.zip' => sys_get_temp_dir() . '/mod_externallogin_site-' . $config['version'] . '.zip',
+		'plg_authentication_externallogin-' . $config['version'] . '.zip' => sys_get_temp_dir() . '/plg_authentication_externallogin-' . $config['version'] . '.zip',
+		'plg_system_externallogin-' . $config['version'] . '.zip' => sys_get_temp_dir() . '/plg_system_externallogin-' . $config['version'] . '.zip',
+	),
+	true
+);
+
+// Create update xml file
+$content = file_get_contents(__DIR__ . '/../../src/pkg_externallogin/update.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@', '@SERVER@'),
+	array($config['joomlaversion'], $config['version'], $config['server']),
+	$content
+);
+file_put_contents(__DIR__ . '/../../build/update-pkg_externallogin-' . $config['shortversion'] . '.xml', $content);
+
+

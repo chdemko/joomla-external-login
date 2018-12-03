@@ -6,11 +6,11 @@ The *External Login* project is the continuation of the [Authentication Manager 
 Build
 -----
 
-Simply execute `composer install` and `ant` on the command line and get the built packages in the `build` directory.
+Simply execute `composer install` and `composer build` on the command line and get the built packages in the `build` directory.
 
 ~~~bash
 $ composer install
-$ ant
+$ composer build
 ~~~
 
 Downloads

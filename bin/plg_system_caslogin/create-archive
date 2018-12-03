@@ -1,0 +1,49 @@
+#!/usr/bin/env php
+<?php
+
+use Alchemy\Zippy\Zippy;
+use Symfony\Component\Yaml\Yaml;
+
+// Require Composer's autoloader
+require __DIR__ . '/../../vendor/autoload.php';
+
+
+// Read config
+$config = Yaml::parse(file_get_contents(__DIR__ . '/../../configuration.yaml'));
+
+// Create plugin xml file
+$content = file_get_contents(__DIR__ . '/../../src/plg_system_caslogin/caslogin.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@'),
+	array($config['joomlaversion'], $config['version']),
+	$content
+);
+$filename = tempnam(sys_get_temp_dir(), 'caslogin');
+file_put_contents($filename, $content);
+
+// Create update xml file
+$content = file_get_contents(__DIR__ . '/../../src/plg_system_caslogin/update.xml.tpl');
+$content = str_replace(
+	array('@JOOMLAVERSION@', '@VERSION@', '@SERVER@'),
+	array($config['joomlaversion'], $config['version'], $config['server']),
+	$content
+);
+file_put_contents(__DIR__ . '/../../build/update-plg_system_caslogin-' . $config['shortversion'] . '.xml', $content);
+
+// Load Zippy
+$zippy = Zippy::load();
+
+// Create zip archive
+$archive = $zippy->create(
+	__DIR__ . '/../../build/plg_system_caslogin-' . $config['version'] . '.zip',
+	array(
+		'caslogin.php' => __DIR__ . '/../../src/plg_system_caslogin/caslogin.php',
+		'caslogin.xml' => $filename,
+		'forms' => __DIR__ . '/../../src/plg_system_caslogin/forms',
+		'language' => __DIR__ . '/../../src/plg_system_caslogin/language',
+		'media' => __DIR__ . '/../../src/plg_system_caslogin/media',
+	),
+	true
+);
+
+

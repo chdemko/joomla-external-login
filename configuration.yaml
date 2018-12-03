@@ -1,0 +1,5 @@
+version: "4.1.0.0"
+shortversion: "4.1"
+joomlaversion: "4"
+server: "http://download.chdemko.com/joomla/extensions/external-login"
+
