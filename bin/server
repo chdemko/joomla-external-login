@@ -12,8 +12,8 @@ $config = Yaml::parse(file_get_contents(__DIR__ . '/../configuration.yaml'));
 // Create update xml file
 $content = file_get_contents(__DIR__ . '/../src/server.xml.tpl');
 $content = str_replace(
-	array('@JOOMLAVERSION@', '@VERSION@', '@SERVER@'),
-	array($config['joomlaversion'], $config['version'], $config['server']),
+	array('@JOOMLAVERSION@', '@VERSION@', '@SERVER@', '@SHORTVERSION@'),
+	array($config['joomlaversion'], $config['version'], $config['server'], $config['shortversion']),
 	$content
 );
 
