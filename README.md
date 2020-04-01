@@ -1,5 +1,8 @@
 [![Travis](https://img.shields.io/travis/chdemko/joomla-external-login.svg)](http://travis-ci.org/chdemko/joomla-external-login)
 
+This project needs a maintainer
+===============================
+
 External Login
 ===============
 
