@@ -901,11 +901,11 @@ class PlgSystemCaslogin extends JPlugin
 						$return = ExternalloginHelper::url($return);
 					}
 
-					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($return) . '&url=' . urlencode($return) . $locale;
+					$redirect = $this->getUrl($params) . '/logout?service=' . urlencode($return) . $locale;
 				}
 				else
 				{
-					$redirect = $this->getUrl($params) . '/logout' . $locale;
+					$redirect = $this->getUrl($params) . '/logout' . str_replace('&', '?', $locale);
 				}
 
 				$app->redirect($redirect);
