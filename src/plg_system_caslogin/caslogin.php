@@ -832,77 +832,46 @@ class PlgSystemCaslogin extends JPlugin
 	}
 
 	/**
-	 * This method should handle any logout logic and report back to the subject
+	 * Redirect to CAS logout URL when a user logs out
 	 *
-	 * @param   array  $user     Holds the user data.
-	 * @param   array  $options  Array holding options (client, ...).
+	 * @param   array  $options  Array holding options (username, ...).
 	 *
 	 * @return	boolean  True on success
 	 *
-	 * @since	2.0.0
+	 * @since	3.2.0
 	 */
-	public function onUserLogout($user, $options = array())
+	public function onUserAfterLogout($options)
 	{
+		$app = JFactory::getApplication();
+		$local = $app->input->get('local');
+		// Local logout only?
+		if (isset($local))
+		{
+			return true;
+		}
+		$user = JFactory::getUser($options['username']);
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__externallogin_servers AS a');
 		$query->leftJoin('#__externallogin_users AS e ON e.server_id = a.id');
 		$query->where('a.plugin = ' . $db->quote('system.caslogin'));
-		$query->where('e.user_id = ' . (int) $user['id']);
+		$query->where('e.user_id = ' . (int) $user->get('id'));
 		$db->setQuery($query);
 		$server = $db->loadObject();
 
 		if ($server)
 		{
-			// Destroy session
-			$my 		= JFactory::getUser();
-			$session 	= JFactory::getSession();
-			$app 		= JFactory::getApplication();
-
-			// Make sure we're a valid user first
-			if ($user['id'] == 0 && !$my->get('tmp_user'))
-			{
-				return true;
-			}
-
-			// Check to see if we're deleting the current session
-			if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId())
-			{
-				// Hit the user last visit field
-				$my->setLastVisit();
-
-				// Destroy the php session for this user
-				$session->destroy();
-			}
-
-			// Force logout all users with that userid
-			$db = JFactory::getDBO();
-			$db->setQuery(
-				'DELETE FROM ' . $db->quoteName('#__session') .
-				' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $user['id'] .
-				' AND ' . $db->quoteName('client_id') . ' = ' . (int) $options['clientid']
-			);
-			$db->execute();
-
-			$params = new JRegistry($server->params);
-
-			$local = $app->input->get('local');
-
-			// Local logout only?
-			if (isset($local))
-			{
-				return true;
-			}
+			$params = new JRegistry($server->params);	
 			// Logout from CAS
-			elseif ($params->get('autologout') && $my->get('id') == $user['id']) // && $app->getClientId() == 0
+			if ($params->get('autologout'))
 			{
 				// Log message
 				if ($params->get('log_logout', 0))
 				{
 					JLog::add(
 						new ExternalloginLogEntry(
-							'Logout of user "' . $user['username'] . '" on server ' . $server->id,
+							'Logout of user "' . $options['username'] . '" on server ' . $server->id,
 							JLog::INFO,
 							'system-caslogin-logout'
 						)
