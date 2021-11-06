@@ -85,7 +85,7 @@ class ExternalloginViewServer extends JViewLegacy
 		$userId = $user->get('id');
 		$isNew = $this->item->id == 0;
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		$type = $checkedOut ? 'view' : $isNew ? 'new' : 'edit';
+		$type = ($checkedOut ? 'view' : $isNew) ? 'new' : 'edit';
 
 		// Set the title
 		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_SERVER_' . $type), 'server-' . $type);
