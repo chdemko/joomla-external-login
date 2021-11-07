@@ -382,7 +382,7 @@ class PlgAuthenticationExternallogin extends JPlugin
 				);
 
 				$response->status = JAuthentication::STATUS_DENIED | JAuthentication::STATUS_UNKNOWN;
-				$app->setUserStates('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
+				$app->setUserState('com_externallogin.redirect', $params->get('unknown_redirect_menuitem'));
 			}
 		}
 
