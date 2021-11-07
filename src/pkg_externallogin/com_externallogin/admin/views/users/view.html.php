@@ -89,7 +89,12 @@ class ExternalloginViewUsers extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 
 		// Set the toolbar
-		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_USERS'), 'users');
+		$title = JText::_('COM_EXTERNALLOGIN_MANAGER_USERS');
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html   = $layout->render(array('title' => $title, 'icon' => 'users'));
+		$app = JFactory::getApplication();
+		$app->JComponentTitle = $html;
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 
 		// Add a standard button.
 		$bar->appendButton(
@@ -119,15 +124,11 @@ class ExternalloginViewUsers extends JViewLegacy
 			0,
 			''
 		);
-		JToolBarHelper::custom(
-			'users.disableExternallogin',
-			'unpublish',
-			'users-disable-externallogin',
-			'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_EXTERNALLOGIN'
-		);
-		JToolBarHelper::preferences('com_externallogin');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_USERS');
+		$bar->appendButton('Standard', 'unpublish', 'COM_EXTERNALLOGIN_TOOLBAR_DISABLE_EXTERNALLOGIN', 'users.disableExternallogin', true);
+		$return = urlencode(base64_encode((string) JUri::getInstance()));
+		$bar->appendButton('Link', 'options', 'JToolbar_Options', 'index.php?option=com_config&amp;view=component&amp;component=com_externallogin&amp;return=' . $return);
+		$bar->appendButton('Separator', 'divider');
+		$bar->appendButton('Help', 'COM_EXTERNALLOGIN_HELP_MANAGER_USERS', false, null, null);
 		$bar->appendButton(
 			'Popup',
 			'edit',

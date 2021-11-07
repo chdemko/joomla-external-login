@@ -61,11 +61,18 @@ class ExternalloginViewAbout extends JViewLegacy
 		JHtml::_('stylesheet', 'com_externallogin/administrator/externallogin.css', array(), true);
 
 		// Set the title
-		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_ABOUT'), 'help');
+		$title = JText::_('COM_EXTERNALLOGIN_MANAGER_ABOUT');
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html   = $layout->render(array('title' => $title, 'icon' => 'help'));
+		$app = JFactory::getApplication();
+		$app->JComponentTitle = $html;
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 
-		JToolBarHelper::preferences('com_externallogin');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_ABOUT');
+		$bar = JToolbar::getInstance('toolbar');
+		$return = urlencode(base64_encode((string) JUri::getInstance()));
+		$bar->appendButton('Link', 'options', 'JToolbar_Options', 'index.php?option=com_config&amp;view=component&amp;component=com_externallogin&amp;return=' . $return);
+		$bar->appendButton('Separator', 'divider');
+		$bar->appendButton('Help', 'COM_EXTERNALLOGIN_HELP_MANAGER_ABOUT', false, null, null);
 
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), 'index.php?option=com_externallogin', false);
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), 'index.php?option=com_externallogin&view=users', false);

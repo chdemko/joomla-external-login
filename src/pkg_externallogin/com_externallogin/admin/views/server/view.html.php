@@ -88,28 +88,32 @@ class ExternalloginViewServer extends JViewLegacy
 		$type = $checkedOut ? 'view' : $isNew ? 'new' : 'edit';
 
 		// Set the title
-		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_SERVER_' . $type), 'server-' . $type);
+		$title = JText::_('COM_EXTERNALLOGIN_MANAGER_SERVER_' . $type);
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html   = $layout->render(array('title' => $title, 'icon' => 'server-' . $type));
+		$app = JFactory::getApplication();
+		$app->JComponentTitle = $html;
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 
+		$bar = JToolbar::getInstance('toolbar');
 		// Build the actions for new and existing records.
 		if ($isNew)
 		{
-			JToolBarHelper::apply('server.apply');
-			JToolBarHelper::save('server.save');
-			JToolBarHelper::cancel('server.cancel');
+			$bar->appendButton('Standard', 'apply', 'JTOOLBAR_APPLY', 'server.apply', false);
+			$bar->appendButton('Standard', 'save', 'JTOOLBAR_SAVE', 'server.save', false);
+			$bar->appendButton('Standard', 'cancel', 'JTOOLBAR_CANCEL', 'server.cancel', false);
 		}
 		else
 		{
 			// Can't save the record if it's checked out.
 			if (!$checkedOut)
 			{
-				JToolBarHelper::apply('server.apply');
-				JToolBarHelper::save('server.save');
+				$bar->appendButton('Standard', 'apply', 'JTOOLBAR_APPLY', 'server.apply', false);
+				$bar->appendButton('Standard', 'save', 'JTOOLBAR_SAVE', 'server.save', false);
 			}
-
-			JToolBarHelper::cancel('server.cancel', 'JTOOLBAR_CLOSE');
+			$bar->appendButton('Standard', 'cancel', 'JTOOLBAR_CLOSE', 'server.cancel', false);
 		}
-
-		JToolBarHelper::divider();
-		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_SERVER');
+		$bar->appendButton('Separator', 'divider');
+		$bar->appendButton('Help', 'COM_EXTERNALLOGIN_HELP_MANAGER_SERVER', false, null, null);
 	}
 }

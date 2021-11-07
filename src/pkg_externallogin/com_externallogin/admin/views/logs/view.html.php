@@ -82,13 +82,20 @@ class ExternalloginViewLogs extends JViewLegacy
 		JHtml::_('stylesheet', 'com_externallogin/administrator/externallogin.css', array(), true);
 
 		// Set the toolbar
-		JToolBarHelper::title(JText::_('COM_EXTERNALLOGIN_MANAGER_LOGS'), 'list-view');
+        $title = JText::_('COM_EXTERNALLOGIN_MANAGER_LOGS');
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html   = $layout->render(array('title' => $title, 'icon' => 'list-view'));
+		$app = JFactory::getApplication();
+		$app->JComponentTitle = $html;
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
+
+		$return = urlencode(base64_encode((string) JUri::getInstance()));
 		$bar = JToolBar::getInstance('toolbar');
 		$bar->appendButton('Confirm', 'COM_EXTERNALLOGIN_MSG_LOGS_DELETE', 'delete', 'JTOOLBAR_DELETE', 'logs.delete', false);
 		$bar->appendButton('Link', 'download', 'COM_EXTERNALLOGIN_TOOLBAR_LOGS_DOWNLOAD', 'index.php?option=com_externallogin&view=logs&format=csv');
-		JToolBarHelper::preferences('com_externallogin');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('COM_EXTERNALLOGIN_HELP_MANAGER_LOGS');
+        $bar->appendButton('Link', 'options', 'JToolbar_Options', 'index.php?option=com_config&amp;view=component&amp;component=com_externallogin&amp;return=' . $return);
+		$bar->appendButton('Separator', 'divider');
+		$bar->appendButton('Help', 'COM_EXTERNALLOGIN_HELP_MANAGER_LOGS', false, null, null);
 
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_SERVERS'), 'index.php?option=com_externallogin', false);
 		JHtml::_('sidebar.addentry', JText::_('COM_EXTERNALLOGIN_SUBMENU_USERS'), 'index.php?option=com_externallogin&view=users', false);
