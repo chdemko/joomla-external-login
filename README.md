@@ -1,3 +1,8 @@
+New project for Joomla!4
+========================
+
+See https://github.com/akunzai/joomla-external-login
+
 [![Travis](https://img.shields.io/travis/chdemko/joomla-external-login.svg)](http://travis-ci.org/chdemko/joomla-external-login)
 
 This project needs a maintainer
